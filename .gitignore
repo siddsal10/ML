@@ -1,0 +1,52 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.coverage
+htmlcov/
+.venv/
+venv/
+
+# --- Environment ---
+.env
+*.env.local
+
+# --- Backend data ---
+backend/data/uploads/*
+!backend/data/uploads/.gitkeep
+backend/data/processed/*
+!backend/data/processed/.gitkeep
+backend/data/demo_samples/*.png
+backend/data/demo_samples/manifest.json
+backend/data/*.db
+backend/data/*.sqlite3
+
+# --- Evaluation outputs ---
+evaluation/results/*
+!evaluation/results/.gitkeep
+
+# --- Node / frontend ---
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+
+# --- OS / editor ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# --- Docker ---
+*.pid
+
+# --- ML artifacts that are regenerated locally ---
+backend/data/symbol_crops/
+backend/ml_models/versions/
+backend/ml_models/registry.json
+
+# --- downloaded public datasets (never committed) ---
+backend/data/external/

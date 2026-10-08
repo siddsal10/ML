@@ -1,0 +1,147 @@
+{
+  "dataset": "ASSISTments 2009-2010 skill builder (real students)",
+  "preprocessing": "rows with a skill tag; ordered by order_id; multi-skill rows unrolled per skill",
+  "n_attempts": 446844,
+  "n_learners": 4151,
+  "n_skills": 110,
+  "n_items": 16891,
+  "split": "learner-disjoint 80/20",
+  "models": {
+    "ema_baseline": {
+      "auc": 0.8113,
+      "rmse": 0.4026,
+      "log_loss": 0.4936,
+      "n": 74867
+    },
+    "bkt": {
+      "auc": 0.7709,
+      "rmse": 0.4078,
+      "log_loss": 0.5134,
+      "n": 74867
+    },
+    "pfa": {
+      "auc": 0.7872,
+      "rmse": 0.4041,
+      "log_loss": 0.4903,
+      "n": 74867
+    },
+    "pfa_irt": {
+      "auc": 0.7809,
+      "rmse": 0.4131,
+      "log_loss": 0.5247,
+      "n": 74867
+    },
+    "pfa_irt_recency": {
+      "auc": 0.8146,
+      "rmse": 0.3956,
+      "log_loss": 0.4757,
+      "n": 74867
+    }
+  },
+  "rasch_l2_validation_auc": {
+    "0.05": 0.8161,
+    "1.0": 0.8165,
+    "5.0": 0.8133
+  },
+  "rasch_l2_selected": 1.0,
+  "stepwise_skill_mapping": {
+    "S1": {
+      "assistments_skills": [
+        "Addition Whole Numbers",
+        "Subtraction Whole Numbers"
+      ],
+      "sequences": 1891,
+      "attempts": 12437
+    },
+    "S2": {
+      "assistments_skills": [
+        "Multiplication Whole Numbers",
+        "Multiplication and Division Positive Decimals"
+      ],
+      "sequences": 393,
+      "attempts": 2080
+    },
+    "S3": {
+      "assistments_skills": [
+        "Addition and Subtraction Integers",
+        "Multiplication and Division Integers"
+      ],
+      "sequences": 2126,
+      "attempts": 36054
+    },
+    "S4": {
+      "assistments_skills": [
+        "Order of Operations All",
+        "Order of Operations +,-,/,* () positive reals"
+      ],
+      "sequences": 1315,
+      "attempts": 7731
+    },
+    "S5": {
+      "assistments_skills": [
+        "Solving for a variable"
+      ],
+      "sequences": 307,
+      "attempts": 1792
+    },
+    "S6": {
+      "assistments_skills": [
+        "Equation Solving Two or Fewer Steps"
+      ],
+      "sequences": 961,
+      "attempts": 24253
+    },
+    "S7": {
+      "assistments_skills": [
+        "Equation Solving More Than Two Steps"
+      ],
+      "sequences": 412,
+      "attempts": 8115
+    }
+  },
+  "stepwise_bkt_params_from_real_data": {
+    "S1": {
+      "L0": 0.8898,
+      "T": 0.0326,
+      "G": 0.0851,
+      "S": 0.2126
+    },
+    "S2": {
+      "L0": 0.7473,
+      "T": 0.1099,
+      "G": 0.3,
+      "S": 0.0933
+    },
+    "S3": {
+      "L0": 0.7828,
+      "T": 0.0153,
+      "G": 0.3,
+      "S": 0.1407
+    },
+    "S4": {
+      "L0": 0.7238,
+      "T": 0.083,
+      "G": 0.2267,
+      "S": 0.275
+    },
+    "S5": {
+      "L0": 0.6645,
+      "T": 0.0629,
+      "G": 0.3,
+      "S": 0.1599
+    },
+    "S6": {
+      "L0": 0.6572,
+      "T": 0.0307,
+      "G": 0.3,
+      "S": 0.236
+    },
+    "S7": {
+      "L0": 0.5491,
+      "T": 0.6,
+      "G": 0.3,
+      "S": 0.2246
+    }
+  },
+  "note": "BKT here has no forgetting and one parameter set per skill. On this dataset recency is highly predictive (skill-builder sets end after 3 correct in a row), which is why EMA beats plain BKT/PFA and why adding recency features to PFA gives the best model."
+}

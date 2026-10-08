@@ -1,0 +1,6 @@
+# OPTIONAL deep-learning baselines (TrOCR / Donut providers) for comparison
+# against the classical-ML recognizer. Not needed to run the app.
+#   pip install -r requirements.txt -r requirements-dl.txt
+torch==2.4.1
+transformers==4.44.2
+sentencepiece==0.2.0

@@ -1,0 +1,4 @@
+{"sample_id": "demo_correct_arithmetic", "image_path": "../../backend/data/demo_samples/demo_correct_arithmetic.png", "reference_text": "12 + 15 = 27", "expected_answer": "27", "mistake_label": "correct_solution"}
+{"sample_id": "demo_sign_error", "image_path": "../../backend/data/demo_samples/demo_sign_error.png", "reference_text": "-3 + 5 = -8", "expected_answer": "2", "mistake_label": "sign_error"}
+{"sample_id": "demo_correct_algebra", "image_path": "../../backend/data/demo_samples/demo_correct_algebra.png", "reference_text": "2x + 4 = 10\nx = 3", "expected_answer": "3", "mistake_label": "correct_solution"}
+{"sample_id": "demo_algebra_error", "image_path": "../../backend/data/demo_samples/demo_algebra_error.png", "reference_text": "2x + 4 = 10\nx = 7", "expected_answer": "3", "mistake_label": "final_answer_only_error"}

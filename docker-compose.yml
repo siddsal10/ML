@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - DATABASE_URL=sqlite:////app/data/tutor.db
+      - UPLOAD_DIR=/app/data/uploads
+      - PROCESSED_DIR=/app/data/processed
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:8080
+      - DEFAULT_OCR_PROVIDER=${DEFAULT_OCR_PROVIDER:-ml}
+      - VISION_API_BACKEND=${VISION_API_BACKEND:-none}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-claude-sonnet-4-6}
+      - OPENAI_COMPATIBLE_BASE_URL=${OPENAI_COMPATIBLE_BASE_URL:-}
+      - OPENAI_COMPATIBLE_API_KEY=${OPENAI_COMPATIBLE_API_KEY:-}
+      - OPENAI_COMPATIBLE_MODEL=${OPENAI_COMPATIBLE_MODEL:-}
+    volumes:
+      - tutor_data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE_URL=http://localhost:8000
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  tutor_data:

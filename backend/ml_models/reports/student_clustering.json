@@ -1,0 +1,20 @@
+{
+  "task": "student_clustering",
+  "data": "120 simulated students in 4 planted archetypes (negatives, moving_terms, foundations, strong)",
+  "k_selected": 5,
+  "metrics": {
+    "kmeans_silhouette": 0.2451,
+    "kmeans_davies_bouldin": 1.4279,
+    "agglomerative_silhouette": 0.2213,
+    "agreement_ari_kmeans_vs_agglomerative": 0.8588,
+    "ari_vs_planted_archetypes": 0.8178
+  },
+  "cluster_names": {
+    "0": "Struggling with moving terms & skipped steps",
+    "1": "Strong & consistent",
+    "2": "Struggling with moving terms & skipped steps",
+    "3": "Struggling with sign errors",
+    "4": "Struggling with wrong operation & arithmetic slips"
+  },
+  "limitations": "Simulated archetypes are cleanly separated; real classes will overlap more."
+}

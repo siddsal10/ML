@@ -1,0 +1,329 @@
+{
+  "task": "mistake_diagnosis",
+  "split": "stratified 80/20; model selection by 5-fold CV on the 80%",
+  "n_samples": 3150,
+  "n_train": 2520,
+  "n_test": 630,
+  "n_features": 33,
+  "models": {
+    "logistic_regression": {
+      "cv_macro_f1_mean": 0.9897,
+      "cv_macro_f1_std": 0.0049,
+      "test_accuracy": 0.9921,
+      "test_macro_f1": 0.9921,
+      "fit_seconds": 0.04
+    },
+    "decision_tree": {
+      "cv_macro_f1_mean": 0.9713,
+      "cv_macro_f1_std": 0.0069,
+      "test_accuracy": 0.9794,
+      "test_macro_f1": 0.9794,
+      "fit_seconds": 0.0
+    },
+    "random_forest": {
+      "cv_macro_f1_mean": 0.9936,
+      "cv_macro_f1_std": 0.0043,
+      "test_accuracy": 0.9937,
+      "test_macro_f1": 0.9937,
+      "fit_seconds": 0.22
+    },
+    "gradient_boosting": {
+      "cv_macro_f1_mean": 0.9884,
+      "cv_macro_f1_std": 0.0024,
+      "test_accuracy": 0.9905,
+      "test_macro_f1": 0.9905,
+      "fit_seconds": 3.57
+    },
+    "rule_based_baseline": {
+      "test_accuracy": 0.4095,
+      "test_macro_f1": 0.33
+    }
+  },
+  "selected_model": "random_forest",
+  "labels": [
+    "correct_solution",
+    "arithmetic_error",
+    "sign_error",
+    "incorrect_operation",
+    "algebraic_manipulation_error",
+    "skipped_step",
+    "final_answer_only_error",
+    "transcription_uncertainty",
+    "insufficient_information"
+  ],
+  "confusion_matrix": [
+    [
+      70,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      69,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      70,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      70,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      69,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      70,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      70,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      69,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      69
+    ]
+  ],
+  "rule_based_confusion_matrix": [
+    [
+      70,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      4,
+      26,
+      13,
+      0,
+      0,
+      0,
+      27,
+      0,
+      0
+    ],
+    [
+      7,
+      0,
+      30,
+      0,
+      0,
+      0,
+      33,
+      0,
+      0
+    ],
+    [
+      0,
+      40,
+      30,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      0,
+      0,
+      0,
+      0,
+      0,
+      56,
+      0,
+      0
+    ],
+    [
+      13,
+      0,
+      0,
+      0,
+      0,
+      0,
+      57,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      70,
+      0,
+      0
+    ],
+    [
+      8,
+      1,
+      2,
+      0,
+      0,
+      0,
+      1,
+      28,
+      30
+    ],
+    [
+      23,
+      0,
+      0,
+      0,
+      0,
+      0,
+      13,
+      0,
+      34
+    ]
+  ],
+  "per_class_f1": {
+    "correct_solution": 0.9929,
+    "arithmetic_error": 0.9857,
+    "sign_error": 1.0,
+    "incorrect_operation": 1.0,
+    "algebraic_manipulation_error": 0.9857,
+    "skipped_step": 1.0,
+    "final_answer_only_error": 1.0,
+    "transcription_uncertainty": 0.9857,
+    "insufficient_information": 0.9928
+  },
+  "top_feature_importances": [
+    [
+      "final_matches_expected",
+      0.1003
+    ],
+    [
+      "ocr_confidence",
+      0.0971
+    ],
+    [
+      "n_equations",
+      0.075
+    ],
+    [
+      "rel_error",
+      0.0583
+    ],
+    [
+      "work_consistent",
+      0.0539
+    ],
+    [
+      "cand_negated_answer",
+      0.0506
+    ],
+    [
+      "nonequiv_pos",
+      0.0498
+    ],
+    [
+      "has_negative_operand",
+      0.0429
+    ],
+    [
+      "nonequiv_found",
+      0.0336
+    ],
+    [
+      "cand_forgot_divide",
+      0.0316
+    ],
+    [
+      "op_swap_cross",
+      0.0313
+    ],
+    [
+      "cand_transpose_no_sign_change",
+      0.0281
+    ],
+    [
+      "cand_divide_one_term",
+      0.0269
+    ],
+    [
+      "jumped_to_answer",
+      0.0268
+    ],
+    [
+      "cand_forgot_subtract",
+      0.0267
+    ]
+  ]
+}

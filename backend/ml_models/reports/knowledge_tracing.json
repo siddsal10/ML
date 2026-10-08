@@ -1,0 +1,172 @@
+{
+  "task": "knowledge_tracing_and_irt",
+  "data": "600 simulated learners x 8 skills (93671 attempts); generative model in app/ml/tracing/simulate.py",
+  "split": "learner-disjoint 80/20",
+  "knowledge_tracing": {
+    "ema_baseline": {
+      "auc": 0.8198,
+      "rmse": 0.3948,
+      "log_loss": 0.5161
+    },
+    "bkt": {
+      "auc": 0.8354,
+      "rmse": 0.3732,
+      "log_loss": 0.4421
+    },
+    "pfa": {
+      "auc": 0.8317,
+      "rmse": 0.3806,
+      "log_loss": 0.4541
+    }
+  },
+  "bkt_parameter_recovery_mae": 0.0213,
+  "bkt_parameters": {
+    "S1": {
+      "fitted": {
+        "L0": 0.6462,
+        "T": 0.2028,
+        "G": 0.3,
+        "S": 0.0826
+      },
+      "true": {
+        "L0": 0.6,
+        "T": 0.2,
+        "G": 0.25,
+        "S": 0.08
+      }
+    },
+    "S2": {
+      "fitted": {
+        "L0": 0.4608,
+        "T": 0.1597,
+        "G": 0.2737,
+        "S": 0.0846
+      },
+      "true": {
+        "L0": 0.45,
+        "T": 0.15,
+        "G": 0.2,
+        "S": 0.1
+      }
+    },
+    "S3": {
+      "fitted": {
+        "L0": 0.3215,
+        "T": 0.1152,
+        "G": 0.1961,
+        "S": 0.122
+      },
+      "true": {
+        "L0": 0.3,
+        "T": 0.12,
+        "G": 0.2,
+        "S": 0.1
+      }
+    },
+    "S4": {
+      "fitted": {
+        "L0": 0.3395,
+        "T": 0.1237,
+        "G": 0.1995,
+        "S": 0.1143
+      },
+      "true": {
+        "L0": 0.3,
+        "T": 0.12,
+        "G": 0.15,
+        "S": 0.1
+      }
+    },
+    "S5": {
+      "fitted": {
+        "L0": 0.4243,
+        "T": 0.1425,
+        "G": 0.1855,
+        "S": 0.0701
+      },
+      "true": {
+        "L0": 0.4,
+        "T": 0.15,
+        "G": 0.15,
+        "S": 0.08
+      }
+    },
+    "S6": {
+      "fitted": {
+        "L0": 0.2589,
+        "T": 0.0977,
+        "G": 0.1317,
+        "S": 0.1228
+      },
+      "true": {
+        "L0": 0.25,
+        "T": 0.1,
+        "G": 0.12,
+        "S": 0.1
+      }
+    },
+    "S7": {
+      "fitted": {
+        "L0": 0.1839,
+        "T": 0.0949,
+        "G": 0.1198,
+        "S": 0.1539
+      },
+      "true": {
+        "L0": 0.2,
+        "T": 0.1,
+        "G": 0.12,
+        "S": 0.12
+      }
+    },
+    "S8": {
+      "fitted": {
+        "L0": 0.1286,
+        "T": 0.0821,
+        "G": 0.0732,
+        "S": 0.2033
+      },
+      "true": {
+        "L0": 0.15,
+        "T": 0.08,
+        "G": 0.1,
+        "S": 0.12
+      }
+    }
+  },
+  "irt": {
+    "n_items": 320,
+    "difficulty_corr_with_truth": 0.7488,
+    "difficulty_model_cv_r2": 0.7831,
+    "difficulty_model_coefficients": {
+      "log_magnitude": 0.2363,
+      "n_negatives": 0.4498,
+      "n_steps": 0.5991,
+      "has_division": 0.4947,
+      "has_brackets": 0.1824,
+      "answer_negative": 0.2132,
+      "level": 0.144
+    }
+  },
+  "recommender_simulation": {
+    "setup": "40 practice items per simulated learner; metric = fraction of the 8 skills truly learned at the end (mean over seeds)",
+    "policies": {
+      "random": {
+        "skills_mastered_frac_mean": 0.6378,
+        "skills_mastered_frac_std": 0.0129,
+        "practice_on_already_learned_frac": 0.4945
+      },
+      "round_robin": {
+        "skills_mastered_frac_mean": 0.6403,
+        "skills_mastered_frac_std": 0.0101,
+        "practice_on_already_learned_frac": 0.4731
+      },
+      "adaptive": {
+        "skills_mastered_frac_mean": 0.7407,
+        "skills_mastered_frac_std": 0.008,
+        "practice_on_already_learned_frac": 0.2809
+      }
+    }
+  },
+  "limitations": "All numbers are on simulated learners whose generative model is BKT+IRT-like, which favours BKT/IRT; they validate the implementation, not real-classroom accuracy."
+}
