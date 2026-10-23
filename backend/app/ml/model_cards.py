@@ -33,9 +33,26 @@ CARDS: dict[str, dict] = {
         "output": "Mistake category + probability + evidence",
         "features": "33 named features: sign-flip match, operator-swap match, term moved without sign change, first non-equivalent step, ...",
         "algorithms": ["Random Forest", "Gradient Boosting", "Logistic Regression", "Decision Tree", "Rule-based baseline"],
-        "data": "Synthetic student solutions with injected misconceptions (350 per class)",
+        "data": "Synthetic student solutions with injected misconceptions (350 per class). Real-data counterpart: "
+                "'Error type from real student mistakes' (ScratchMath)",
         "split": "Stratified 80/20; model chosen by 5-fold CV on the 80%",
         "limitations": "Trained on generated mistakes; real students combine errors in messier ways - the score is an upper bound.",
+        "retrainable": False,
+    },
+    "real_mistake_classifier": {
+        "title": "Error type from real student mistakes",
+        "stage": "Diagnosing the misconception (second opinion)",
+        "kind": "Supervised classification · 7 classes + slip vs understanding",
+        "input": "Correct answer, student's wrong answer, question numbers, photo of the handwritten working",
+        "output": "Error type (calculation, concept, strategy, copying, ...) and P(careless slip)",
+        "features": "42 language-independent features: answer patterns (sign flip, decimal shift, one-digit slip, "
+                    "intermediate value, swapped blanks ...), question statistics, scratchwork image statistics",
+        "algorithms": ["Random Forest", "Gradient Boosting", "Logistic Regression", "Majority / random baselines"],
+        "data": "REAL: ScratchMath - 1,720 wrong answers by Chinese primary & middle-school students with photos of "
+                "their scratchwork and expert error labels (CC BY-NC-SA 4.0)",
+        "split": "Stratified 80/20 hold-out; model chosen by 5-fold CV on the 80%",
+        "limitations": "Small dataset with overlapping categories; Chinese word problems, so the deployed model uses only "
+                       "language-independent features; only applied when the student's answer is wrong.",
         "retrainable": False,
     },
     "knowledge_tracing": {
@@ -99,6 +116,11 @@ def headline(name: str, report: dict | None) -> dict | None:
                     "baseline": real["models"]["ema_baseline"]["auc"], "baseline_label": "EMA"}
         kt = report["knowledge_tracing"]
         return {"label": "Next-answer AUC (BKT)", "value": kt["bkt"]["auc"], "model": "bkt", "baseline": kt["ema_baseline"]["auc"]}
+    if name == "real_mistake_classifier":
+        b = report["slip_vs_understanding"][report["slip_vs_understanding_selected"]]
+        return {"label": "Slip vs misunderstanding accuracy (real mistakes)", "value": b["test_accuracy"],
+                "model": report["slip_vs_understanding_selected"],
+                "baseline": report["slip_vs_understanding"]["majority_baseline"]["test_accuracy"], "baseline_label": "majority"}
     if name == "student_clustering":
         return {"label": "ARI vs planted groups", "value": report["metrics"]["ari_vs_planted_archetypes"], "model": "kmeans"}
     return None

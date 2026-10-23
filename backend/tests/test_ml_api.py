@@ -109,7 +109,7 @@ def test_teacher_overview(client):
 
 def test_lab_models_and_details(client):
     models = client.get("/api/lab/models").json()
-    assert {m["name"] for m in models} == {"symbol_classifier", "mistake_classifier", "knowledge_tracing", "student_clustering"}
+    assert {m["name"] for m in models} == {"symbol_classifier", "mistake_classifier", "real_mistake_classifier", "knowledge_tracing", "student_clustering"}
     detail = client.get("/api/lab/models/mistake_classifier").json()
     assert detail["title"] and "limitations" in detail
     assert client.get("/api/lab/models/nope").status_code == 404

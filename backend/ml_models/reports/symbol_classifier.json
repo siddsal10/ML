@@ -17,26 +17,26 @@
     "svm_rbf": {
       "accuracy": 0.9752,
       "macro_f1": 0.9754,
-      "fit_seconds": 9.21,
-      "predict_ms_per_symbol": 0.4275
+      "fit_seconds": 9.24,
+      "predict_ms_per_symbol": 0.4281
     },
     "random_forest": {
       "accuracy": 0.967,
       "macro_f1": 0.9671,
-      "fit_seconds": 3.02,
-      "predict_ms_per_symbol": 0.0086
+      "fit_seconds": 3.31,
+      "predict_ms_per_symbol": 0.0089
     },
     "knn": {
       "accuracy": 0.9719,
       "macro_f1": 0.9719,
-      "fit_seconds": 0.02,
-      "predict_ms_per_symbol": 0.0674
+      "fit_seconds": 0.03,
+      "predict_ms_per_symbol": 0.0593
     },
     "logistic_regression": {
       "accuracy": 0.966,
       "macro_f1": 0.9663,
-      "fit_seconds": 1.32,
-      "predict_ms_per_symbol": 0.0022
+      "fit_seconds": 1.52,
+      "predict_ms_per_symbol": 0.0062
     }
   },
   "selected_model": "svm_rbf",

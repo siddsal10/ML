@@ -17,6 +17,10 @@ crohme      CROHME handwritten math expressions (Mouchère et al., ICDAR competi
             offline-rendered images + LaTeX labels, as mirrored on Hugging Face
             (Neeze/CROHME-full): train 8,834 expressions; test splits 2014/2016/2019.
             Research use only - cite the CROHME competition papers.
+scratchmath ScratchMath (songdj/ScratchMath on Hugging Face): 1,700+ REAL student
+            handwritten scratchwork photos (primary + middle school) with question,
+            correct answer, student's wrong answer and an expert-annotated error
+            category (7 classes). Licence: CC BY-NC-SA 4.0 (non-commercial research).
 assistments ASSISTments 2009-2010 skill-builder logs (Feng, Heffernan & Koedinger,
             2009), as mirrored by the pyBKT examples repository. Real student
             right/wrong answers with skill tags - the standard benchmark for
@@ -39,6 +43,10 @@ SOURCES = {
     "crohme": [
         (f"https://huggingface.co/datasets/Neeze/CROHME-full/resolve/main/data/{name}.parquet", f"crohme/{name}.parquet")
         for name in ("train-00000-of-00002", "train-00001-of-00002", "2014-00000-of-00001", "2016-00000-of-00001", "2019-00000-of-00001")
+    ],
+    "scratchmath": [
+        (f"https://huggingface.co/datasets/songdj/ScratchMath/resolve/main/{cfg}/data-00000-of-00001.parquet", f"scratchmath/{cfg}.parquet")
+        for cfg in ("primary", "middle")
     ],
     "assistments": ("https://raw.githubusercontent.com/CAHLR/pyBKT-examples/master/data/as.csv", "assistments_2009.csv"),
 }

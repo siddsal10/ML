@@ -174,7 +174,7 @@
   "selected_training_data": "synthetic_plus_real",
   "algorithm_comparison": {
     "svm_rbf": {
-      "fit_seconds": 32.8,
+      "fit_seconds": 36.1,
       "validation": {
         "real_handwriting": {
           "n": 1074,
@@ -200,7 +200,7 @@
       }
     },
     "random_forest": {
-      "fit_seconds": 6.7,
+      "fit_seconds": 7.6,
       "validation": {
         "real_handwriting": {
           "n": 1074,
@@ -242,7 +242,7 @@
       }
     },
     "logistic_regression": {
-      "fit_seconds": 4.8,
+      "fit_seconds": 10.0,
       "validation": {
         "real_handwriting": {
           "n": 1074,
@@ -608,5 +608,5 @@
       247
     ]
   ],
-  "seconds": 220.8
+  "seconds": 236.1
 }

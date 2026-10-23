@@ -11,7 +11,7 @@
       "cv_macro_f1_std": 0.0049,
       "test_accuracy": 0.9921,
       "test_macro_f1": 0.9921,
-      "fit_seconds": 0.04
+      "fit_seconds": 0.07
     },
     "decision_tree": {
       "cv_macro_f1_mean": 0.9713,
@@ -32,7 +32,7 @@
       "cv_macro_f1_std": 0.0024,
       "test_accuracy": 0.9905,
       "test_macro_f1": 0.9905,
-      "fit_seconds": 3.57
+      "fit_seconds": 6.13
     },
     "rule_based_baseline": {
       "test_accuracy": 0.4095,

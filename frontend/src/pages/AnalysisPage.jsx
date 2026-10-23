@@ -61,6 +61,28 @@ function StepList({ steps, suspected }) {
   );
 }
 
+function RealSecondOpinion({ info }) {
+  if (!info) return null;
+  const slip = info.slip_probability;
+  return (
+    <Card title="Second opinion" subtitle={`Trained on real data · ${info.trained_on}`} actions={<Badge tone="good">real data</Badge>}>
+      <div className="stack">
+        <div className="row between small">
+          <span>Looks like a <strong>{info.kind}</strong></span>
+          <strong>{pct(slip)} slip</strong>
+        </div>
+        <Meter value={slip} tone={slip >= 0.5 ? "warn" : "bad"} label="Probability this is a careless slip" />
+        <span className="faint">{slip >= 0.5 ? "Slips need checking habits (estimate, re-read, substitute back)." : "Understanding gaps need re-teaching the idea, not just more practice."}</span>
+        <div className="stack" style={{ gap: 6 }}>
+          {info.top.map((t) => (
+            <div key={t.category} className="row between small"><span className="muted">{t.label}</span><span className="mono">{pct(t.probability)}</span></div>
+          ))}
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 function DiagnosisCard({ data }) {
   const evidence = data.diagnostic_evidence || [];
   const modelLine = evidence.find((e) => e.startsWith("Classifier"));
@@ -228,6 +250,7 @@ export default function AnalysisPage() {
 
         <div className="stack-lg">
           <DiagnosisCard data={data} />
+          <RealSecondOpinion info={data.real_error_type} />
 
           <Card title="What to do" actions={<Lightbulb size={18} color="var(--warn)" />}>
             <div className="stack">

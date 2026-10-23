@@ -21,7 +21,8 @@ All numbers below come from `backend/ml_models/reports/*.json`. They are regener
 | **HASYv2** (Thoma, 2017) | real handwriting | symbol recognizer training | 3,335 symbols, 144 writers | Zenodo 259444, ODbL |
 | **ASSISTments 2009-2010** (Feng, Heffernan & Koedinger) | real student logs | knowledge-tracing benchmark + deployed BKT parameters | 446,844 answers, 4,151 students, 110 skills | pyBKT examples mirror, research use |
 | Synthetic font glyphs | synthetic | robustness to printed/typed input | 12,210 glyphs, 24 fonts | generated |
-| Synthetic student solutions | synthetic | mistake classifier | 3,150 solutions | generated |
+| **ScratchMath** (songdj/ScratchMath) | **real student mistakes** + handwritten scratchwork photos | real-data error-type classifier (second opinion) | 1,720 wrong answers, expert-labelled (7 error types) | Hugging Face, CC BY-NC-SA 4.0 |
+| Synthetic student solutions | synthetic | fine-grained mistake classifier | 3,150 solutions | generated |
 
 Download everything with `make datasets` (about 1 GB, into the git-ignored `backend/data/external/`).
 Nothing is redistributed with the repo.
@@ -108,6 +109,34 @@ model misreads some printed `4`s.
 | Decision Tree (depth 8) | 0.971 | 0.979 |
 | Rule-based baseline (previous system) | – | 0.330 |
 
+### M2b — Error type from REAL student mistakes (ScratchMath)
+
+M2 needs step-by-step linear work with injected error types, and no public real dataset like that
+exists. The closest real dataset is **ScratchMath**: 1,720 wrong answers from Chinese primary and
+middle-school students. Each has the question, the correct answer, the student's answer, a
+**photo of their handwritten scratchwork**, and an expert label from 7 error types (calculation,
+misread question, concept, strategy, copying, reasoning, attention). A second classifier is
+trained on it and shown as a **second opinion** on the Analysis page whenever an answer is wrong.
+
+- **Features:** 42 language-independent features. The expert's written explanation is never used
+  as an input, because it would leak the label.
+  - *Answer patterns:* sign flip, decimal-point shift, one-digit copy slip, digit transposition,
+    off-by-one, the student's value appears in the question or the reference solution (stopped
+    early), missing ×/÷ by a number from the question, swapped blanks.
+  - *Question statistics.*
+  - *Scratchwork image statistics:* amount of ink, strokes and lines.
+- **Split:** stratified 80/20 hold-out. Models are chosen by 5-fold CV on the 80%.
+
+| Task | Majority baseline | Random baseline | Logistic Regression | Random Forest | Gradient Boosting |
+|---|---|---|---|---|---|
+| **Slip vs gap in understanding**: test accuracy | 0.552 | 0.480 | **0.683** ✔ (AUC 0.76) | 0.689 (AUC 0.77) | 0.704 (AUC 0.77) |
+| **7 error types**: test accuracy / macro-F1 | 0.329 / 0.071 | 0.267 / 0.161 | 0.340 / 0.307 | **0.491 / 0.359** ✔ | 0.462 / 0.352 |
+
+Adding Chinese question n-grams lifts 7-class macro-F1 to 0.407. That model can't read English
+questions, so it is reported but not deployed. Telling **careless slips** from **understanding
+gaps** is reliable enough to be useful (+13 points over the majority baseline). The 7-way label
+is much harder, because the categories overlap.
+
 At runtime, two guardrails run before the model:
 
 - OCR confidence < 0.35 returns `transcription_uncertainty`.
@@ -189,14 +218,50 @@ matching ASSISTments skills. For example, S3 ← "Addition and Subtraction Integ
    Corrections are always kept in training. The new version is compared on held-out fonts and
    registered **inactive**; activating it is an explicit click.
 
+## Paper experiments (`python -m app.ml.paper_experiments`)
+
+Written to `ml_models/reports/paper_experiments.json` and shown in ML Lab, on the symbol model's page.
+
+**Classical ML vs deep learning.** Both systems read the same 127 real CROHME test expressions:
+
+| System | Exact match | CER | ms / expression | Size |
+|---|---|---|---|---|
+| **StepWise HOG + SVM** | **0.567** [0.48, 0.65] | **0.115** | **48** | **8 MB** |
+| TrOCR-base, zero-shot (334M params) | 0.284 [0.21, 0.36] | 0.369 | 1,325 | 1,336 MB |
+
+The difference is significant (McNemar p = 1.3×10⁻⁷). TrOCR needs `pip install -r requirements-dl.txt`.
+
+**Robustness to phone-photo conditions** (exact match on CROHME test expressions):
+
+| Condition | Global Otsu | With illumination normalisation (deployed) |
+|---|---|---|
+| Clean | 0.567 | 0.567 |
+| Uneven lighting | 0.031 | **0.567** |
+| Combined (rotation + light gradient + blur + noise + JPEG) | 0.323 | **0.512** |
+
+Blur, noise and JPEG compression barely matter. A 5° rotation costs about 8 points.
+
+**Statistics:**
+- *Deployed symbol model:* 92.4% accuracy (95% CI 91.2–93.6). It beats Random Forest (McNemar p = 5.5×10⁻⁶).
+- *ScratchMath slip-vs-gap:* 68.3% (CI 63.1–73.0), significantly better than the majority baseline (p = 9.4×10⁻⁴).
+- *ASSISTments:* PFA + IRT + recency reaches AUC 0.815 (CI 0.794–0.837). It is **not** significantly better than EMA (paired difference +0.005, CI −0.017 to +0.024).
+
+**Ablations:**
+- *Symbols:* HOG alone already gives 92.3%; zoning alone gives 75.2%.
+- *Real mistakes:* answer-pattern features matter most. Removing them costs 4.7 points of slip accuracy.
+
+**Reproducibility:** retraining every model from scratch with seed 0 reproduces all numbers exactly.
+
 ## Threats to validity (state these in the paper)
 
 - **Symbols:** CROHME is tablet handwriting rendered to images, not phone photos of paper. Only
   linear expressions are harvested, and count alignment can mislabel a crop when two
   segmentation errors cancel out (about 1 in 80 in the manual check).
-- **Mistake diagnosis is still trained and tested on synthetic data.** No public dataset of
-  handwritten worked solutions with misconception labels exists. Its 0.99 is an upper bound.
-  Collecting 100–200 real labelled solutions is the top remaining task.
+- **Mistake diagnosis:**
+  - The fine-grained M2 (9 categories) is still synthetic-only, so its 0.99 is an upper bound.
+  - The real-data model M2b (ScratchMath) uses a different, coarser label set and Chinese word
+    problems, which is why only language-independent features are deployed.
+  - A small English classroom set (100–200 photos) is still the best way to validate both.
 - **Knowledge tracing:** ASSISTments skills are close to, but not the same as, StepWise's 8 skills.
   The item bank's difficulties and the recommender study still use simulated learners.
 - **The simulator favours BKT and IRT,** because its generative model is BKT+IRT-like. The policy
@@ -209,7 +274,7 @@ matching ASSISTments skills. For example, S3 ← "Addition and Subtraction Integ
 cd backend
 python scripts/download_datasets.py    # CROHME, HASYv2, ASSISTments (~1 GB)
 python -m app.ml.train                 # all models (~8 min with real data); or --only real_symbols|real_tracing|...
-python -m pytest tests -q              # 143 tests
+python -m pytest tests -q              # 168 tests
 python scripts/seed_demo_data.py && python scripts/seed_demo_class.py   # demo student + 24-student class
 ```
 

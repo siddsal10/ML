@@ -1,0 +1,283 @@
+{
+  "seed": 0,
+  "symbols": {
+    "n_test_symbols": 1821,
+    "deployed": {
+      "model": "svm_rbf",
+      "accuracy": 0.9242,
+      "accuracy_ci95": [
+        0.9121,
+        0.9357
+      ],
+      "macro_f1": 0.8979,
+      "macro_f1_ci95": [
+        0.8784,
+        0.9146
+      ]
+    },
+    "mcnemar_svm_vs_rf": {
+      "model1_only_correct": 72,
+      "model2_only_correct": 26,
+      "chi2": 20.663,
+      "p_value": 5.48e-06,
+      "rf_accuracy": 0.899
+    },
+    "feature_ablation": {
+      "HOG only (324)": {
+        "accuracy": 0.9226,
+        "macro_f1": 0.8943
+      },
+      "zoning only (49)": {
+        "accuracy": 0.7523,
+        "macro_f1": 0.7463
+      },
+      "HOG + zoning (373)": {
+        "accuracy": 0.9253,
+        "macro_f1": 0.8976
+      },
+      "all features (374)": {
+        "accuracy": 0.9242,
+        "macro_f1": 0.8979
+      }
+    },
+    "robustness": {
+      "n_expressions": 127,
+      "results": {
+        "clean": {
+          "without_normalisation": {
+            "exact_match": 0.5669,
+            "mean_cer": 0.1153
+          },
+          "with_normalisation": {
+            "exact_match": 0.5669,
+            "mean_cer": 0.1153
+          }
+        },
+        "blur": {
+          "without_normalisation": {
+            "exact_match": 0.5591,
+            "mean_cer": 0.114
+          },
+          "with_normalisation": {
+            "exact_match": 0.5591,
+            "mean_cer": 0.1133
+          }
+        },
+        "noise": {
+          "without_normalisation": {
+            "exact_match": 0.5748,
+            "mean_cer": 0.1187
+          },
+          "with_normalisation": {
+            "exact_match": 0.5748,
+            "mean_cer": 0.1187
+          }
+        },
+        "jpeg": {
+          "without_normalisation": {
+            "exact_match": 0.5748,
+            "mean_cer": 0.1148
+          },
+          "with_normalisation": {
+            "exact_match": 0.5748,
+            "mean_cer": 0.1151
+          }
+        },
+        "rotation": {
+          "without_normalisation": {
+            "exact_match": 0.4882,
+            "mean_cer": 0.1311
+          },
+          "with_normalisation": {
+            "exact_match": 0.4803,
+            "mean_cer": 0.1331
+          }
+        },
+        "uneven_light": {
+          "without_normalisation": {
+            "exact_match": 0.0315,
+            "mean_cer": 0.5282
+          },
+          "with_normalisation": {
+            "exact_match": 0.5669,
+            "mean_cer": 0.1153
+          }
+        },
+        "photo_combined": {
+          "without_normalisation": {
+            "exact_match": 0.3228,
+            "mean_cer": 0.6083
+          },
+          "with_normalisation": {
+            "exact_match": 0.5118,
+            "mean_cer": 0.1186
+          }
+        }
+      }
+    }
+  },
+  "real_mistakes": {
+    "ablation": {
+      "answer only": {
+        "slip_accuracy": 0.657,
+        "slip_auc": 0.7216,
+        "seven_accuracy": 0.407,
+        "seven_macro_f1": 0.3238
+      },
+      "answer + question": {
+        "slip_accuracy": 0.6773,
+        "slip_auc": 0.7567,
+        "seven_accuracy": 0.4913,
+        "seven_macro_f1": 0.3673
+      },
+      "answer + image": {
+        "slip_accuracy": 0.6628,
+        "slip_auc": 0.749,
+        "seven_accuracy": 0.4244,
+        "seven_macro_f1": 0.3183
+      },
+      "question + image (no answer)": {
+        "slip_accuracy": 0.6366,
+        "slip_auc": 0.6829,
+        "seven_accuracy": 0.3779,
+        "seven_macro_f1": 0.2081
+      },
+      "all (deployed)": {
+        "slip_accuracy": 0.6831,
+        "slip_auc": 0.7647,
+        "seven_accuracy": 0.4913,
+        "seven_macro_f1": 0.3587,
+        "slip_accuracy_ci95": [
+          0.6307,
+          0.7297
+        ],
+        "slip_auc_ci95": [
+          0.7092,
+          0.8139
+        ],
+        "seven_accuracy_ci95": [
+          0.439,
+          0.5436
+        ],
+        "slip_vs_majority_mcnemar": {
+          "model1_only_correct": 111,
+          "model2_only_correct": 66,
+          "chi2": 10.938,
+          "p_value": 0.000942
+        }
+      }
+    }
+  },
+  "knowledge_tracing": {
+    "ema_baseline": {
+      "auc": 0.8113,
+      "auc_ci95_learner_bootstrap": [
+        0.7711,
+        0.8438
+      ]
+    },
+    "bkt": {
+      "auc": 0.7709,
+      "auc_ci95_learner_bootstrap": [
+        0.7441,
+        0.8023
+      ]
+    },
+    "pfa_irt_recency": {
+      "auc": 0.8146,
+      "auc_ci95_learner_bootstrap": [
+        0.7937,
+        0.837
+      ]
+    },
+    "auc_difference_best_minus_ema": {
+      "mean": 0.0045,
+      "ci95": [
+        -0.0167,
+        0.0242
+      ]
+    }
+  },
+  "dl_baseline": {
+    "n_expressions": 127,
+    "trocr_model": "microsoft/trocr-base-handwritten",
+    "examples": [
+      {
+        "target": "-7",
+        "stepwise": "-7",
+        "trocr_raw": "7 7",
+        "trocr_normalised": "77"
+      },
+      {
+        "target": "20",
+        "stepwise": "20",
+        "trocr_raw": "2 0",
+        "trocr_normalised": "20"
+      },
+      {
+        "target": "12",
+        "stepwise": "12",
+        "trocr_raw": "1 2",
+        "trocr_normalised": "12"
+      },
+      {
+        "target": "19",
+        "stepwise": "79",
+        "trocr_raw": "7 9",
+        "trocr_normalised": "79"
+      },
+      {
+        "target": "26",
+        "stepwise": "26",
+        "trocr_raw": "2 6",
+        "trocr_normalised": "26"
+      },
+      {
+        "target": "-1",
+        "stepwise": "-1",
+        "trocr_raw": "2I",
+        "trocr_normalised": "2"
+      },
+      {
+        "target": "63",
+        "stepwise": "63",
+        "trocr_raw": "6 3",
+        "trocr_normalised": "63"
+      },
+      {
+        "target": "17",
+        "stepwise": "17",
+        "trocr_raw": "1 7",
+        "trocr_normalised": "17"
+      }
+    ],
+    "stepwise_svm": {
+      "exact_match": 0.5669,
+      "exact_match_ci95": [
+        0.4803,
+        0.6535
+      ],
+      "mean_cer": 0.1153,
+      "median_ms_per_expression": 48.0,
+      "model_mb": 8.1
+    },
+    "trocr": {
+      "exact_match": 0.2835,
+      "exact_match_ci95": [
+        0.2126,
+        0.3622
+      ],
+      "mean_cer": 0.369,
+      "median_ms_per_expression": 1325.0,
+      "parameters_millions": 333.9,
+      "model_mb_fp32": 1335.7
+    },
+    "mcnemar_exact_match": {
+      "model1_only_correct": 40,
+      "model2_only_correct": 4,
+      "chi2": 27.841,
+      "p_value": 1.32e-07
+    }
+  },
+  "seconds": 633.2
+}

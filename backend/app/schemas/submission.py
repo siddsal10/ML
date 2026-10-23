@@ -120,6 +120,7 @@ class AnalyzeResponse(BaseModel):
     expected_answer: str | None = None
     original_question: str | None = None
     topic: str | None = None
+    real_error_type: dict[str, Any] | None = None
 
 
 class TranscriptionUpdate(BaseModel):

@@ -1,5 +1,9 @@
 """Classical page -> lines -> symbols segmentation (OpenCV, no learning).
 
+0. Illumination normalisation (optional, on by default at inference): the
+   background is estimated with a grey-level morphological closing (which
+   removes thin dark strokes) and divided out, so shadows and uneven phone
+   lighting do not break the global threshold.
 1. Otsu binarization (ink = 255).
 2. Line segmentation from the horizontal projection profile.
 3. Symbol segmentation by connected components within each line; components
@@ -25,7 +29,16 @@ class SymbolCrop:
     mask: np.ndarray  # ink=255, tight crop containing only this symbol's pixels
 
 
-def binarize(gray: np.ndarray) -> np.ndarray:
+def normalize_illumination(gray: np.ndarray) -> np.ndarray:
+    k = max(15, (min(gray.shape[:2]) // 12) | 1)
+    background = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
+    background = cv2.GaussianBlur(background, (0, 0), k / 4)
+    return cv2.divide(gray, np.maximum(background, 1), scale=255)
+
+
+def binarize(gray: np.ndarray, normalize: bool = False) -> np.ndarray:
+    if normalize:
+        gray = normalize_illumination(gray)
     blurred = cv2.GaussianBlur(gray, (3, 3), 0)
     _, binary = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     return binary
@@ -95,9 +108,9 @@ def segment_symbols(line: np.ndarray) -> list[SymbolCrop]:
     return crops
 
 
-def segment_page(gray: np.ndarray) -> list[list[SymbolCrop]]:
+def segment_page(gray: np.ndarray, normalize: bool = True) -> list[list[SymbolCrop]]:
     """Returns the symbol crops of each text line, top to bottom, left to right."""
-    binary = binarize(gray)
+    binary = binarize(gray, normalize=normalize)
     result = []
     for y0, y1 in segment_lines(binary):
         line = binary[y0:y1]

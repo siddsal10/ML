@@ -7,7 +7,11 @@ import { Badge, CATEGORY_LABELS, Card, ErrorState, LoadingCard, PageHead, Tabs, 
 
 const tooltipStyle = { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10 };
 const axis = { fill: "var(--text-3)", fontSize: 12 };
-const label = (k) => CATEGORY_LABELS[k] || k.replaceAll("_", " ");
+const label = (k) => CATEGORY_LABELS[k] || ERR_LABELS_SHORT[k] || k.replaceAll("_", " ");
+const ERR_LABELS_SHORT = {
+  question_misunderstanding: "Misread question", concept_error: "Concept", strategy_error: "Strategy",
+  copying_error: "Copying", reasoning_error: "Reasoning", attention_error: "Attention", calculation_error: "Calculation",
+};
 
 function ConfusionMatrix({ matrix, labels, short }) {
   return (
@@ -185,12 +189,59 @@ function RealSymbolSection({ real }) {
   );
 }
 
-function SymbolDetail({ report, real, versions, reload }) {
+const DEGRADE_LABELS = { clean: "Clean", blur: "Blur (σ=1.5)", noise: "Gaussian noise", jpeg: "JPEG q=20", rotation: "Rotation 5°", uneven_light: "Uneven lighting", photo_combined: "Combined phone-photo" };
+
+function RobustnessSection({ exp }) {
+  if (!exp?.symbols) return null;
+  const s = exp.symbols;
+  const rob = Object.entries(s.robustness.results).map(([k, v]) => ({
+    name: DEGRADE_LABELS[k] || k, before: v.without_normalisation.exact_match, after: v.with_normalisation.exact_match,
+    cer_before: v.without_normalisation.mean_cer, cer_after: v.with_normalisation.mean_cer,
+  }));
+  const dl = exp.dl_baseline;
+  return (
+    <>
+      <div className="split">
+        <Card title="Robustness to phone-photo conditions" subtitle={`${s.robustness.n_expressions} real CROHME test expressions, degraded; whole-expression exact match`}>
+          <ComparisonChart rows={rob} keys={[["before", "Without illumination normalisation", "#f4a582"], ["after", "With normalisation (deployed)", "#3b4cc0"]]} />
+          <ModelTable rows={rob} cols={[["before", "Exact (before)"], ["after", "Exact (after)"], ["cer_before", "CER (before)"], ["cer_after", "CER (after)"]]} />
+        </Card>
+        <div className="stack-lg">
+          {dl && (
+            <Card title="Classical ML vs deep learning" subtitle={`Same ${dl.n_expressions} real test expressions · ${dl.trocr_model} (zero-shot)`} actions={<Badge tone="good">p = {dl.mcnemar_exact_match.p_value}</Badge>}>
+              <div className="table-wrap">
+                <table className="table">
+                  <thead><tr><th /><th className="num">Exact match</th><th className="num">CER</th><th className="num">ms / expr.</th><th className="num">Size</th></tr></thead>
+                  <tbody>
+                    <tr className="best"><td><strong>StepWise SVM</strong></td><td className="num">{fmt(dl.stepwise_svm.exact_match)}</td><td className="num">{fmt(dl.stepwise_svm.mean_cer)}</td><td className="num">{dl.stepwise_svm.median_ms_per_expression}</td><td className="num">{dl.stepwise_svm.model_mb} MB</td></tr>
+                    <tr><td>TrOCR (334M params)</td><td className="num">{fmt(dl.trocr.exact_match)}</td><td className="num">{fmt(dl.trocr.mean_cer)}</td><td className="num">{dl.trocr.median_ms_per_expression}</td><td className="num">{Math.round(dl.trocr.model_mb_fp32).toLocaleString()} MB</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="faint" style={{ marginTop: 8 }}>TrOCR is a general handwriting model used without maths fine-tuning; its output was normalised leniently. McNemar test on exact matches.</p>
+            </Card>
+          )}
+          <Card title="Statistics & ablation" subtitle="Deployed model on CROHME test symbols">
+            <dl className="kv">
+              <dt>Accuracy</dt><dd>{fmt(s.deployed.accuracy)} (95% CI {s.deployed.accuracy_ci95.join("–")})</dd>
+              <dt>Macro-F1</dt><dd>{fmt(s.deployed.macro_f1)} (95% CI {s.deployed.macro_f1_ci95.join("–")})</dd>
+              <dt>SVM vs RF</dt><dd>McNemar p = {s.mcnemar_svm_vs_rf.p_value}</dd>
+              {Object.entries(s.feature_ablation).map(([k, v]) => <React.Fragment key={k}><dt>{k}</dt><dd>acc {fmt(v.accuracy)} · F1 {fmt(v.macro_f1)}</dd></React.Fragment>)}
+            </dl>
+          </Card>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function SymbolDetail({ report, real, versions, reload, exp }) {
   const rows = Object.entries(report.models).map(([name, m]) => ({ name, ...m }));
   const e2e = report.end_to_end_ocr;
   return (
     <>
       {real && <RealSymbolSection real={real} />}
+      <RobustnessSection exp={exp} />
       {real && <h2 style={{ marginTop: 6 }}>Synthetic-font experiments</h2>}
       <div className="split">
         <Card title="Algorithm comparison (synthetic fonts)" subtitle={report.split}>
@@ -354,6 +405,63 @@ function TracingDetail({ report, real }) {
   );
 }
 
+const ERR_LABELS = {
+  calculation_error: "Calculation", question_misunderstanding: "Misread question", concept_error: "Concept",
+  strategy_error: "Strategy", copying_error: "Copying", reasoning_error: "Reasoning", attention_error: "Attention",
+};
+
+const SHORT_ALGO = { majority_baseline: "Majority", random_baseline: "Random", logistic_regression: "LogReg", random_forest: "RandForest",
+  gradient_boosting: "GradBoost", logistic_regression_with_question_text: "LogReg+text" };
+
+function RealMistakeDetail({ report }) {
+  const rows = (res) => Object.entries(res).map(([name, m]) => ({ name, acc: m.test_accuracy, f1: m.test_macro_f1, bal: m.test_balanced_accuracy, cv: m.cv_macro_f1, auc: m.test_auc }));
+  const seven = rows(report.seven_class);
+  const binary = rows(report.slip_vs_understanding);
+  const counts = Object.entries(report.class_counts).map(([k, v]) => ({ name: ERR_LABELS[k] || k, n: v }));
+  const imp = report.top_feature_importances.map(([n, v]) => ({ name: n.replaceAll("_", " "), v }));
+  return (
+    <>
+      <Card title="Real dataset: ScratchMath" subtitle={`${report.dataset} · ${report.licence} · ${report.split}`} actions={<Badge tone="good">real data</Badge>}>
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={counts} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
+            <XAxis dataKey="name" tick={axis} interval={0} />
+            <YAxis tick={axis} />
+            <Tooltip contentStyle={tooltipStyle} />
+            <Bar isAnimationActive={false} dataKey="n" name="examples" fill="#8b5cf6" radius={[6, 6, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+        <p className="faint">{report.n_samples.toLocaleString()} real wrong answers with photos of the students' scratchwork, labelled by experts.</p>
+      </Card>
+      <div className="split">
+        <Card title="Careless slip vs gap in understanding" subtitle={report.slip_definition}>
+          <ComparisonChart rows={binary.map((r) => ({ ...r, name: SHORT_ALGO[r.name] || r.name }))} keys={[["acc", "Test accuracy", "#6366f1"], ["f1", "Test macro-F1", "#14b8a6"]]} />
+          <ModelTable rows={binary} best={report.slip_vs_understanding_selected} cols={[["cv", "CV F1"], ["acc", "Test acc."], ["f1", "Test F1"], ["auc", "AUC"]]} />
+        </Card>
+        <Card title="Error type (7 classes)" subtitle="Hard: categories overlap; baselines show chance level">
+          <ComparisonChart rows={seven.map((r) => ({ ...r, name: SHORT_ALGO[r.name] || r.name }))} keys={[["acc", "Test accuracy", "#6366f1"], ["f1", "Test macro-F1", "#14b8a6"]]} />
+          <ModelTable rows={seven} best={report.seven_class_selected} cols={[["cv", "CV F1"], ["acc", "Test acc."], ["f1", "Test F1"], ["bal", "Bal. acc."]]} />
+          <p className="faint">"LogReg+text" adds Chinese question n-grams — best on this dataset but not usable for English questions, so StepWise deploys the language-independent model.</p>
+        </Card>
+      </div>
+      <div className="split">
+        <Card title="Confusion matrix (7 classes)" subtitle={`${report.seven_class_selected} on the hold-out test set`}>
+          <ConfusionMatrix matrix={report.seven_class_confusion_matrix} labels={report.labels} />
+        </Card>
+        <Card title="Which features matter" subtitle="Permutation importance on the test set">
+          <ResponsiveContainer width="100%" height={340}>
+            <BarChart data={imp} layout="vertical" margin={{ left: 60, right: 10 }}>
+              <XAxis type="number" tick={axis} />
+              <YAxis type="category" dataKey="name" width={150} tick={{ fill: "var(--text-2)", fontSize: 11.5 }} />
+              <Tooltip contentStyle={tooltipStyle} formatter={(v) => fmt(v, 4)} />
+              <Bar isAnimationActive={false} dataKey="v" fill="#14b8a6" radius={[0, 6, 6, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
+      </div>
+    </>
+  );
+}
+
 function ClusteringDetail({ report }) {
   return (
     <div className="split">
@@ -399,10 +507,11 @@ export default function LabModelPage() {
 
       {!r ? <ErrorState error="This model has no report yet — run python -m app.ml.train in backend/." /> : (
         <>
-          {name === "symbol_classifier" && <SymbolDetail report={r} real={data.real_report} versions={data.versions} reload={reload} />}
+          {name === "symbol_classifier" && <SymbolDetail report={r} real={data.real_report} versions={data.versions} reload={reload} exp={data.experiments} />}
           {name === "mistake_classifier" && <MistakeDetail report={r} />}
           {name === "knowledge_tracing" && <TracingDetail report={r} real={data.real_report} />}
           {name === "student_clustering" && <ClusteringDetail report={r} />}
+          {name === "real_mistake_classifier" && <RealMistakeDetail report={r} />}
         </>
       )}
     </>

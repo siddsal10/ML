@@ -38,13 +38,14 @@ flowchart LR
 | Model | Data | Best algorithm | Result | Compared against |
 |---|---|---|---|---|
 | Symbol recognizer | **real**: CROHME + HASYv2 (+ fonts) | SVM (RBF) | **92.6%** symbol accuracy (macro-F1 0.90) on CROHME 2014/16/19 test (unseen writers); 57% of whole expressions exact | fonts-only training: 55%; RF 0.88, LR 0.88, kNN 0.85 |
+| Symbol reader vs deep learning | **real**: 127 CROHME test expressions | HOG + SVM vs TrOCR-base | **56.7% vs 28.4%** exact; 48 ms vs 1,325 ms; 8 MB vs 1.3 GB | McNemar p = 1.3×10⁻⁷ |
 | Knowledge tracing | **real**: ASSISTments 2009 (446k answers) | PFA + IRT + recency | next-answer AUC **0.815** | EMA 0.811, PFA 0.787, BKT 0.771 |
-| Mistake classifier | synthetic | Random Forest | macro-F1 0.994 (upper bound) | **old rules 0.330**, GB 0.991, LR 0.992 |
+| Mistake classifier (9 fine-grained types) | synthetic | Random Forest | macro-F1 0.994 (upper bound) | **old rules 0.330**, GB 0.991, LR 0.992 |
+| Error type: slip vs understanding gap | **real**: ScratchMath (1,720 real student mistakes + scratchwork photos) | Logistic Regression | **68.3%** accuracy, AUC 0.76 | majority 55.2%; 7-type RF 49.1% vs majority 32.9% |
 | Practice policy | simulated learners | Adaptive (BKT + IRT) | 74% of skills mastered in 40 items | random 64% |
 | Class grouping | simulated class | K-Means | ARI 0.82 vs planted groups | Agglomerative (Ward) |
 
-Real datasets are downloaded by `make datasets` (about 1 GB) and never committed. The mistake
-classifier has no public real dataset yet, so its score is an upper bound; see
+Real datasets are downloaded by `make datasets` (about 1.1 GB) and never committed. See
 `docs/ML_APPROACH.md` for every caveat.
 
 ## App tour
@@ -90,10 +91,17 @@ To run in Docker: `docker compose up --build` (frontend on http://localhost:8080
 Optional deep-learning baselines for the benchmark:
 `pip install -r requirements-dl.txt` (TrOCR/Donut), or set `VISION_API_BACKEND` in `.env`.
 
+## Paper
+
+`paper/main.tex` is a Springer (LNCS/LNEE-style) paper with figures generated from the reports.
+- Build it with `cd paper && tectonic main.tex`, or upload the folder to Overleaf.
+- Re-run the paper experiments (confidence intervals, ablations, robustness, TrOCR comparison) with
+  `python -m app.ml.paper_experiments`.
+
 ## Tests
 
 ```bash
-cd backend && python -m pytest tests -q     # 143 tests
+cd backend && python -m pytest tests -q     # 175 tests
 cd frontend && npm run build
 ```
 
@@ -124,9 +132,9 @@ evaluation/          benchmark CLI + manifests
 
 ## Limitations
 
-- **Mistake classifier data is synthetic.** No public dataset of real handwritten solutions with
-  misconception labels exists, so it still needs a hand-labelled classroom set. The symbol
-  recognizer and knowledge tracing are trained and evaluated on real data.
+- **The fine-grained mistake classifier is synthetic.** The real-data second opinion (ScratchMath)
+  uses coarser labels and Chinese questions. An English hand-labelled classroom set would
+  validate both.
 - **CROHME is tablet handwriting rendered to images**, not phone photos of paper.
 - **Segmentation.** It assumes symbols don't touch, so cursive or joined digits are under-segmented.
 - **Scope.** Arithmetic (+ − × ÷, negatives, brackets) and single-variable linear equations. No

@@ -18,7 +18,8 @@ from pathlib import Path
 
 import numpy as np
 
-from app.ml import real_benchmark, real_symbols, registry
+from app.ml import real_benchmark, real_mistakes, real_symbols, registry
+from app.ml.real_mistakes import train_real_mistake_classifier
 from app.ml.artifacts import BACKEND_ROOT, MISTAKE_MODEL_PATH, SYMBOL_MODEL_PATH, load_bundle, save_bundle
 from app.ml.irt.recommender import KT_MODEL_PATH
 from app.ml.tracing.real_data import ASSISTMENTS_PATH, evaluate_assistments
@@ -110,12 +111,12 @@ def main() -> None:
     parser.add_argument("--quick", action="store_true", help="small datasets for a fast smoke run")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--extra-symbols", type=str, default=None, help="folder of real labelled symbol crops")
-    parser.add_argument("--only", choices=["symbols", "real_symbols", "mistakes", "tracing", "real_tracing", "clustering"], default=None)
+    parser.add_argument("--only", choices=["symbols", "real_symbols", "mistakes", "real_mistakes", "tracing", "real_tracing", "clustering"], default=None)
     args = parser.parse_args()
 
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     t0 = time.perf_counter()
-    todo = [args.only] if args.only else ["symbols", "real_symbols", "mistakes", "tracing", "real_tracing", "clustering"]
+    todo = [args.only] if args.only else ["symbols", "real_symbols", "mistakes", "real_mistakes", "tracing", "real_tracing", "clustering"]
     have = real_symbols.available()
     have["assistments"] = ASSISTMENTS_PATH.exists()
 
@@ -164,6 +165,17 @@ def main() -> None:
                         REPORT_DIR / "mistake_confusion.png")
         _plot_confusion(report["rule_based_confusion_matrix"], report["labels"], "Mistakes (rule-based baseline)",
                         REPORT_DIR / "mistake_confusion_rule_based.png")
+
+    if "real_mistakes" in todo:
+        if not real_mistakes.available():
+            print("[real_mistakes] skipped - run scripts/download_datasets.py scratchmath first")
+        else:
+            print("[real_mistakes] ScratchMath (1,720 real student mistakes): error type + slip vs understanding ...")
+            report = train_real_mistake_classifier(seed=args.seed)
+            for task in ("seven_class", "slip_vs_understanding"):
+                for name, m in report[task].items():
+                    print(f"          {task[:5]} {name:40s} test acc={m['test_accuracy']:.3f} macro-F1={m['test_macro_f1']:.3f}")
+            _save_report("real_mistake_classifier", report)
 
     if "tracing" in todo:
         print("[tracing] simulating learners, fitting BKT / PFA / Rasch, running policy simulation ...")

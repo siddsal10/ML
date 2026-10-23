@@ -1,0 +1,235 @@
+{
+  "task": "error_type_real_student_mistakes",
+  "dataset": "ScratchMath (real Chinese K-9 students' wrong answers + handwritten scratchwork, expert-labelled)",
+  "licence": "CC BY-NC-SA 4.0",
+  "n_samples": 1720,
+  "class_counts": {
+    "calculation_error": 566,
+    "question_misunderstanding": 519,
+    "concept_error": 219,
+    "strategy_error": 135,
+    "copying_error": 124,
+    "reasoning_error": 75,
+    "attention_error": 82
+  },
+  "split": "stratified 80/20 hold-out test; model chosen by 5-fold CV on the 80%",
+  "features": {
+    "portable": 42,
+    "groups": [
+      "answer pattern",
+      "question statistics",
+      "scratchwork image"
+    ]
+  },
+  "seven_class": {
+    "majority_baseline": {
+      "cv_macro_f1": 0.0708,
+      "test_accuracy": 0.3285,
+      "test_macro_f1": 0.0706,
+      "test_balanced_accuracy": 0.1429
+    },
+    "random_baseline": {
+      "cv_macro_f1": 0.135,
+      "test_accuracy": 0.2674,
+      "test_macro_f1": 0.161,
+      "test_balanced_accuracy": 0.161
+    },
+    "logistic_regression": {
+      "cv_macro_f1": 0.2938,
+      "test_accuracy": 0.3401,
+      "test_macro_f1": 0.3073,
+      "test_balanced_accuracy": 0.3859
+    },
+    "random_forest": {
+      "cv_macro_f1": 0.3081,
+      "test_accuracy": 0.4913,
+      "test_macro_f1": 0.3587,
+      "test_balanced_accuracy": 0.3688
+    },
+    "gradient_boosting": {
+      "cv_macro_f1": 0.2974,
+      "test_accuracy": 0.4622,
+      "test_macro_f1": 0.3524,
+      "test_balanced_accuracy": 0.3413
+    },
+    "logistic_regression_with_question_text": {
+      "cv_macro_f1": 0.3348,
+      "test_accuracy": 0.4419,
+      "test_macro_f1": 0.4073,
+      "test_balanced_accuracy": 0.4574,
+      "note": "not deployable in StepWise (Chinese question text)"
+    }
+  },
+  "seven_class_selected": "random_forest",
+  "seven_class_confusion_matrix": [
+    [
+      71,
+      20,
+      4,
+      5,
+      1,
+      1,
+      11
+    ],
+    [
+      26,
+      67,
+      8,
+      1,
+      1,
+      0,
+      1
+    ],
+    [
+      15,
+      18,
+      4,
+      3,
+      1,
+      2,
+      1
+    ],
+    [
+      6,
+      3,
+      0,
+      17,
+      0,
+      0,
+      1
+    ],
+    [
+      8,
+      6,
+      2,
+      3,
+      2,
+      2,
+      2
+    ],
+    [
+      5,
+      6,
+      1,
+      1,
+      0,
+      2,
+      0
+    ],
+    [
+      7,
+      2,
+      1,
+      0,
+      0,
+      0,
+      6
+    ]
+  ],
+  "slip_vs_understanding": {
+    "majority_baseline": {
+      "cv_macro_f1": 0.3552,
+      "test_accuracy": 0.5523,
+      "test_macro_f1": 0.3558,
+      "test_balanced_accuracy": 0.5
+    },
+    "random_baseline": {
+      "cv_macro_f1": 0.5265,
+      "test_accuracy": 0.4797,
+      "test_macro_f1": 0.4754,
+      "test_balanced_accuracy": 0.4754
+    },
+    "logistic_regression": {
+      "cv_macro_f1": 0.6914,
+      "test_accuracy": 0.6831,
+      "test_macro_f1": 0.6827,
+      "test_balanced_accuracy": 0.6867,
+      "test_auc": 0.7647
+    },
+    "random_forest": {
+      "cv_macro_f1": 0.6857,
+      "test_accuracy": 0.689,
+      "test_macro_f1": 0.683,
+      "test_balanced_accuracy": 0.6821,
+      "test_auc": 0.7724
+    },
+    "gradient_boosting": {
+      "cv_macro_f1": 0.6546,
+      "test_accuracy": 0.7035,
+      "test_macro_f1": 0.6994,
+      "test_balanced_accuracy": 0.699,
+      "test_auc": 0.7718
+    }
+  },
+  "slip_vs_understanding_selected": "logistic_regression",
+  "slip_definition": "slip = calculation / copying / attention error; understanding = question, concept, strategy or reasoning error",
+  "labels": [
+    "calculation_error",
+    "question_misunderstanding",
+    "concept_error",
+    "strategy_error",
+    "copying_error",
+    "reasoning_error",
+    "attention_error"
+  ],
+  "label_names": {
+    "calculation_error": "Calculation error",
+    "question_misunderstanding": "Misunderstood the question",
+    "concept_error": "Concept / knowledge error",
+    "strategy_error": "Solving-strategy error",
+    "copying_error": "Copying / transcription error",
+    "reasoning_error": "Logical reasoning error",
+    "attention_error": "Attention / careless error"
+  },
+  "top_feature_importances": [
+    [
+      "q_len",
+      0.0468
+    ],
+    [
+      "digit_edit_norm",
+      0.0409
+    ],
+    [
+      "q_n_numbers",
+      0.0378
+    ],
+    [
+      "blanks_swapped",
+      0.037
+    ],
+    [
+      "log_abs_student",
+      0.0366
+    ],
+    [
+      "log_rel_error",
+      0.0314
+    ],
+    [
+      "q_log_max_number",
+      0.0236
+    ],
+    [
+      "student_numeric",
+      0.022
+    ],
+    [
+      "log_abs_correct",
+      0.0194
+    ],
+    [
+      "q_has_equation",
+      0.0179
+    ],
+    [
+      "img_ink",
+      0.0147
+    ],
+    [
+      "img_lines",
+      0.0145
+    ]
+  ],
+  "limitations": "Only 1,720 examples with fuzzy, overlapping categories; questions are Chinese word problems, so StepWise uses the language-independent features only. Every sample is a wrong answer, so the model is only applied when a student's answer is wrong."
+}

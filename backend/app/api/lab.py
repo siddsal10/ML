@@ -43,6 +43,7 @@ def model_detail(name: str) -> dict:
         raise HTTPException(status_code=404, detail="Unknown model")
     report = load_report(name)
     return {"name": name, **CARDS[name], "report": report, "real_report": load_report(f"{name}_real"),
+            "experiments": load_report("paper_experiments"),
             "headline": headline(name, report),
             "versions": registry.list_versions(name) if CARDS[name]["retrainable"] else None}
 

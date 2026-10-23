@@ -129,9 +129,9 @@ class SymbolRecognizer:
         bundle = load_bundle(str(path))
         return cls(bundle) if bundle is not None else None
 
-    def transcribe_gray(self, gray: np.ndarray, with_masks: bool = False) -> tuple[str, float, list[dict]]:
+    def transcribe_gray(self, gray: np.ndarray, with_masks: bool = False, normalize: bool = True) -> tuple[str, float, list[dict]]:
         lines_out, confidences, regions = [], [], []
-        for li, crops in enumerate(segment_page(gray)):
+        for li, crops in enumerate(segment_page(gray, normalize=normalize)):
             feats = np.vstack([glyph_features(c.mask) for c in crops])
             probs = self.model.predict_proba(feats)
             symbols = []

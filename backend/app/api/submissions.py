@@ -48,6 +48,31 @@ def _image_size(path: str) -> tuple[int | None, int | None]:
         return None, None
 
 
+def _real_error_type(submission: Submission, analysis) -> dict | None:
+    """Second opinion from the model trained on real student mistakes (ScratchMath).
+    Only meaningful for wrong answers with an answer key."""
+    from app.ml.artifacts import load_bundle
+    from app.ml.real_mistakes import REAL_MISTAKE_MODEL_PATH, predict_error_type
+    from app.ml.symbol_classifier import load_gray
+    from app.services.math_parser import analyze_transcription
+
+    if analysis.is_correct is not False or not submission.expected_answer:
+        return None
+    bundle = load_bundle(str(REAL_MISTAKE_MODEL_PATH))
+    if bundle is None:
+        return None
+    text = submission.corrected_transcription or submission.raw_transcription or ""
+    final = analyze_transcription(text).final_value
+    if final is None:
+        return None
+    level = "middle" if "x" in text else "primary"
+    result = predict_error_type(bundle, submission.expected_answer, str(final), submission.original_question or "",
+                                load_gray(submission.original_image_path), level)
+    result["model"] = f"{bundle['model_name']} / {bundle['slip_model_name']}"
+    result["trained_on"] = "ScratchMath: 1,720 real student mistakes"
+    return result
+
+
 def _to_analyze_response(submission: Submission, analysis, db: Session | None = None) -> AnalyzeResponse:
     regions = [RegionOut.model_validate(r) for r in submission.regions]
     mistake = analysis.mistake
@@ -81,6 +106,7 @@ def _to_analyze_response(submission: Submission, analysis, db: Session | None = 
         expected_answer=submission.expected_answer,
         original_question=submission.original_question,
         topic=submission.topic,
+        real_error_type=_real_error_type(submission, analysis),
     )
 
 
