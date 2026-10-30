@@ -50,3 +50,6 @@ backend/ml_models/registry.json
 
 # --- downloaded public datasets (never committed) ---
 backend/data/external/
+
+# --- real student photos and their manifest (docs/REAL_WORLD_VALIDATION.md; never committed) ---
+evaluation/manifests/real_world/

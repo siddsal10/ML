@@ -1,0 +1,118 @@
+{
+  "task": "symbol_recognition_unseen_writer_populations",
+  "data": "MNIST test set (never used for training): scanned pen-on-paper digits; first 5,001 by ~250 high-school students, last 4,999 by 48 Census Bureau employees (QMNIST, Yadav & Bottou 2019)",
+  "test_set_check": {
+    "0": 980,
+    "1": 1135,
+    "2": 1032,
+    "3": 1010,
+    "4": 982,
+    "5": 892,
+    "6": 958,
+    "7": 1028,
+    "8": 974,
+    "9": 1009
+  },
+  "populations": {
+    "high_school_students": {
+      "n": 5001,
+      "accuracy": 0.863,
+      "macro_f1_digits": 0.8915,
+      "read_as_non_digit": 0.063,
+      "per_digit_accuracy": {
+        "0": 0.9891,
+        "1": 0.6602,
+        "2": 0.8925,
+        "3": 0.9521,
+        "4": 0.712,
+        "5": 0.9408,
+        "6": 0.8788,
+        "7": 0.8359,
+        "8": 0.8793,
+        "9": 0.9327
+      },
+      "top_confusions": [
+        [
+          "4",
+          "9",
+          106
+        ],
+        [
+          "1",
+          "/",
+          103
+        ],
+        [
+          "1",
+          "(",
+          48
+        ],
+        [
+          "6",
+          "0",
+          28
+        ],
+        [
+          "7",
+          "9",
+          24
+        ],
+        [
+          "1",
+          ")",
+          23
+        ]
+      ]
+    },
+    "census_employees": {
+      "n": 4999,
+      "accuracy": 0.8504,
+      "macro_f1_digits": 0.8877,
+      "read_as_non_digit": 0.092,
+      "per_digit_accuracy": {
+        "0": 0.9654,
+        "1": 0.477,
+        "2": 0.8765,
+        "3": 0.9843,
+        "4": 0.7448,
+        "5": 0.9358,
+        "6": 0.9194,
+        "7": 0.8372,
+        "8": 0.8907,
+        "9": 0.9243
+      },
+      "top_confusions": [
+        [
+          "1",
+          "/",
+          267
+        ],
+        [
+          "4",
+          "9",
+          46
+        ],
+        [
+          "7",
+          "9",
+          42
+        ],
+        [
+          "4",
+          "+",
+          38
+        ],
+        [
+          "2",
+          "x",
+          27
+        ],
+        [
+          "7",
+          "2",
+          25
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "task": "capture_binarization_ablation",
+  "n_pages": 420,
+  "pages": "the propagation study's test pages (same seeds)",
+  "conditions": {
+    "clean": {
+      "otsu_only": {
+        "page_exact": 0.1667,
+        "mean_cer": 0.1253
+      },
+      "photo_robust": {
+        "page_exact": 0.1667,
+        "mean_cer": 0.1253
+      }
+    },
+    "paper_and_pen": {
+      "otsu_only": {
+        "page_exact": 0.2,
+        "mean_cer": 0.1175
+      },
+      "photo_robust": {
+        "page_exact": 0.2,
+        "mean_cer": 0.1175
+      }
+    },
+    "ruled_paper": {
+      "otsu_only": {
+        "page_exact": 0.0048,
+        "mean_cer": 0.9011
+      },
+      "photo_robust": {
+        "page_exact": 0.1381,
+        "mean_cer": 0.159
+      }
+    },
+    "uneven_lighting": {
+      "otsu_only": {
+        "page_exact": 0.0238,
+        "mean_cer": 0.7363
+      },
+      "photo_robust": {
+        "page_exact": 0.2,
+        "mean_cer": 0.104
+      }
+    },
+    "cast_shadow": {
+      "otsu_only": {
+        "page_exact": 0.0,
+        "mean_cer": 0.7956
+      },
+      "photo_robust": {
+        "page_exact": 0.2024,
+        "mean_cer": 0.1192
+      }
+    },
+    "tilt": {
+      "otsu_only": {
+        "page_exact": 0.1643,
+        "mean_cer": 0.1514
+      },
+      "photo_robust": {
+        "page_exact": 0.1643,
+        "mean_cer": 0.1514
+      }
+    },
+    "blur": {
+      "otsu_only": {
+        "page_exact": 0.0524,
+        "mean_cer": 0.1925
+      },
+      "photo_robust": {
+        "page_exact": 0.0524,
+        "mean_cer": 0.1925
+      }
+    },
+    "noise_jpeg": {
+      "otsu_only": {
+        "page_exact": 0.1929,
+        "mean_cer": 0.1295
+      },
+      "photo_robust": {
+        "page_exact": 0.1929,
+        "mean_cer": 0.1295
+      }
+    },
+    "low_resolution": {
+      "otsu_only": {
+        "page_exact": 0.0524,
+        "mean_cer": 0.1956
+      },
+      "photo_robust": {
+        "page_exact": 0.0524,
+        "mean_cer": 0.1956
+      }
+    },
+    "phone_mild": {
+      "otsu_only": {
+        "page_exact": 0.0452,
+        "mean_cer": 0.5068
+      },
+      "photo_robust": {
+        "page_exact": 0.0857,
+        "mean_cer": 0.1586
+      }
+    },
+    "phone_moderate": {
+      "otsu_only": {
+        "page_exact": 0.0,
+        "mean_cer": 0.9328
+      },
+      "photo_robust": {
+        "page_exact": 0.0,
+        "mean_cer": 0.6875
+      }
+    },
+    "phone_severe": {
+      "otsu_only": {
+        "page_exact": 0.0,
+        "mean_cer": 0.9274
+      },
+      "photo_robust": {
+        "page_exact": 0.0,
+        "mean_cer": 0.8551
+      }
+    }
+  }
+}

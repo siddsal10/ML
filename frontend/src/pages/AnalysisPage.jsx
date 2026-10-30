@@ -128,7 +128,8 @@ export default function AnalysisPage() {
   const [saveError, setSaveError] = useState(null);
   const [editText, setEditText] = useState(null);
 
-  const uncertain = useMemo(() => (data?.symbols || []).filter((s) => s.confidence < 0.6 && !s.corrected_label), [data]);
+  const uncertain = useMemo(() => (data?.symbols || []).filter((s) => s.confidence < (data.symbol_check_below ?? 0.6) && !s.corrected_label), [data]);
+  const awaitingCheck = data?.mistake_category === "transcription_uncertainty" && !data?.symbols?.some((s) => s.corrected_label) && uncertain.length > 0;
   const selectedSym = data?.symbols?.find((s) => s.idx === selected);
 
   if (loading && !data) return <LoadingCard lines={6} />;
@@ -147,6 +148,7 @@ export default function AnalysisPage() {
     setSaving(true);
     setSaveError(null);
     try {
+      // With no pending fixes this confirms the reading as it is.
       const corrections = Object.entries(pending).map(([idx, label]) => ({ idx: Number(idx), label }));
       const res = await endpoints.correctSymbols(submissionId, corrections);
       setData(res.data);
@@ -185,7 +187,9 @@ export default function AnalysisPage() {
       </PageHead>
 
       {data.is_demo_mode && <div className="alert warn"><AlertTriangle size={18} />Demo provider was used — this transcription is a fixture, not model output.</div>}
-      {data.ocr_confidence < 0.75 && data.symbols?.length > 0 && (
+      {awaitingCheck ? (
+        <div className="alert warn"><MousePointerClick size={18} />Before I diagnose, please check the {uncertain.length} highlighted symbol{uncertain.length > 1 ? "s" : ""} — so a misread isn’t mistaken for your error. Tap a box to fix it, or confirm the reading below.</div>
+      ) : data.ocr_confidence < 0.75 && data.symbols?.length > 0 && (
         <div className="alert info"><MousePointerClick size={18} />I may have misread some of your writing. Tap any box on the image to fix a symbol — your fix also teaches the model.</div>
       )}
 
@@ -217,6 +221,14 @@ export default function AnalysisPage() {
                       <button key={c} className={(pending[selected] ?? selectedSym.corrected_label ?? selectedSym.predicted) === c ? "current" : ""} onClick={() => choose(c)}>{c}</button>
                     ))}
                   </div>
+                </div>
+              )}
+
+              {awaitingCheck && pendingCount === 0 && (
+                <div className="row wrap">
+                  <button className="btn" onClick={applyCorrections} disabled={saving}>
+                    {saving ? <span className="spinner" /> : <CheckCircle2 size={16} />} Reading is right — check my work
+                  </button>
                 </div>
               )}
 

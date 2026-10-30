@@ -97,6 +97,16 @@ def test_symbol_corrections_validate_input(client):
     assert client.post(f"/api/submissions/{sub}/symbols/corrections", json={"corrections": [{"idx": 0, "label": "#"}]}).status_code == 422
 
 
+@needs_symbol_model
+def test_confirming_the_reading_unblocks_the_diagnosis(client):
+    sid = _student(client)
+    first = _analyze(client, sid, _png("1 + 1 = 2"), expected="2").json()
+    assert first["symbol_check_below"] is not None
+    confirmed = client.post(f"/api/submissions/{first['submission_id']}/symbols/corrections", json={"corrections": []})
+    assert confirmed.status_code == 200
+    assert confirmed.json()["mistake_category"] != "transcription_uncertainty"
+
+
 def test_teacher_overview(client):
     for name in ("A", "B", "C", "D", "E"):
         sid = _student(client, name)

@@ -31,7 +31,7 @@ CARDS: dict[str, dict] = {
         "kind": "Supervised classification · 9 classes",
         "input": "SymPy verification of every step + answer key + OCR confidence",
         "output": "Mistake category + probability + evidence",
-        "features": "33 named features: sign-flip match, operator-swap match, term moved without sign change, first non-equivalent step, ...",
+        "features": "42 named features: sign-flip match, operator-swap match, in-place simplification slip, term moved without sign change, first non-equivalent step, ...",
         "algorithms": ["Random Forest", "Gradient Boosting", "Logistic Regression", "Decision Tree", "Rule-based baseline"],
         "data": "Synthetic student solutions with injected misconceptions (350 per class). Real-data counterpart: "
                 "'Error type from real student mistakes' (ScratchMath)",

@@ -53,7 +53,7 @@ zero-dependency mock, a local model, or a hosted vision API).
 
    e. **Diagnosis** (`app/services/diagnosis.py`): two guardrails (very low OCR confidence →
       `transcription_uncertainty`; no parseable steps → `insufficient_information`), then the
-      **ML mistake classifier**: `app/ml/mistake_features.py` turns the SymPy checks into 33 named
+      **ML mistake classifier**: `app/ml/mistake_features.py` turns the SymPy checks into 42 named
       features (sign-flip match, operator-swap match, term moved without sign change, first
       non-equivalent algebra step, …) and the trained Random Forest returns category, probability,
       runner-up and the fired evidence. If no trained model is present, the original rule-based

@@ -199,6 +199,40 @@ def gen_alg_sign(rng) -> Sample:
     return _algebra(lines, s, rng, "sign_error")
 
 
+# --- in-place simplification inside an equation -----------------------------------
+# Real tutor logs (CogTutorBugs) show students writing the computation first and
+# slipping when simplifying it: '3x = 12 - 4' -> '3x = 16', or 'x = 8/(-4)' -> 'x = 2'.
+
+def _alg_inplace(rng, slip: str, label: str) -> Sample:
+    while True:
+        a, b, c, s = _linear_problem(rng)
+        lines = [f"{_linear_lhs(a, b, rng)} = {c}"]
+        if slip == "wrong_op" or rng.random() < 0.5:  # slip while simplifying c - b
+            true = c - b
+            wrong = {"wrong_op": c + b, "sign": -true, "arith": true + int(rng.choice([-2, -1, 1, 2, 10, -10]))}[slip]
+            lines += [f"{a}x = {c} - {b}" if b > 0 else f"{a}x = {c} + {-b}", f"{a}x = {wrong}"]
+            if rng.random() < 0.7:
+                lines.append(f"x = {_fmt_num(Rational(wrong, a))}")
+        else:  # slip while dividing by the coefficient
+            true = s
+            wrong = {"sign": -s, "arith": s + int(rng.choice([-2, -1, 1, 2]))}[slip]
+            lines += [f"{a}x = {c - b}", f"x = {c - b}/{f'({a})' if a < 0 else a}", f"x = {wrong}"]
+        if wrong != true and true != 0 and c != 0:
+            return _algebra(lines, s, rng, label)
+
+
+def gen_alg_inplace_wrong_op(rng) -> Sample:
+    return _alg_inplace(rng, "wrong_op", "incorrect_operation")
+
+
+def gen_alg_inplace_sign(rng) -> Sample:
+    return _alg_inplace(rng, "sign", "sign_error")
+
+
+def gen_alg_inplace_arith(rng) -> Sample:
+    return _alg_inplace(rng, "arith", "arithmetic_error")
+
+
 # --- other categories -----------------------------------------------------------
 
 def gen_final_answer_only(rng) -> Sample:
@@ -237,9 +271,9 @@ def gen_insufficient(rng) -> Sample:
 
 GENERATORS = {
     "correct_solution": [gen_arith_correct, gen_alg_correct],
-    "arithmetic_error": [gen_arith_error, gen_alg_arith_slip],
-    "sign_error": [gen_arith_sign_error, gen_alg_sign],
-    "incorrect_operation": [gen_arith_wrong_op],
+    "arithmetic_error": [gen_arith_error, gen_alg_arith_slip, gen_alg_inplace_arith],
+    "sign_error": [gen_arith_sign_error, gen_alg_sign, gen_alg_inplace_sign],
+    "incorrect_operation": [gen_arith_wrong_op, gen_alg_inplace_wrong_op],
     "algebraic_manipulation_error": [gen_alg_manipulation],
     "skipped_step": [gen_alg_skipped],
     "final_answer_only_error": [gen_final_answer_only],

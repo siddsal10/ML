@@ -114,11 +114,15 @@ def safe_parse(expr_str: str):
             # turn every purely-numeric equation into a non-Equality object
             # and break downstream isinstance(parsed, Eq) checks.
             return Eq(lhs, rhs, evaluate=False)
-        return parse_expr(
+        parsed = parse_expr(
             cleaned, transformations=_TRANSFORMATIONS, local_dict=_ALLOWED_LOCAL_DICT, evaluate=True
         )
     except (sympy.SympifyError, TypeError, SyntaxError, AttributeError, TokenError, ZeroDivisionError) as exc:
         raise UnsafeExpressionError(f"could not parse {cleaned!r}: {exc}") from exc
+    # A misread '==' parses to a Python bool, not a SymPy expression.
+    if not isinstance(parsed, sympy.Basic):
+        raise UnsafeExpressionError(f"not a math expression: {cleaned!r}")
+    return parsed
 
 
 def safe_parse_unevaluated(expr_str: str):

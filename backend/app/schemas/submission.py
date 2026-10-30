@@ -87,7 +87,7 @@ class SymbolCorrection(BaseModel):
 
 
 class SymbolCorrectionsIn(BaseModel):
-    corrections: list[SymbolCorrection] = Field(..., min_length=1)
+    corrections: list[SymbolCorrection] = Field(..., min_length=0)  # empty = "the reading is right"
 
 
 class AnalyzeResponse(BaseModel):
@@ -115,6 +115,7 @@ class AnalyzeResponse(BaseModel):
     skill: str | None = None
     stage_timings: dict[str, float] = Field(default_factory=dict)
     symbols: list[SymbolOut] = Field(default_factory=list)
+    symbol_check_below: float | None = None  # symbols below this confidence must be checked before diagnosis
     image_width: int | None = None
     image_height: int | None = None
     expected_answer: str | None = None

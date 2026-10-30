@@ -114,15 +114,73 @@ def format_symbols(symbols: list[str]) -> str:
     return "".join(out).strip()
 
 
+# Line grammar for syntax-constrained decoding: which kind of symbol may follow
+# which in one line of arithmetic / linear-equation working. '+' and '-' can be
+# signs ('+5', '3 * -2') as well as operators. 'x' is both the variable and the
+# handwritten multiplication sign, so it may sit between digits.
+_KIND = {**{d: "digit" for d in "0123456789"}, "x": "x", "+": "sign", "-": "sign", "/": "op",
+         "=": "eq", "(": "lp", ")": "rp"}
+_FOLLOWS = {
+    None: {"digit", "x", "sign", "lp"},
+    "digit": {"digit", "x", "op", "sign", "eq", "lp", "rp"},
+    "x": {"digit", "x", "op", "sign", "eq", "lp", "rp"},
+    "op": {"digit", "x", "sign", "lp"},
+    "sign": {"digit", "x", "lp"},
+    "eq": {"digit", "x", "sign", "lp"},
+    "lp": {"digit", "x", "sign", "lp"},
+    "rp": {"x", "op", "sign", "eq", "lp", "rp"},
+}
+_CAN_END = {"digit", "x", "rp"}
+_MAX_DEPTH = 4
+
+
+def is_well_formed(symbols: list[str]) -> bool:
+    kind, depth = None, 0
+    for s in symbols:
+        k = _KIND[s]
+        depth += (k == "lp") - (k == "rp")
+        if k not in _FOLLOWS[kind] or not 0 <= depth <= _MAX_DEPTH:
+            return False
+        kind = k
+    return kind in _CAN_END and depth == 0
+
+
+def decode_line(probs: np.ndarray, classes: list[str], top_k: int = 3) -> list[int]:
+    """Most probable class sequence (sum of log-probabilities over each symbol's
+    top-k classes) that is a well-formed line, by Viterbi over (kind, bracket
+    depth) states. Only syntax is used, never arithmetic truth, so a student's
+    wrong answer is read as written. Falls back to per-symbol argmax when no
+    well-formed reading exists."""
+    argmax = [int(i) for i in np.argmax(probs, axis=1)]
+    beams: dict[tuple, tuple[float, list[int]]] = {(None, 0): (0.0, [])}
+    for p in probs:
+        nxt: dict[tuple, tuple[float, list[int]]] = {}
+        for (kind, depth), (score, path) in beams.items():
+            for c in np.argsort(p)[::-1][:top_k]:
+                k = _KIND[classes[c]]
+                d = depth + (k == "lp") - (k == "rp")
+                if k not in _FOLLOWS[kind] or not 0 <= d <= _MAX_DEPTH:
+                    continue
+                s = score + float(np.log(max(p[c], 1e-12)))
+                if (k, d) not in nxt or s > nxt[(k, d)][0]:
+                    nxt[(k, d)] = (s, path + [int(c)])
+        if not nxt:
+            return argmax
+        beams = nxt
+    ends = [v for (k, d), v in beams.items() if k in _CAN_END and d == 0]
+    return max(ends, key=lambda v: v[0])[1] if ends else argmax
+
+
 class SymbolRecognizer:
     """Transcribes a page image using the trained symbol classifier."""
 
-    def __init__(self, bundle: dict):
+    def __init__(self, bundle: dict, constrained: bool = True):
         if bundle.get("feature_version") != FEATURE_VERSION:
             raise ValueError("symbol model was trained with a different feature version; retrain it")
         self.model = bundle["model"]
         self.model_name = bundle.get("model_name", "unknown")
         self.classes = list(self.model.classes_)
+        self.constrained = constrained
 
     @classmethod
     def load(cls, path: Path = SYMBOL_MODEL_PATH) -> "SymbolRecognizer | None":
@@ -134,18 +192,19 @@ class SymbolRecognizer:
         for li, crops in enumerate(segment_page(gray, normalize=normalize)):
             feats = np.vstack([glyph_features(c.mask) for c in crops])
             probs = self.model.predict_proba(feats)
+            chosen = decode_line(probs, self.classes) if self.constrained else np.argmax(probs, axis=1)
             symbols = []
-            for crop, p in zip(crops, probs):
-                top = np.argsort(p)[::-1][:3]
-                ch = self.classes[top[0]]
+            for crop, p, c in zip(crops, probs, chosen):
+                ch = self.classes[c]
+                others = [i for i in np.argsort(p)[::-1][:3] if i != c][:2]
                 symbols.append(ch)
-                confidences.append(float(p[top[0]]))
+                confidences.append(float(p[c]))
                 regions.append({
                     "line": li,
                     "bbox": [crop.x, crop.y, crop.w, crop.h],
                     "symbol": ch,
-                    "confidence": round(float(p[top[0]]), 3),
-                    "alternatives": [[self.classes[i], round(float(p[i]), 3)] for i in top[1:]],
+                    "confidence": round(float(p[c]), 3),
+                    "alternatives": [[self.classes[i], round(float(p[i]), 3)] for i in others],
                     **({"mask": crop.mask} if with_masks else {}),
                 })
             lines_out.append(format_symbols(symbols))

@@ -7,6 +7,13 @@ model (no parseable content, very low OCR confidence). If no trained model
 artifact is available, the original hand-written decision tree
 (`diagnose_rule_based`) is used instead. Every result records `source` =
 "ml" or "deterministic".
+
+Confirm-before-diagnose: when any recognized symbol's confidence is below
+CONFIRM_BELOW, no diagnosis is given until the student has checked the
+highlighted symbols (a misread digit would otherwise be diagnosed as the
+student's mistake). The threshold is chosen in app/ml/validation/propagation.py
+on validation pages: the smallest value at which no more than 5% of pages are
+diagnosed differently from their true transcription after confirmation.
 """
 from __future__ import annotations
 
@@ -30,6 +37,8 @@ CATEGORIES = [
     "correct_solution",
     "insufficient_information",
 ]
+
+CONFIRM_BELOW = 0.95  # min per-symbol confidence for diagnosing without confirmation (validation_propagation.json)
 
 
 @dataclass
@@ -58,13 +67,25 @@ def diagnose(
     expected_answer: str | None,
     ocr_confidence: float,
     transcription: str | None = None,
+    min_symbol_confidence: float | None = None,
 ) -> Diagnosis:
-    """Primary entrypoint: guardrails, then the ML classifier, else rules."""
+    """Primary entrypoint: guardrails, then the ML classifier, else rules.
+
+    `min_symbol_confidence` is the lowest per-symbol confidence of an unconfirmed
+    recognizer transcription (None once the student has confirmed or typed it)."""
     if ocr_confidence < 0.35:
         return Diagnosis(
             category="transcription_uncertainty",
             confidence=round(1 - ocr_confidence, 2),
             evidence=["OCR confidence is very low; transcription may be unreliable."],
+            source="deterministic",
+        )
+    if min_symbol_confidence is not None and min_symbol_confidence < CONFIRM_BELOW:
+        return Diagnosis(
+            category="transcription_uncertainty",
+            confidence=round(1 - min_symbol_confidence, 2),
+            evidence=["Some symbols were read with low confidence (highlighted). Check them, then re-check "
+                      "to get a diagnosis, so a misread is not mistaken for your error."],
             source="deterministic",
         )
     if not math_analysis.steps:

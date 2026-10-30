@@ -7,6 +7,10 @@ term", and the classifier learns which patterns map to which category.
 
 Every feature is deterministic and named (FEATURE_NAMES), so a prediction
 can be explained by listing the features that fired.
+
+Version 2 adds the local_* features: real students often simplify one side
+of an equation in place ('-75x = 4 - 54' -> '-75x = 58'), and the slip is in
+that small computation. Found by validating on real tutor logs (CogTutorBugs).
 """
 from __future__ import annotations
 
@@ -27,7 +31,7 @@ from app.services.math_parser import (
     safe_parse_unevaluated,
 )
 
-FEATURE_VERSION = 1
+FEATURE_VERSION = 2
 
 FEATURE_NAMES = [
     # transcription quality
@@ -69,6 +73,11 @@ FEATURE_NAMES = [
     "final_matches_expected",
     "work_consistent",
 ]
+# numeric checks of a wrong arithmetic line, reused (prefix local_) for a wrong
+# computation done in place inside an equation
+_NUMERIC_CHECKS = ["has_negative_operand", "rel_error", "off_by_small", "off_by_place_value", "sign_flip_whole",
+                   "sign_flip_term", "op_swap_add_sub", "op_swap_cross"]
+FEATURE_NAMES += ["local_computation"] + [f"local_{n}" for n in _NUMERIC_CHECKS]
 
 # Human-readable phrasing for features used as evidence.
 EVIDENCE_TEXT = {
@@ -86,11 +95,18 @@ EVIDENCE_TEXT = {
     "cand_negated_answer": "The answer has the opposite sign of the true solution.",
     "cand_off_small": "The solution is off by a small amount (arithmetic slip).",
     "jumped_to_answer": "No intermediate working was shown between problem and answer.",
+    "local_sign_flip_whole": "A part of the equation was simplified to the right value with the wrong sign.",
+    "local_sign_flip_term": "A part of the equation was simplified as if one term had the opposite sign.",
+    "local_op_swap_add_sub": "A part of the equation was simplified by adding instead of subtracting (or vice versa).",
+    "local_op_swap_cross": "A part of the equation was simplified with a different operation.",
+    "local_off_by_small": "A part of the equation was simplified to a value off by 1-2.",
+    "local_off_by_place_value": "A part of the equation was simplified to a value off by a power of ten.",
 }
 
 _NONMATH = re.compile(r"[^0-9a-zA-Z\s\+\-\*/\^=\.\(\)\,]")
 _NEG_OPERAND = re.compile(r"(^|[+\-*/(=])\s*-\s*\d")
 _BINARY_OP = re.compile(r"(?<=[0-9x\)])\s*([+\-*/])")
+_HAS_OP = re.compile(r"[\d)]\s*[-+*/]")
 
 
 @dataclass
@@ -115,7 +131,7 @@ def _eq(a, b) -> bool:
     return a is not None and b is not None and bool(sympy.simplify(a - b) == 0)
 
 
-def _numeric_step_features(line: str, f: dict) -> None:
+def _numeric_step_features(line: str, f: dict, prefix: str = "") -> None:
     lhs_s, rhs_s = line.split("=")
     try:
         lhs_u = safe_parse_unevaluated(lhs_s)
@@ -127,17 +143,17 @@ def _numeric_step_features(line: str, f: dict) -> None:
         return
 
     diff = abs(float(rhs - lhs))
-    f["has_negative_operand"] = float(bool(_NEG_OPERAND.search(lhs_s.strip())))
-    f["rel_error"] = min(diff / max(1.0, abs(float(lhs))), 10.0)
-    f["off_by_small"] = float(0 < diff <= 2)
-    f["off_by_place_value"] = float(diff in (10.0, 100.0, 1000.0))
-    f["sign_flip_whole"] = float(lhs != 0 and _eq(rhs, -lhs))
+    f[prefix + "has_negative_operand"] = float(bool(_NEG_OPERAND.search(lhs_s.strip())))
+    f[prefix + "rel_error"] = min(diff / max(1.0, abs(float(lhs))), 10.0)
+    f[prefix + "off_by_small"] = float(0 < diff <= 2)
+    f[prefix + "off_by_place_value"] = float(diff in (10.0, 100.0, 1000.0))
+    f[prefix + "sign_flip_whole"] = float(lhs != 0 and _eq(rhs, -lhs))
 
     if isinstance(lhs_u, sympy.Add):
         terms = [_value(t) for t in lhs_u.args]
         if all(t is not None for t in terms):
             total = sum(terms)
-            f["sign_flip_term"] = float(any(_eq(rhs, total - 2 * t) for t in terms if t != 0))
+            f[prefix + "sign_flip_term"] = float(any(_eq(rhs, total - 2 * t) for t in terms if t != 0))
 
     # Re-evaluate the left side with each binary operator replaced.
     lhs_clean = lhs_s.strip()
@@ -153,14 +169,35 @@ def _numeric_step_features(line: str, f: dict) -> None:
                 continue
             if _eq(rhs, val):
                 key = "op_swap_add_sub" if {op, alt} == {"+", "-"} else "op_swap_cross"
-                f[key] = 1.0
+                f[prefix + key] = 1.0
+
+
+def _local_computation(prev: str, cur: str) -> str | None:
+    """'expression = written value' when one side of an equation is unchanged and
+    the other was simplified in place from a numeric expression to a wrong value,
+    e.g. '-75x = 4 - 54' -> '-75x = 58' gives '4 - 54 = 58'."""
+    (pl, pr), (cl, cr) = prev.split("=", 1), cur.split("=", 1)
+    squash = lambda t: re.sub(r"\s", "", t)  # noqa: E731
+    for old, new, kept_prev, kept_cur in ((pr, cr, pl, cl), (pl, cl, pr, cr)):
+        if squash(kept_prev) != squash(kept_cur) or "x" in old + new or not _HAS_OP.search(old.strip()):
+            continue
+        try:
+            o, n = _value(safe_parse(old)), _value(safe_parse(new))
+        except (UnsafeExpressionError, ZeroDivisionError):
+            return None
+        if o is not None and n is not None and not _eq(o, n):
+            return f"{old.strip()} = {new.strip()}"
+    return None
 
 
 def _linear_parts(eq: Eq) -> tuple | None:
     """For an equation a*x + b = c (no x on the right), return (a, b, c)."""
     if X in eq.rhs.free_symbols:
         return None
-    poly = sympy.Poly(sympy.expand(eq.lhs), X) if X in eq.lhs.free_symbols else None
+    try:  # x in a denominator (e.g. a misread '3/x') is not a polynomial
+        poly = sympy.Poly(sympy.expand(eq.lhs), X) if X in eq.lhs.free_symbols else None
+    except sympy.PolynomialError:
+        return None
     if poly is None or poly.degree() != 1:
         return None
     a, b = poly.coeff_monomial(X), poly.coeff_monomial(1)
@@ -208,6 +245,10 @@ def _algebra_features(analysis: MathAnalysis, f: dict) -> int | None:
     f["nonequiv_found"] = 1.0
     f["nonequiv_pos"] = bad / max(1, len(eqs) - 1)
     f["jumped_to_answer"] = float(bad == 1 and len(eqs) == 2)
+    local = _local_computation(analysis.steps[eqs[bad - 1][0]].normalized_text, analysis.steps[eqs[bad][0]].normalized_text)
+    if local is not None:
+        f["local_computation"] = 1.0
+        _numeric_step_features(local, f, prefix="local_")
 
     v = eqs[bad][2]
     s = eqs[bad - 1][2]

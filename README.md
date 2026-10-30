@@ -7,7 +7,7 @@ StepWise then:
 
 1. **reads it** with a classical-ML symbol recognizer (OpenCV segmentation, then HOG features, then an SVM);
 2. **proves which step is wrong** with SymPy (never `eval`);
-3. **names the misconception** with a Random Forest over 33 explainable features, and shows
+3. **names the misconception** with a Random Forest over 42 explainable features, and shows
    the evidence behind the diagnosis;
 4. lets the student **fix misread symbols**. The fixes become training data (active learning).
 5. **tracks mastery per skill** with Bayesian Knowledge Tracing and **recommends practice** with
@@ -24,7 +24,7 @@ flowchart LR
     A[Photo / camera / drawing] --> B[OpenCV clean-up<br/>+ segmentation]
     B --> C[Symbol recognizer<br/>HOG → SVM]
     C --> D[SymPy step<br/>verification]
-    D --> E[Mistake classifier<br/>33 features → Random Forest]
+    D --> E[Mistake classifier<br/>42 features → Random Forest]
     E --> F[Feedback]
     E --> G[Knowledge tracing<br/>BKT per skill]
     G --> H[Recommender<br/>Rasch IRT + PFA]
@@ -37,16 +37,34 @@ flowchart LR
 
 | Model | Data | Best algorithm | Result | Compared against |
 |---|---|---|---|---|
-| Symbol recognizer | **real**: CROHME + HASYv2 (+ fonts) | SVM (RBF) | **92.6%** symbol accuracy (macro-F1 0.90) on CROHME 2014/16/19 test (unseen writers); 57% of whole expressions exact | fonts-only training: 55%; RF 0.88, LR 0.88, kNN 0.85 |
-| Symbol reader vs deep learning | **real**: 127 CROHME test expressions | HOG + SVM vs TrOCR-base | **56.7% vs 28.4%** exact; 48 ms vs 1,325 ms; 8 MB vs 1.3 GB | McNemar p = 1.3×10⁻⁷ |
+| Symbol recognizer | **real**: CROHME + HASYv2 (+ fonts) | SVM (RBF) | **92.6%** symbol accuracy (macro-F1 0.90) on CROHME 2014/16/19 test (unseen writers); 61% of whole expressions exact with syntax-constrained decoding (57% without) | fonts-only training: 55%; RF 0.88, LR 0.88, kNN 0.85 |
 | Knowledge tracing | **real**: ASSISTments 2009 (446k answers) | PFA + IRT + recency | next-answer AUC **0.815** | EMA 0.811, PFA 0.787, BKT 0.771 |
-| Mistake classifier (9 fine-grained types) | synthetic | Random Forest | macro-F1 0.994 (upper bound) | **old rules 0.330**, GB 0.991, LR 0.992 |
-| Error type: slip vs understanding gap | **real**: ScratchMath (1,720 real student mistakes + scratchwork photos) | Logistic Regression | **68.3%** accuracy, AUC 0.76 | majority 55.2%; 7-type RF 49.1% vs majority 32.9% |
+| Mistake classifier | synthetic | Random Forest | macro-F1 0.992 (upper bound) | **old rules 0.311**, GB 0.991, LR 0.987 |
+| Mistake classifier | **real**: CogTutorBugs (95 students, typed) | Random Forest | finds 96% of real wrong steps; names the category for 52% (macro-F1 0.46) on held-out problems; 77% once ~160 real labelled errors join training | majority class 53%, old rules 2% |
 | Practice policy | simulated learners | Adaptive (BKT + IRT) | 74% of skills mastered in 40 items | random 64% |
 | Class grouping | simulated class | K-Means | ARI 0.82 vs planted groups | Agglomerative (Ward) |
 
-Real datasets are downloaded by `make datasets` (about 1.1 GB) and never committed. See
-`docs/ML_APPROACH.md` for every caveat.
+Real datasets are downloaded by `make datasets` (about 1 GB) and never committed. The synthetic
+mistake-classifier score is an upper bound; see `docs/ML_APPROACH.md` for every caveat.
+
+## Validation studies (Review-3)
+
+`cd backend && python -m app.ml.validate` (about 30 min) runs the deployed models through the
+studies below and writes `ml_models/reports/validation_*.json`.
+
+| Study | Question | Finding |
+|---|---|---|
+| `reading` | Why 92.6% of symbols but 57% of lines? | Lines average 9.4 symbols. Short lines (5 or fewer) are read 86% exactly. Syntax-constrained decoding takes all lines to 61%. Touching symbols are the largest error source. |
+| `propagation` | What do misreads cost the diagnosis? | On 420 solutions written in real test-writer handwriting, accuracy drops from 99% (true text) to 35%. Confirm-before-diagnose brings it back to 94%, with about 7 symbols to check per page. |
+| `capture` | Phone photos? | Simulated paper, rules, lighting, shadow, tilt, blur, noise and resolution. Plain Otsu fails on lighting, shadows and rules; the new page binarization fixes that. |
+| `writers` | Other writers? | MNIST paper scans: 86% (high-school students) and 85% (Census staff), against 91% on CROHME digits. Slanted `1` read as `/` is the main failure. |
+| `cogtutor` | Real student errors? | 94% of wrong steps found, 99% of valid steps accepted. Category accuracy is 46% (v1), then 52% after the in-place simplification features (macro-F1 0.28 to 0.46). Adding about 160 real labelled errors lifts it to 77%. |
+| `skills` | ASSISTments to StepWise skills? | Mapping with match quality, data volume, deployed BKT parameters and per-skill AUC. |
+| `policy` | Is the adaptive advantage a simulator artefact? | Holds under real-calibrated (post-test d = 0.50) and heterogeneous (d = 0.29) learners. Shrinks when learners forget (d = 0.17) and vanishes when all are combined (d = 0.04). Only a classroom study can settle it. |
+
+What still needs real people (photographed student work, a classroom trial) is specified in
+[docs/REAL_WORLD_VALIDATION.md](docs/REAL_WORLD_VALIDATION.md). Evaluate a collected set with
+`python evaluation/real_world_eval.py --manifest ...`.
 
 ## App tour
 
@@ -91,17 +109,10 @@ To run in Docker: `docker compose up --build` (frontend on http://localhost:8080
 Optional deep-learning baselines for the benchmark:
 `pip install -r requirements-dl.txt` (TrOCR/Donut), or set `VISION_API_BACKEND` in `.env`.
 
-## Paper
-
-`paper/main.tex` is a Springer (LNCS/LNEE-style) paper with figures generated from the reports.
-- Build it with `cd paper && tectonic main.tex`, or upload the folder to Overleaf.
-- Re-run the paper experiments (confidence intervals, ablations, robustness, TrOCR comparison) with
-  `python -m app.ml.paper_experiments`.
-
 ## Tests
 
 ```bash
-cd backend && python -m pytest tests -q     # 175 tests
+cd backend && python -m pytest tests -q     # 171 tests
 cd frontend && npm run build
 ```
 
@@ -132,10 +143,14 @@ evaluation/          benchmark CLI + manifests
 
 ## Limitations
 
-- **The fine-grained mistake classifier is synthetic.** The real-data second opinion (ScratchMath)
-  uses coarser labels and Chinese questions. An English hand-labelled classroom set would
-  validate both.
-- **CROHME is tablet handwriting rendered to images**, not phone photos of paper.
+- **Mistake classifier data is synthetic.** On real (typed) student errors it finds wrong steps
+  reliably but names the category far less accurately. It still needs a hand-labelled set of real
+  handwritten work (docs/REAL_WORLD_VALIDATION.md). The symbol recognizer and knowledge tracing are
+  trained and evaluated on real data.
+- **Reading limits diagnosis.** Uncertain symbols must be confirmed before a diagnosis is given,
+  which costs the student several taps per page.
+- **CROHME is tablet handwriting rendered to images**, not phone photos of paper. Phone capture is
+  only simulated so far.
 - **Segmentation.** It assumes symbols don't touch, so cursive or joined digits are under-segmented.
 - **Scope.** Arithmetic (+ − × ÷, negatives, brackets) and single-variable linear equations. No
   vertical fractions, exponents or word problems.

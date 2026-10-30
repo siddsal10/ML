@@ -1,0 +1,159 @@
+{
+  "task": "practice_policy_robustness_to_simulator",
+  "policy_model": "deployed learner model (BKT S1-S7 fitted on ASSISTments 2009, S8 simulated; PFA + IRT item choice)",
+  "setup": "150 learners x 5 seeds per policy and variant, 40 items each; same learner seeds across policies",
+  "variants": {
+    "forgetting_prob": 0.02,
+    "heterogeneous_log_sd": 0.6
+  },
+  "results": {
+    "original": {
+      "policies": {
+        "random": {
+          "skills_learned_mean": 0.6378,
+          "skills_learned_seed_std": 0.0129,
+          "post_test_mean": 0.626
+        },
+        "round_robin": {
+          "skills_learned_mean": 0.6403,
+          "skills_learned_seed_std": 0.0101,
+          "post_test_mean": 0.6281
+        },
+        "adaptive": {
+          "skills_learned_mean": 0.702,
+          "skills_learned_seed_std": 0.016,
+          "post_test_mean": 0.676
+        }
+      },
+      "adaptive_minus_random_skills_learned": 0.0642,
+      "adaptive_minus_random_post_test": 0.05,
+      "post_test_effect_size_d": 0.367
+    },
+    "real_calibrated": {
+      "policies": {
+        "random": {
+          "skills_learned_mean": 0.7788,
+          "skills_learned_seed_std": 0.0089,
+          "post_test_mean": 0.6676
+        },
+        "round_robin": {
+          "skills_learned_mean": 0.7863,
+          "skills_learned_seed_std": 0.0042,
+          "post_test_mean": 0.6715
+        },
+        "adaptive": {
+          "skills_learned_mean": 0.8635,
+          "skills_learned_seed_std": 0.0052,
+          "post_test_mean": 0.7186
+        }
+      },
+      "adaptive_minus_random_skills_learned": 0.0847,
+      "adaptive_minus_random_post_test": 0.051,
+      "post_test_effect_size_d": 0.495
+    },
+    "forgetting": {
+      "policies": {
+        "random": {
+          "skills_learned_mean": 0.423,
+          "skills_learned_seed_std": 0.005,
+          "post_test_mean": 0.4751
+        },
+        "round_robin": {
+          "skills_learned_mean": 0.4407,
+          "skills_learned_seed_std": 0.0078,
+          "post_test_mean": 0.4884
+        },
+        "adaptive": {
+          "skills_learned_mean": 0.449,
+          "skills_learned_seed_std": 0.0093,
+          "post_test_mean": 0.4983
+        }
+      },
+      "adaptive_minus_random_skills_learned": 0.026,
+      "adaptive_minus_random_post_test": 0.0232,
+      "post_test_effect_size_d": 0.168
+    },
+    "heterogeneous": {
+      "policies": {
+        "random": {
+          "skills_learned_mean": 0.6495,
+          "skills_learned_seed_std": 0.0138,
+          "post_test_mean": 0.6348
+        },
+        "round_robin": {
+          "skills_learned_mean": 0.6527,
+          "skills_learned_seed_std": 0.014,
+          "post_test_mean": 0.636
+        },
+        "adaptive": {
+          "skills_learned_mean": 0.7113,
+          "skills_learned_seed_std": 0.016,
+          "post_test_mean": 0.6818
+        }
+      },
+      "adaptive_minus_random_skills_learned": 0.0618,
+      "adaptive_minus_random_post_test": 0.047,
+      "post_test_effect_size_d": 0.293
+    },
+    "all_combined": {
+      "policies": {
+        "random": {
+          "skills_learned_mean": 0.481,
+          "skills_learned_seed_std": 0.0084,
+          "post_test_mean": 0.5068
+        },
+        "round_robin": {
+          "skills_learned_mean": 0.497,
+          "skills_learned_seed_std": 0.0153,
+          "post_test_mean": 0.5138
+        },
+        "adaptive": {
+          "skills_learned_mean": 0.4872,
+          "skills_learned_seed_std": 0.0147,
+          "post_test_mean": 0.5122
+        }
+      },
+      "adaptive_minus_random_skills_learned": 0.0062,
+      "adaptive_minus_random_post_test": 0.0054,
+      "post_test_effect_size_d": 0.041
+    }
+  },
+  "classroom_study_sample_size": {
+    "simulated_original": {
+      "d": 0.367,
+      "n_per_arm_t_test": 118,
+      "n_per_arm_ancova_rho_0.5": 89
+    },
+    "simulated_real_calibrated": {
+      "d": 0.495,
+      "n_per_arm_t_test": 66,
+      "n_per_arm_ancova_rho_0.5": 50
+    },
+    "simulated_forgetting": {
+      "d": 0.168,
+      "n_per_arm_t_test": 558,
+      "n_per_arm_ancova_rho_0.5": 419
+    },
+    "simulated_heterogeneous": {
+      "d": 0.293,
+      "n_per_arm_t_test": 184,
+      "n_per_arm_ancova_rho_0.5": 139
+    },
+    "simulated_all_combined": {
+      "d": 0.041,
+      "n_per_arm_t_test": 9340,
+      "n_per_arm_ancova_rho_0.5": 7005
+    },
+    "conventional_0.3": {
+      "d": 0.3,
+      "n_per_arm_t_test": 176,
+      "n_per_arm_ancova_rho_0.5": 132
+    },
+    "conventional_0.5": {
+      "d": 0.5,
+      "n_per_arm_t_test": 64,
+      "n_per_arm_ancova_rho_0.5": 49
+    }
+  },
+  "note": "Still simulations: they test robustness to modelling assumptions, not real learning gains."
+}

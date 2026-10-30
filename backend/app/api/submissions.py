@@ -22,6 +22,7 @@ from app.schemas.submission import (
     SymbolOut,
     TranscriptionUpdate,
 )
+from app.services.diagnosis import CONFIRM_BELOW
 from app.services.submission_service import run_analysis_pipeline
 from app.utils.file_utils import UploadValidationError, build_processed_path, build_upload_path, validate_upload
 
@@ -101,6 +102,7 @@ def _to_analyze_response(submission: Submission, analysis, db: Session | None = 
         skill=submission.skill,
         stage_timings=submission.stage_timings or {},
         symbols=symbols,
+        symbol_check_below=CONFIRM_BELOW if symbols else None,
         image_width=width,
         image_height=height,
         expected_answer=submission.expected_answer,

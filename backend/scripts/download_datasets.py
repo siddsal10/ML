@@ -25,6 +25,10 @@ assistments ASSISTments 2009-2010 skill-builder logs (Feng, Heffernan & Koedinge
             2009), as mirrored by the pyBKT examples repository. Real student
             right/wrong answers with skill tags - the standard benchmark for
             knowledge tracing. Free for research use; cite the ASSISTments papers.
+cogtutor    CogTutorBugs (McNichols, Zhang & Lan, 2023): 5,339 real erroneous steps by
+            95 Algebra I students in the Cognitive Tutor (DataShop 'Cog Tutor 2010
+            Equation Solving'), each an equation, the student's next equation and one
+            of 19 error labels. Licence: CC BY 4.0. https://github.com/umass-ml4ed/CogTutorBugs
 """
 from __future__ import annotations
 
@@ -49,6 +53,8 @@ SOURCES = {
         for cfg in ("primary", "middle")
     ],
     "assistments": ("https://raw.githubusercontent.com/CAHLR/pyBKT-examples/master/data/as.csv", "assistments_2009.csv"),
+    "cogtutor": ("https://raw.githubusercontent.com/umass-ml4ed/CogTutorBugs/main/data/bug_full_5339.json",
+                 "cogtutor/bug_full_5339.json"),
 }
 
 

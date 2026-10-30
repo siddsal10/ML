@@ -38,6 +38,30 @@ SKILL_MAP: dict[str, list[str]] = {
     "S7": ["Equation Solving More Than Two Steps"],  # approx.: multi-step = repeated inverse operations
     # S8 (equations with negatives) has no ASSISTments counterpart -> keeps simulated parameters
 }
+# How closely each mapping matches, and why (matched by skill name and scope;
+# ASSISTments 2009 does not publish problem text, so no item-level alignment).
+SKILL_MATCH: dict[str, tuple[str, str]] = {
+    "S1": ("direct", "same operations on whole numbers"),
+    "S2": ("partial", "no whole-number division skill; positive-decimal multiplication/division stands in"),
+    "S3": ("direct", "the four operations on signed integers"),
+    "S4": ("direct", "order of operations with and without brackets"),
+    "S5": ("close", "'Solving for a variable' covers one-step equations"),
+    "S6": ("close", "'Two or Fewer Steps' also includes one-step equations"),
+    "S7": ("approximate", "multi-step solving applies inverse operations repeatedly but is not specific to "
+                          "moving a term across '='"),
+    "S8": ("none", "no ASSISTments skill isolates equations with negative numbers; parameters from simulation"),
+}
+
+
+def _by_stepwise_skill(skills, y, p) -> dict:
+    """Next-answer metrics restricted to the ASSISTments skills mapped to each StepWise skill."""
+    skills, y, p = np.asarray(skills), np.asarray(y), np.asarray(p)
+    out = {}
+    for ours, theirs in SKILL_MAP.items():
+        m = np.isin(skills, theirs)
+        if m.any() and len(set(y[m].tolist())) == 2:
+            out[ours] = _metrics(y[m], p[m])
+    return out
 
 
 @dataclass
@@ -138,9 +162,10 @@ def evaluate_assistments(seed: int = 0, n_iter: int = 30) -> tuple[dict, dict]:
     for (_, s), seq in train_seqs.items():
         by_skill[s].append(seq)
     bkt = {s: fit_bkt(by_skill[s], n_iter=n_iter) for s in skills if by_skill[s]}
-    y_seq, p_ema, p_bkt = [], [], []
+    y_seq, p_ema, p_bkt, s_seq = [], [], [], []
     for (_, s), seq in test_seqs.items():
         y_seq += seq
+        s_seq += [s] * len(seq)
         p_ema += ema_predict(seq)
         p_bkt += bkt_trace(bkt[s], seq)[0] if s in bkt else [float(np.mean(seq))] * len(seq)
 
@@ -160,8 +185,12 @@ def evaluate_assistments(seed: int = 0, n_iter: int = 30) -> tuple[dict, dict]:
     item_b = _fit_item_difficulty(train, best_l2)
 
     results = {"ema_baseline": _metrics(y_seq, p_ema), "bkt": _metrics(y_seq, p_bkt)}
+    per_skill = {"ema_baseline": _by_stepwise_skill(s_seq, y_seq, p_ema), "bkt": _by_stepwise_skill(s_seq, y_seq, p_bkt)}
+    test_skills = [a.skill for a in test]
     for name, ib, rec in (("pfa", None, False), ("pfa_irt", item_b, False), ("pfa_irt_recency", item_b, True)):
-        results[name] = _metrics(*_fit_predict_pfa(train, test, skill_index, ib, rec))
+        y_te, p_te = _fit_predict_pfa(train, test, skill_index, ib, rec)
+        results[name] = _metrics(y_te, p_te)
+        per_skill[name] = _by_stepwise_skill(test_skills, y_te, p_te)
 
     # Deployment parameters for StepWise skills: fit on ALL learners of the mapped ASSISTments skills.
     all_seqs = _sequences(attempts)
@@ -184,6 +213,9 @@ def evaluate_assistments(seed: int = 0, n_iter: int = 30) -> tuple[dict, dict]:
         "rasch_l2_validation_auc": {str(k): v for k, v in l2_scores.items()},
         "rasch_l2_selected": best_l2,
         "stepwise_skill_mapping": mapped_counts,
+        "stepwise_skill_match": {s: {"quality": q, "reason": r} for s, (q, r) in SKILL_MATCH.items()},
+        "mapped_share_of_attempts": round(sum(c["attempts"] for c in mapped_counts.values()) / len(attempts), 4),
+        "test_metrics_on_mapped_skills": per_skill,
         "stepwise_bkt_params_from_real_data": deployed,
         "note": "BKT here has no forgetting and one parameter set per skill. On this dataset recency is highly "
                 "predictive (skill-builder sets end after 3 correct in a row), which is why EMA beats plain BKT/PFA "

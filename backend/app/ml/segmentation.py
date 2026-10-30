@@ -1,14 +1,14 @@
 """Classical page -> lines -> symbols segmentation (OpenCV, no learning).
 
-0. Illumination normalisation (optional, on by default at inference): the
-   background is estimated with a grey-level morphological closing (which
-   removes thin dark strokes) and divided out, so shadows and uneven phone
-   lighting do not break the global threshold.
-1. Otsu binarization (ink = 255).
+1. Page binarization: divide out uneven lighting (phone photos), Otsu
+   threshold (ink = 255), then erase ruled notebook lines.
 2. Line segmentation from the horizontal projection profile.
 3. Symbol segmentation by connected components within each line; components
    that overlap horizontally (the two bars of '=', a broken '5') are merged
    into one symbol.
+
+Training crops are harvested with plain `binarize`; the photo steps in
+`binarize_page` are identity on clean scans, so features are unchanged.
 """
 from __future__ import annotations
 
@@ -29,19 +29,47 @@ class SymbolCrop:
     mask: np.ndarray  # ink=255, tight crop containing only this symbol's pixels
 
 
-def normalize_illumination(gray: np.ndarray) -> np.ndarray:
-    k = max(15, (min(gray.shape[:2]) // 12) | 1)
-    background = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
-    background = cv2.GaussianBlur(background, (0, 0), k / 4)
-    return cv2.divide(gray, np.maximum(background, 1), scale=255)
-
-
-def binarize(gray: np.ndarray, normalize: bool = False) -> np.ndarray:
-    if normalize:
-        gray = normalize_illumination(gray)
+def binarize(gray: np.ndarray) -> np.ndarray:
     blurred = cv2.GaussianBlur(gray, (3, 3), 0)
     _, binary = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     return binary
+
+
+def flatten_background(gray: np.ndarray) -> np.ndarray:
+    """Divide the image by an estimate of the paper's brightness, so shadows
+    and lighting gradients become uniform white. A grey-level closing much
+    wider than any pen stroke removes the ink and leaves the paper. Evenly
+    lit images (scans, tablet renders) are returned unchanged."""
+    k = max(31, min(gray.shape[:2]) // 6) | 1
+    background = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_RECT, (k, k)))
+    if np.percentile(background, 99) - np.percentile(background, 1) < 25:
+        return gray
+    background = cv2.GaussianBlur(background, (k, k), 0).astype(np.float32)
+    flat = gray.astype(np.float32) / np.maximum(background, 1.0) * 255.0
+    return np.clip(flat, 0, 255).astype(np.uint8)
+
+
+def remove_ruled_lines(binary: np.ndarray) -> np.ndarray:
+    """Erase notebook rules and margins: straight ink runs spanning at least
+    half the page and several symbol heights. A minus or '=' bar is never
+    that long relative to the symbols around it."""
+    n, _, stats, _ = cv2.connectedComponentsWithStats(binary, connectivity=8)
+    if n <= 1:
+        return binary
+    h, w = binary.shape
+    sym_h = float(np.median(stats[1:, cv2.CC_STAT_HEIGHT]))
+    out = binary.copy()
+    for kx, ky in ((max(w // 2, int(4 * sym_h)), 1), (1, max(h // 2, int(4 * sym_h)))):
+        if kx > w or ky > h:
+            continue
+        rules = cv2.morphologyEx(binary, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_RECT, (kx, ky)))
+        # thicken slightly so the rule's anti-aliased edges go too
+        out[cv2.dilate(rules, np.ones((3, 3), np.uint8)) > 0] = 0
+    return out
+
+
+def binarize_page(gray: np.ndarray) -> np.ndarray:
+    return remove_ruled_lines(binarize(flatten_background(gray)))
 
 
 def segment_lines(binary: np.ndarray) -> list[tuple[int, int]]:
@@ -108,9 +136,9 @@ def segment_symbols(line: np.ndarray) -> list[SymbolCrop]:
     return crops
 
 
-def segment_page(gray: np.ndarray, normalize: bool = True) -> list[list[SymbolCrop]]:
+def segment_page(gray: np.ndarray) -> list[list[SymbolCrop]]:
     """Returns the symbol crops of each text line, top to bottom, left to right."""
-    binary = binarize(gray, normalize=normalize)
+    binary = binarize_page(gray)
     result = []
     for y0, y1 in segment_lines(binary):
         line = binary[y0:y1]

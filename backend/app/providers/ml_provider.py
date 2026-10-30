@@ -16,8 +16,9 @@ from pathlib import Path
 
 from app.ml.artifacts import SYMBOL_MODEL_PATH
 from app.providers.base import BaseOCRProvider, OCRResult, ProviderUnavailableError
+from app.services.diagnosis import CONFIRM_BELOW
 
-LOW_SYMBOL_CONFIDENCE = 0.5
+LOW_SYMBOL_CONFIDENCE = CONFIRM_BELOW  # same symbols the student is asked to check
 
 
 class ClassicalMLProvider(BaseOCRProvider):

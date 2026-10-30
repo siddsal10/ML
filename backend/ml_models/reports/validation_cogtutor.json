@@ -1,0 +1,593 @@
+{
+  "task": "mistake_diagnosis_on_real_student_errors",
+  "dataset": "CogTutorBugs (McNichols, Zhang & Lan, 2023): Cognitive Tutor Algebra I, 95 students, CC BY 4.0",
+  "data": {
+    "n_records": 5339,
+    "n_used": 5220,
+    "skipped": {
+      "not two single equations": 99,
+      "unparseable": 20
+    }
+  },
+  "input": "two-line working 'eq1 / eq2', variable renamed to x, no answer key, OCR confidence 1.0 (typed)",
+  "label_map": {
+    "DIVIDE_MULTIPLY_OPP_SIGNS": "sign_error",
+    "CHECK_SIGN": "sign_error",
+    "FORGOT_NEGATIVE": "sign_error",
+    "REVERSED_SIDES": "sign_error",
+    "WRONG_OPERATION": "incorrect_operation",
+    "EXPRESSION_NOT_EQUIVALENT": "arithmetic_error",
+    "FORGOT_VARIABLE": "algebraic_manipulation_error",
+    "COMBINE_LIKE_TERMS": "algebraic_manipulation_error",
+    "SIMPLIFY_LATER": "algebraic_manipulation_error"
+  },
+  "n_mathematically_wrong_steps": 2120,
+  "n_valid_but_unhelpful_steps": 3100,
+  "wrong_steps_by_label": {
+    "EXPRESSION_NOT_EQUIVALENT": 571,
+    "DIVIDE_MULTIPLY_OPP_SIGNS": 415,
+    "CHECK_SIGN": 305,
+    "WRONG_OPERATION": 196,
+    "FORGOT_NEGATIVE": 161,
+    "REVERSED_SIDES": 152,
+    "FORGOT_VARIABLE": 75,
+    "DIVIDE_TO_ISOLATE": 58,
+    "SIMPLIFY_LATER": 55,
+    "FOCUS_ON_VARIABLE": 49,
+    "DIVIDE_TO_SIMPLIFY": 31,
+    "COMBINE_LIKE_TERMS": 29,
+    "SIMPLIFY_FRACTION": 14,
+    "MULTIPLY_TO_SIMPLIFY": 8,
+    "DIVIDE_NEGATIVE_BETTER": 1
+  },
+  "valid_steps_by_label": {
+    "FOCUS_ON_VARIABLE": 819,
+    "COMBINE_LIKE_TERMS": 381,
+    "SIMPLIFY_FRACTION": 323,
+    "ADD_TO_REMOVE": 311,
+    "DIVIDE_NEGATIVE_BETTER": 275,
+    "DIVIDE_TO_SIMPLIFY": 237,
+    "SUBTRACT_TO_REMOVE": 211,
+    "REMOVE_VARIABLE_DENOMINATOR": 167,
+    "MULTIPLY_TO_SIMPLIFY": 147,
+    "ISOLATE_HINT": 95,
+    "SIMPLIFY_LATER": 81,
+    "DIVIDE_TO_ISOLATE": 27,
+    "EXPRESSION_NOT_EQUIVALENT": 9,
+    "CHECK_SIGN": 8,
+    "DIVIDE_MULTIPLY_OPP_SIGNS": 5,
+    "FORGOT_NEGATIVE": 2,
+    "WRONG_OPERATION": 2
+  },
+  "error_detection_on_wrong_steps": {
+    "ml": {
+      "n": 2120,
+      "flagged_as_error": 0.9571,
+      "said_correct": 0.0184,
+      "said_unreadable_or_insufficient": 0.0245
+    },
+    "rule_based": {
+      "n": 2120,
+      "flagged_as_error": 0.108,
+      "said_correct": 0.892,
+      "said_unreadable_or_insufficient": 0.0
+    },
+    "ml_heldout_templates": {
+      "n": 1663,
+      "flagged_as_error": 0.9675,
+      "said_correct": 0.015,
+      "said_unreadable_or_insufficient": 0.0174
+    }
+  },
+  "valid_steps_accepted": {
+    "ml": {
+      "n": 3100,
+      "flagged_as_error": 0.0074,
+      "said_correct": 0.9926,
+      "said_unreadable_or_insufficient": 0.0
+    },
+    "rule_based": {
+      "n": 3100,
+      "flagged_as_error": 0.0042,
+      "said_correct": 0.9958,
+      "said_unreadable_or_insufficient": 0.0
+    }
+  },
+  "fine_grained": {
+    "all": {
+      "ml": {
+        "n": 1959,
+        "accuracy": 0.5493,
+        "accuracy_95ci": [
+          0.5278,
+          0.5707
+        ],
+        "macro_f1": 0.4846,
+        "per_class_recall": {
+          "sign_error": 0.728,
+          "incorrect_operation": 0.5102,
+          "arithmetic_error": 0.0789,
+          "algebraic_manipulation_error": 0.6122
+        },
+        "confusion_rows_true_cols_pred": {
+          "labels": [
+            "sign_error",
+            "incorrect_operation",
+            "arithmetic_error",
+            "algebraic_manipulation_error",
+            "other"
+          ],
+          "matrix": [
+            [
+              752,
+              0,
+              3,
+              263,
+              15
+            ],
+            [
+              26,
+              100,
+              1,
+              65,
+              4
+            ],
+            [
+              65,
+              2,
+              33,
+              276,
+              42
+            ],
+            [
+              44,
+              0,
+              20,
+              191,
+              57
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "rule_based": {
+        "n": 1959,
+        "accuracy": 0.0255,
+        "accuracy_95ci": [
+          0.0189,
+          0.0327
+        ],
+        "macro_f1": 0.0416,
+        "per_class_recall": {
+          "sign_error": 0.0184,
+          "incorrect_operation": 0.0,
+          "arithmetic_error": 0.0742,
+          "algebraic_manipulation_error": 0.0
+        },
+        "confusion_rows_true_cols_pred": {
+          "labels": [
+            "sign_error",
+            "incorrect_operation",
+            "arithmetic_error",
+            "algebraic_manipulation_error",
+            "other"
+          ],
+          "matrix": [
+            [
+              19,
+              0,
+              0,
+              0,
+              1014
+            ],
+            [
+              13,
+              0,
+              0,
+              0,
+              183
+            ],
+            [
+              91,
+              0,
+              31,
+              1,
+              295
+            ],
+            [
+              61,
+              0,
+              10,
+              0,
+              241
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "majority_class": {
+        "class": "sign_error",
+        "accuracy": 0.5273
+      }
+    },
+    "in_scope": {
+      "definition": "integers only, x on one side of eq1, x never in a denominator",
+      "ml": {
+        "n": 1241,
+        "accuracy": 0.6027,
+        "accuracy_95ci": [
+          0.5745,
+          0.6301
+        ],
+        "macro_f1": 0.5092,
+        "per_class_recall": {
+          "sign_error": 0.8401,
+          "incorrect_operation": 0.4868,
+          "arithmetic_error": 0.0943,
+          "algebraic_manipulation_error": 0.6075
+        },
+        "confusion_rows_true_cols_pred": {
+          "labels": [
+            "sign_error",
+            "incorrect_operation",
+            "arithmetic_error",
+            "algebraic_manipulation_error",
+            "other"
+          ],
+          "matrix": [
+            [
+              536,
+              0,
+              3,
+              89,
+              10
+            ],
+            [
+              22,
+              74,
+              1,
+              52,
+              3
+            ],
+            [
+              55,
+              2,
+              25,
+              152,
+              31
+            ],
+            [
+              27,
+              0,
+              5,
+              113,
+              41
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "rule_based": {
+        "n": 1241,
+        "accuracy": 0.0322,
+        "accuracy_95ci": [
+          0.0226,
+          0.0427
+        ],
+        "macro_f1": 0.0495,
+        "per_class_recall": {
+          "sign_error": 0.0282,
+          "incorrect_operation": 0.0,
+          "arithmetic_error": 0.083,
+          "algebraic_manipulation_error": 0.0
+        },
+        "confusion_rows_true_cols_pred": {
+          "labels": [
+            "sign_error",
+            "incorrect_operation",
+            "arithmetic_error",
+            "algebraic_manipulation_error",
+            "other"
+          ],
+          "matrix": [
+            [
+              18,
+              0,
+              0,
+              0,
+              620
+            ],
+            [
+              13,
+              0,
+              0,
+              0,
+              139
+            ],
+            [
+              76,
+              0,
+              22,
+              0,
+              167
+            ],
+            [
+              24,
+              0,
+              4,
+              0,
+              158
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    "heldout_templates": {
+      "definition": "the 70% of problem templates not used for development",
+      "ml": {
+        "n": 1552,
+        "accuracy": 0.5213,
+        "accuracy_95ci": [
+          0.4968,
+          0.5457
+        ],
+        "macro_f1": 0.4598,
+        "per_class_recall": {
+          "sign_error": 0.6961,
+          "incorrect_operation": 0.5099,
+          "arithmetic_error": 0.0514,
+          "algebraic_manipulation_error": 0.6178
+        },
+        "confusion_rows_true_cols_pred": {
+          "labels": [
+            "sign_error",
+            "incorrect_operation",
+            "arithmetic_error",
+            "algebraic_manipulation_error",
+            "other"
+          ],
+          "matrix": [
+            [
+              575,
+              0,
+              3,
+              235,
+              13
+            ],
+            [
+              18,
+              77,
+              0,
+              52,
+              4
+            ],
+            [
+              37,
+              1,
+              18,
+              270,
+              24
+            ],
+            [
+              36,
+              0,
+              12,
+              139,
+              38
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "rule_based": {
+        "n": 1552,
+        "accuracy": 0.0193,
+        "accuracy_95ci": [
+          0.0129,
+          0.0264
+        ],
+        "macro_f1": 0.0283,
+        "per_class_recall": {
+          "sign_error": 0.0182,
+          "incorrect_operation": 0.0,
+          "arithmetic_error": 0.0429,
+          "algebraic_manipulation_error": 0.0
+        },
+        "confusion_rows_true_cols_pred": {
+          "labels": [
+            "sign_error",
+            "incorrect_operation",
+            "arithmetic_error",
+            "algebraic_manipulation_error",
+            "other"
+          ],
+          "matrix": [
+            [
+              15,
+              0,
+              0,
+              0,
+              811
+            ],
+            [
+              9,
+              0,
+              0,
+              0,
+              142
+            ],
+            [
+              54,
+              0,
+              15,
+              1,
+              280
+            ],
+            [
+              47,
+              0,
+              3,
+              0,
+              175
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "majority_class_accuracy": 0.5322
+    }
+  },
+  "adaptation_cv": {
+    "synthetic_only": {
+      "accuracy": 0.5493,
+      "macro_f1": 0.4846
+    },
+    "real_only": {
+      "accuracy": 0.8367,
+      "macro_f1": 0.7955
+    },
+    "synthetic_plus_10pct_real": {
+      "accuracy": 0.7723,
+      "macro_f1": 0.7208
+    },
+    "synthetic_plus_25pct_real": {
+      "accuracy": 0.83,
+      "macro_f1": 0.7896
+    },
+    "synthetic_plus_50pct_real": {
+      "accuracy": 0.8326,
+      "macro_f1": 0.7959
+    },
+    "synthetic_plus_100pct_real": {
+      "accuracy": 0.8331,
+      "macro_f1": 0.7938
+    }
+  },
+  "examples": [
+    {
+      "eq1": "x=4/-4",
+      "eq2": "x=1",
+      "label": "DIVIDE_MULTIPLY_OPP_SIGNS",
+      "category": "sign_error",
+      "ml": "sign_error"
+    },
+    {
+      "eq1": "x=4*4",
+      "eq2": "x=1",
+      "label": "WRONG_OPERATION",
+      "category": "incorrect_operation",
+      "ml": "algebraic_manipulation_error"
+    },
+    {
+      "eq1": "-9/9=9x/9",
+      "eq2": "0=9x/9",
+      "label": "EXPRESSION_NOT_EQUIVALENT",
+      "category": "arithmetic_error",
+      "ml": "algebraic_manipulation_error"
+    },
+    {
+      "eq1": "1=4/(-x)",
+      "eq2": "1=-4",
+      "label": "EXPRESSION_NOT_EQUIVALENT",
+      "category": "arithmetic_error",
+      "ml": "transcription_uncertainty"
+    },
+    {
+      "eq1": "-13/-8=-8x/-8",
+      "eq2": "-13/-8=-8x",
+      "label": "EXPRESSION_NOT_EQUIVALENT",
+      "category": "algebraic_manipulation_error",
+      "ml": "algebraic_manipulation_error"
+    },
+    {
+      "eq1": "-3/1=x",
+      "eq2": "13=x",
+      "label": "EXPRESSION_NOT_EQUIVALENT",
+      "category": "arithmetic_error",
+      "ml": "algebraic_manipulation_error"
+    },
+    {
+      "eq1": "3/-3=-3x/-3",
+      "eq2": "1=-3x/-3",
+      "label": "DIVIDE_MULTIPLY_OPP_SIGNS",
+      "category": "sign_error",
+      "ml": "sign_error"
+    },
+    {
+      "eq1": "-2/-10=x",
+      "eq2": "1=x",
+      "label": "EXPRESSION_NOT_EQUIVALENT",
+      "category": "arithmetic_error",
+      "ml": "algebraic_manipulation_error"
+    },
+    {
+      "eq1": "45.1-32.4=-38.8x+32.4-32.4",
+      "eq2": "45.1-32.4=38.8x",
+      "label": "FORGOT_NEGATIVE",
+      "category": "sign_error",
+      "ml": "sign_error"
+    },
+    {
+      "eq1": "(-42-15.5x)/-15.5=-0.5/-15.5",
+      "eq2": "-42x=-0.5/-15.5",
+      "label": "EXPRESSION_NOT_EQUIVALENT",
+      "category": "algebraic_manipulation_error",
+      "ml": "algebraic_manipulation_error"
+    },
+    {
+      "eq1": "x/-9+(-1)-(-1)=8-(-1)",
+      "eq2": "+x/9=8-(-1)",
+      "label": "FORGOT_NEGATIVE",
+      "category": "sign_error",
+      "ml": "sign_error"
+    },
+    {
+      "eq1": "x=8/-7",
+      "eq2": "x=.333",
+      "label": "EXPRESSION_NOT_EQUIVALENT",
+      "category": "arithmetic_error",
+      "ml": "algebraic_manipulation_error"
+    }
+  ],
+  "mistake_model": {
+    "model_name": "random_forest",
+    "feature_version": 2
+  }
+}

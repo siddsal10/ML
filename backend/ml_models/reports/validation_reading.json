@@ -1,0 +1,160 @@
+{
+  "task": "expression_reading_analysis",
+  "data": "CROHME 2014/2016/2019 test expressions written only with the 17 recognizer classes",
+  "n_expressions": 127,
+  "mean_symbols_per_expression": 9.35,
+  "deployed_symbol_accuracy": 0.9242,
+  "independent_errors_predict_exact": 0.542,
+  "decoders": {
+    "argmax": {
+      "exact_match": 0.5669,
+      "exact_match_well_formed_lines": 0.5772,
+      "n_well_formed": 123,
+      "error_kinds": {
+        "exact": 72,
+        "symbol_substitution": 29,
+        "under_segmentation": 25,
+        "over_segmentation": 1
+      },
+      "by_length": {
+        "1-5": {
+          "n": 51,
+          "exact_match": 0.8627,
+          "independent_errors_predict": 0.7931
+        },
+        "6-10": {
+          "n": 26,
+          "exact_match": 0.5,
+          "independent_errors_predict": 0.5305
+        },
+        ">10": {
+          "n": 50,
+          "exact_match": 0.3,
+          "independent_errors_predict": 0.2919
+        }
+      }
+    },
+    "syntax_constrained": {
+      "exact_match": 0.6142,
+      "exact_match_well_formed_lines": 0.6341,
+      "n_well_formed": 123,
+      "error_kinds": {
+        "exact": 78,
+        "symbol_substitution": 23,
+        "under_segmentation": 25,
+        "over_segmentation": 1
+      },
+      "by_length": {
+        "1-5": {
+          "n": 51,
+          "exact_match": 0.8627,
+          "independent_errors_predict": 0.7931
+        },
+        "6-10": {
+          "n": 26,
+          "exact_match": 0.5385,
+          "independent_errors_predict": 0.5305
+        },
+        ">10": {
+          "n": 50,
+          "exact_match": 0.4,
+          "independent_errors_predict": 0.2919
+        }
+      }
+    }
+  },
+  "confidence_curve_syntax_constrained": [
+    {
+      "tau": 0.3,
+      "coverage": 0.748,
+      "exact_among_accepted": 0.7684
+    },
+    {
+      "tau": 0.35,
+      "coverage": 0.7008,
+      "exact_among_accepted": 0.7978
+    },
+    {
+      "tau": 0.4,
+      "coverage": 0.6693,
+      "exact_among_accepted": 0.8118
+    },
+    {
+      "tau": 0.45,
+      "coverage": 0.622,
+      "exact_among_accepted": 0.8481
+    },
+    {
+      "tau": 0.5,
+      "coverage": 0.5906,
+      "exact_among_accepted": 0.8667
+    },
+    {
+      "tau": 0.55,
+      "coverage": 0.5354,
+      "exact_among_accepted": 0.8971
+    },
+    {
+      "tau": 0.6,
+      "coverage": 0.5276,
+      "exact_among_accepted": 0.8955
+    },
+    {
+      "tau": 0.65,
+      "coverage": 0.5118,
+      "exact_among_accepted": 0.8923
+    },
+    {
+      "tau": 0.7,
+      "coverage": 0.4724,
+      "exact_among_accepted": 0.9167
+    },
+    {
+      "tau": 0.75,
+      "coverage": 0.4567,
+      "exact_among_accepted": 0.931
+    },
+    {
+      "tau": 0.8,
+      "coverage": 0.4094,
+      "exact_among_accepted": 0.9423
+    },
+    {
+      "tau": 0.85,
+      "coverage": 0.4016,
+      "exact_among_accepted": 0.9412
+    },
+    {
+      "tau": 0.9,
+      "coverage": 0.3071,
+      "exact_among_accepted": 0.9744
+    },
+    {
+      "tau": 0.92,
+      "coverage": 0.2992,
+      "exact_among_accepted": 0.9737
+    },
+    {
+      "tau": 0.94,
+      "coverage": 0.2441,
+      "exact_among_accepted": 1.0
+    },
+    {
+      "tau": 0.96,
+      "coverage": 0.1811,
+      "exact_among_accepted": 1.0
+    },
+    {
+      "tau": 0.98,
+      "coverage": 0.1339,
+      "exact_among_accepted": 1.0
+    }
+  ],
+  "gate_tau": 0.98,
+  "gate_at_tau": {
+    "tau": 0.98,
+    "coverage": 0.1339,
+    "exact_among_accepted": 1.0
+  },
+  "note": "Well-formed = could be a line of student working; the others are CROHME fragments such as '+ 7 8'."
+}

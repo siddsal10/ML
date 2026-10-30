@@ -80,6 +80,7 @@ def run_analysis_pipeline(
     warnings: list[str] = []
     provider_used = provider_name
     is_demo_mode = provider_name == "demo"
+    min_symbol_confidence = None  # set for unconfirmed recognizer output (confirm-before-diagnose)
 
     # --- 3. Transcribe ---
     if corrected_transcription is not None:
@@ -96,6 +97,8 @@ def run_analysis_pipeline(
             provider_used = result.provider
             is_demo_mode = result.is_mock
             if result.provider == "ml":
+                if result.raw_regions:
+                    min_symbol_confidence = min(r["confidence"] for r in result.raw_regions)
                 _store_symbols(db, submission, result.raw_regions)
         except ProviderUnavailableError as exc:
             # Never fabricate a prediction - fall back to the demo provider
@@ -123,7 +126,8 @@ def run_analysis_pipeline(
 
     # --- 5. Diagnose ---
     diag = diagnosis_service.diagnose(
-        math_analysis, submission.expected_answer, ocr_confidence, transcription=text_for_math or ""
+        math_analysis, submission.expected_answer, ocr_confidence, transcription=text_for_math or "",
+        min_symbol_confidence=min_symbol_confidence,
     )
     submission.skill = infer_skill(text_for_math or "", diag.category)
     lap("diagnose")
