@@ -180,16 +180,21 @@ def binarization_ablation(pool, seed: int = 0, n_per_label: int = 60, log=print)
     """Reading the same test pages under each capture condition with the plain Otsu
     binarization the recognizer used before Review-3 vs the photo-robust page
     binarization (lighting flattening + ruled-line removal)."""
-    from app.ml import segmentation
+    from app.ml import segmentation, symbol_classifier
     from app.utils.text_metrics import character_error_rate
 
     rec = SymbolRecognizer.load()
     test = make_solutions(n_per_label, seed + 101, _Diagnoser())
     photo_robust = segmentation.binarize_page
+
+    def otsu_only(gray, normalize=True):
+        return segmentation.binarize(gray)
+
     out: dict = {}
     try:
-        for name, fn in (("otsu_only", segmentation.binarize), ("photo_robust", photo_robust)):
-            segmentation.binarize_page = fn
+        for name, fn in (("otsu_only", otsu_only), ("photo_robust", photo_robust)):
+            # the lattice reader looks it up in segmentation, the line reader in symbol_classifier
+            segmentation.binarize_page = symbol_classifier.binarize_page = fn
             for condition in CONDITIONS:
                 rows = read_pages(test, pool, rec, condition, seed=seed + 102)
                 out.setdefault(condition, {})[name] = {
@@ -198,6 +203,6 @@ def binarization_ablation(pool, seed: int = 0, n_per_label: int = 60, log=print)
                 }
             log(f"  {name}: " + ", ".join(f"{c} CER {v[name]['mean_cer']:.3f}" for c, v in out.items()))
     finally:
-        segmentation.binarize_page = photo_robust
+        segmentation.binarize_page = symbol_classifier.binarize_page = photo_robust
     return {"task": "capture_binarization_ablation", "n_pages": len(test),
             "pages": "the propagation study's test pages (same seeds)", "conditions": out}

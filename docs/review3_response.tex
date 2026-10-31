@@ -19,6 +19,41 @@ Three comments need data that only a classroom can provide. For those we report 
 evidence available now, say plainly what is still open, and give a ready-to-run protocol
 (\texttt{docs/REAL\_WORLD\_VALIDATION.md}).
 
+\section*{Update: retraining on real handwriting and real student errors}
+After the response below was drafted, both models were retrained on real data. Reports are in
+\texttt{backend/ml\_models/reports/}.
+\begin{itemize}
+\item \textit{New real datasets.} HME100K (25,960 lines from real phone photos of students' paper
+work), MathWriting 2024 (10,851 lines, many writers), MNIST train digits, and CogTutorBugs real
+student errors.
+\item \textit{Recognizer.} The HOG+SVM was replaced by a CNN that reads over a lattice of possible
+segmentations (so touching symbols can be split). It is combined with a whole-line CTC reader
+trained on 39,069 real lines and decoded with only StepWise's symbols and well-formed lines. Exact whole expressions, all test sets unseen:
+\begin{center}\begin{tabular}{lrrr}\toprule
+Test set & $n$ & Review-3 & Now\\\midrule
+CROHME 2014/16/19 & 127 & 61.4\% & \textbf{69.3\%}\\
+HME100K real phone photos & 590 & 4.6\% & \textbf{35.6\%}\\
+MathWriting (unseen writers) & 34 & 41.2\% & \textbf{61.8\%}\\
+Validation (1 in 7, three sources) & 697 & -- & \textbf{50.6\%}\\\bottomrule
+\end{tabular}\end{center}
+The target of 90\% exact expressions is not reached. On real photos most errors are touching or
+crowded symbols, so confirm-before-diagnose stays. With the new reader its threshold is
+$\tau=0.80$ (chosen on validation pages). Diagnosis accuracy after confirmation is 92.6\%, with
+about 8 of 14 symbols checked per page. On these composed pages the new reader is exact less often
+than before (9.0\% vs 16.7\%), because the line reader is not trained on pasted glyphs. A line
+reading's confidence is therefore capped by the symbol CNN's, so disagreements are always
+highlighted.
+\item \textit{Misconception classifier (C2).} Retrained on synthetic data plus the real errors of a
+30\% development split of CogTutor problem templates. On the other 70\% (1,552 real errors,
+templates never seen) accuracy rises from 52.1\% to \textbf{76.6\%} (95\% CI 74.5--78.7), macro-F1
+from 0.460 to \textbf{0.701}. The majority baseline is 53.2\%. All 2,120 real wrong steps are
+flagged, and 99.3\% of valid steps are accepted.
+\item \textit{Diverse writers (C3).} On MNIST test digits the recognizer now reads 98.8\% (high-school
+students) and 99.3\% (Census employees), against 86.3\% and 85.0\% before.
+\item \textit{Still open.} Real classroom study (C5) and our own phone photos (Study A). Both need
+participants, and the protocols are ready in \texttt{docs/REAL\_WORLD\_VALIDATION.md}.
+\end{itemize}
+
 \section*{C1. Only 56.7\% exact expression accuracy may limit downstream diagnosis}
 \textbf{Agreed, and confirmed.}
 \begin{itemize}

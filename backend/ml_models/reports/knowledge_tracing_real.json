@@ -40,7 +40,7 @@
   },
   "rasch_l2_validation_auc": {
     "0.05": 0.8161,
-    "1.0": 0.8165,
+    "1.0": 0.8164,
     "5.0": 0.8133
   },
   "rasch_l2_selected": 1.0,
@@ -97,6 +97,263 @@
       ],
       "sequences": 412,
       "attempts": 8115
+    }
+  },
+  "stepwise_skill_match": {
+    "S1": {
+      "quality": "direct",
+      "reason": "same operations on whole numbers"
+    },
+    "S2": {
+      "quality": "partial",
+      "reason": "no whole-number division skill; positive-decimal multiplication/division stands in"
+    },
+    "S3": {
+      "quality": "direct",
+      "reason": "the four operations on signed integers"
+    },
+    "S4": {
+      "quality": "direct",
+      "reason": "order of operations with and without brackets"
+    },
+    "S5": {
+      "quality": "close",
+      "reason": "'Solving for a variable' covers one-step equations"
+    },
+    "S6": {
+      "quality": "close",
+      "reason": "'Two or Fewer Steps' also includes one-step equations"
+    },
+    "S7": {
+      "quality": "approximate",
+      "reason": "multi-step solving applies inverse operations repeatedly but is not specific to moving a term across '='"
+    },
+    "S8": {
+      "quality": "none",
+      "reason": "no ASSISTments skill isolates equations with negative numbers; parameters from simulation"
+    }
+  },
+  "mapped_share_of_attempts": 0.2069,
+  "test_metrics_on_mapped_skills": {
+    "ema_baseline": {
+      "S1": {
+        "auc": 0.7792,
+        "rmse": 0.4131,
+        "log_loss": 0.5281,
+        "n": 2085
+      },
+      "S2": {
+        "auc": 0.693,
+        "rmse": 0.4379,
+        "log_loss": 0.5667,
+        "n": 330
+      },
+      "S3": {
+        "auc": 0.8366,
+        "rmse": 0.38,
+        "log_loss": 0.4485,
+        "n": 5182
+      },
+      "S4": {
+        "auc": 0.6715,
+        "rmse": 0.4799,
+        "log_loss": 0.6568,
+        "n": 1199
+      },
+      "S5": {
+        "auc": 0.672,
+        "rmse": 0.4574,
+        "log_loss": 0.6097,
+        "n": 331
+      },
+      "S6": {
+        "auc": 0.6585,
+        "rmse": 0.4593,
+        "log_loss": 0.6496,
+        "n": 4233
+      },
+      "S7": {
+        "auc": 0.4943,
+        "rmse": 0.4667,
+        "log_loss": 0.6527,
+        "n": 1332
+      }
+    },
+    "bkt": {
+      "S1": {
+        "auc": 0.7716,
+        "rmse": 0.395,
+        "log_loss": 0.4847,
+        "n": 2085
+      },
+      "S2": {
+        "auc": 0.7128,
+        "rmse": 0.3991,
+        "log_loss": 0.4877,
+        "n": 330
+      },
+      "S3": {
+        "auc": 0.7607,
+        "rmse": 0.39,
+        "log_loss": 0.4779,
+        "n": 5182
+      },
+      "S4": {
+        "auc": 0.669,
+        "rmse": 0.4645,
+        "log_loss": 0.6215,
+        "n": 1199
+      },
+      "S5": {
+        "auc": 0.6864,
+        "rmse": 0.4401,
+        "log_loss": 0.5747,
+        "n": 331
+      },
+      "S6": {
+        "auc": 0.6616,
+        "rmse": 0.4429,
+        "log_loss": 0.5799,
+        "n": 4233
+      },
+      "S7": {
+        "auc": 0.5413,
+        "rmse": 0.4247,
+        "log_loss": 0.5461,
+        "n": 1332
+      }
+    },
+    "pfa": {
+      "S1": {
+        "auc": 0.7767,
+        "rmse": 0.3947,
+        "log_loss": 0.4834,
+        "n": 2085
+      },
+      "S2": {
+        "auc": 0.7079,
+        "rmse": 0.3963,
+        "log_loss": 0.4836,
+        "n": 330
+      },
+      "S3": {
+        "auc": 0.8154,
+        "rmse": 0.3805,
+        "log_loss": 0.44,
+        "n": 5182
+      },
+      "S4": {
+        "auc": 0.667,
+        "rmse": 0.4631,
+        "log_loss": 0.617,
+        "n": 1199
+      },
+      "S5": {
+        "auc": 0.6795,
+        "rmse": 0.4373,
+        "log_loss": 0.5698,
+        "n": 331
+      },
+      "S6": {
+        "auc": 0.6754,
+        "rmse": 0.441,
+        "log_loss": 0.5757,
+        "n": 4233
+      },
+      "S7": {
+        "auc": 0.5334,
+        "rmse": 0.4254,
+        "log_loss": 0.5476,
+        "n": 1332
+      }
+    },
+    "pfa_irt": {
+      "S1": {
+        "auc": 0.7788,
+        "rmse": 0.3951,
+        "log_loss": 0.482,
+        "n": 2085
+      },
+      "S2": {
+        "auc": 0.7304,
+        "rmse": 0.4002,
+        "log_loss": 0.4827,
+        "n": 330
+      },
+      "S3": {
+        "auc": 0.7991,
+        "rmse": 0.3926,
+        "log_loss": 0.4741,
+        "n": 5182
+      },
+      "S4": {
+        "auc": 0.7113,
+        "rmse": 0.4547,
+        "log_loss": 0.6029,
+        "n": 1199
+      },
+      "S5": {
+        "auc": 0.7555,
+        "rmse": 0.4215,
+        "log_loss": 0.5353,
+        "n": 331
+      },
+      "S6": {
+        "auc": 0.7485,
+        "rmse": 0.4266,
+        "log_loss": 0.5378,
+        "n": 4233
+      },
+      "S7": {
+        "auc": 0.7842,
+        "rmse": 0.3877,
+        "log_loss": 0.4513,
+        "n": 1332
+      }
+    },
+    "pfa_irt_recency": {
+      "S1": {
+        "auc": 0.7889,
+        "rmse": 0.3912,
+        "log_loss": 0.4739,
+        "n": 2085
+      },
+      "S2": {
+        "auc": 0.7364,
+        "rmse": 0.3986,
+        "log_loss": 0.4797,
+        "n": 330
+      },
+      "S3": {
+        "auc": 0.8308,
+        "rmse": 0.3766,
+        "log_loss": 0.4413,
+        "n": 5182
+      },
+      "S4": {
+        "auc": 0.7128,
+        "rmse": 0.4537,
+        "log_loss": 0.6018,
+        "n": 1199
+      },
+      "S5": {
+        "auc": 0.7383,
+        "rmse": 0.428,
+        "log_loss": 0.5488,
+        "n": 331
+      },
+      "S6": {
+        "auc": 0.744,
+        "rmse": 0.4285,
+        "log_loss": 0.5426,
+        "n": 4233
+      },
+      "S7": {
+        "auc": 0.7726,
+        "rmse": 0.3924,
+        "log_loss": 0.4642,
+        "n": 1332
+      }
     }
   },
   "stepwise_bkt_params_from_real_data": {

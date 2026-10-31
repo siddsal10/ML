@@ -11,28 +11,28 @@
       "cv_macro_f1_std": 0.0056,
       "test_accuracy": 0.9873,
       "test_macro_f1": 0.9873,
-      "fit_seconds": 0.28
+      "fit_seconds": 0.1
     },
     "decision_tree": {
       "cv_macro_f1_mean": 0.9477,
       "cv_macro_f1_std": 0.013,
       "test_accuracy": 0.9397,
       "test_macro_f1": 0.9395,
-      "fit_seconds": 0.0
+      "fit_seconds": 0.03
     },
     "random_forest": {
       "cv_macro_f1_mean": 0.9905,
       "cv_macro_f1_std": 0.0032,
       "test_accuracy": 0.9921,
       "test_macro_f1": 0.9921,
-      "fit_seconds": 0.24
+      "fit_seconds": 1.19
     },
     "gradient_boosting": {
       "cv_macro_f1_mean": 0.9905,
       "cv_macro_f1_std": 0.0026,
       "test_accuracy": 0.9905,
       "test_macro_f1": 0.9905,
-      "fit_seconds": 9.79
+      "fit_seconds": 64.67
     },
     "rule_based_baseline": {
       "test_accuracy": 0.3873,
@@ -271,23 +271,23 @@
     ],
     [
       "ocr_confidence",
-      0.0901
+      0.0902
     ],
     [
       "n_equations",
-      0.0709
-    ],
-    [
-      "cand_negated_answer",
-      0.0591
+      0.0711
     ],
     [
       "work_consistent",
-      0.0583
+      0.0587
+    ],
+    [
+      "cand_negated_answer",
+      0.0586
     ],
     [
       "jumped_to_answer",
-      0.0403
+      0.0404
     ],
     [
       "cand_forgot_divide",
@@ -299,15 +299,15 @@
     ],
     [
       "nonequiv_pos",
-      0.0326
+      0.0327
     ],
     [
       "local_op_swap_add_sub",
-      0.0306
+      0.0305
     ],
     [
       "has_negative_operand",
-      0.0287
+      0.0286
     ],
     [
       "cand_transpose_no_sign_change",
@@ -315,15 +315,25 @@
     ],
     [
       "frac_unparseable",
-      0.0266
+      0.0264
     ],
     [
       "nonequiv_found",
       0.0248
     ],
     [
-      "n_expressions",
+      "cand_off_small",
       0.0246
     ]
-  ]
+  ],
+  "real_training": {
+    "dataset": "CogTutorBugs development templates (30%)",
+    "n_real_errors": 407,
+    "per_category": {
+      "sign_error": 207,
+      "incorrect_operation": 45,
+      "algebraic_manipulation_error": 87,
+      "arithmetic_error": 68
+    }
+  }
 }

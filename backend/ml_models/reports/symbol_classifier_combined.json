@@ -1,0 +1,41 @@
+{
+  "task": "combined recognizer: CNN lattice reader + whole-line CTC reader",
+  "rule": "per line, the CTC reading replaces the lattice reading when its mean confidence is higher by > 0.06 (margin chosen on the validation expressions only)",
+  "validation_expressions": {
+    "n": 697,
+    "cnn_lattice_r2": 0.3443,
+    "combined": 0.5065
+  },
+  "crohme_test": {
+    "n": 127,
+    "previous_hog_svm": 0.6142,
+    "cnn_lattice_r2": 0.7008,
+    "combined": 0.6929
+  },
+  "crohme_test_by_year": {
+    "2014": {
+      "n": 40,
+      "combined": 0.7
+    },
+    "2016": {
+      "n": 37,
+      "combined": 0.7568
+    },
+    "2019": {
+      "n": 50,
+      "combined": 0.64
+    }
+  },
+  "real_photos_hme100k_test": {
+    "n": 590,
+    "previous_hog_svm": 0.0458,
+    "cnn_lattice_r2": 0.1407,
+    "combined": 0.3559
+  },
+  "diverse_writers_mathwriting_test": {
+    "n": 34,
+    "previous_hog_svm": 0.4118,
+    "cnn_lattice_r2": 0.6765,
+    "combined": 0.6176
+  }
+}

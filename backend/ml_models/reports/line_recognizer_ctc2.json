@@ -1,0 +1,34 @@
+{
+  "task": "line_recognition_ctc_real_handwriting",
+  "protocol": "trained on CROHME/HME100K/MathWriting training lines (6 of 7); validation = the 7th; tests are the official CROHME 2014/2016/2019 sets, HME100K test photos and MathWriting test inks (17-class linear expressions, exact match).",
+  "n_train_lines": 99069,
+  "val_exact_all_tokens": 0.4481,
+  "crohme_test": {
+    "n": 127,
+    "line_ctc": 0.4409,
+    "previous_hog_svm": 0.6142
+  },
+  "crohme_test_by_year": {
+    "2014": {
+      "n": 40,
+      "line_ctc": 0.55
+    },
+    "2016": {
+      "n": 37,
+      "line_ctc": 0.4865
+    },
+    "2019": {
+      "n": 50,
+      "line_ctc": 0.32
+    }
+  },
+  "real_photos_hme100k_test": {
+    "n": 590,
+    "line_ctc": 0.3
+  },
+  "diverse_writers_mathwriting_test": {
+    "n": 34,
+    "line_ctc": 0.6765
+  },
+  "seconds": 15783.7
+}

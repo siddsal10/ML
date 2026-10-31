@@ -1,0 +1,650 @@
+{
+  "task": "symbol_recognition_real_handwriting_cnn",
+  "protocol": "CNN settings fixed in advance; decoder weights chosen on validation expressions (every 7th CROHME / HME100K training expression, never trained on); test = official CROHME 2014/2016/2019 test sets (unseen writers, 17-class expressions) and HME100K test photos.",
+  "symbols": {
+    "val_accuracy": 0.8708
+  },
+  "expressions_test": {
+    "n": 127,
+    "previous_hog_svm": 0.6142,
+    "cnn_plain_segmentation_syntax": 0.7008,
+    "cnn_lattice_argmax_grouping": 0.6929,
+    "cnn_lattice_decoder": 0.7008
+  },
+  "expressions_test_by_year": {
+    "2014": {
+      "n": 40,
+      "exact": 0.75
+    },
+    "2016": {
+      "n": 37,
+      "exact": 0.7297
+    },
+    "2019": {
+      "n": 50,
+      "exact": 0.64
+    }
+  },
+  "expressions_val": 0.3443,
+  "decoder": {
+    "symbol_bonus": 0.0,
+    "overlap_cost": 1.0,
+    "cut_cost": 0.0
+  },
+  "decoder_grid": [
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.3113
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.3013
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.3013
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.297
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.297
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.307
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.297
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.2984
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2941
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2941
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.3042
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.2941
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.2927
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2898
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2884
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.3027
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.2912
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.2898
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2841
+    },
+    {
+      "symbol_bonus": -1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2798
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.34
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.3242
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.3085
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2956
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2941
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.3443
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.3271
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.3142
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2984
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2956
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.34
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.3242
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.3113
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2999
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2941
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.3372
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.3214
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.3085
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2941
+    },
+    {
+      "symbol_bonus": 0.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2869
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.2554
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.2783
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.3099
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2812
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2683
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.2769
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.2984
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.33
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2984
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2855
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.2798
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.3027
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.3329
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.3027
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2869
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.2769
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.2984
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.33
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2999
+    },
+    {
+      "symbol_bonus": 1.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2855
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.1621
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.2009
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.2382
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2855
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2511
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.1736
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.2109
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.2496
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2999
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2611
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.1908
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.231
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.2697
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.3228
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2812
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.1908
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.2324
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.2712
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.3228
+    },
+    {
+      "symbol_bonus": 2.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2855
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.1148
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.122
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.1363
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.1937
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 0.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2209
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.132
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.1449
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.165
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2367
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 1.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2568
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.1334
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.1478
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.175
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2453
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 2.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.264
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.0,
+      "val_exact": 0.1435
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 0.5,
+      "val_exact": 0.1593
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 1.0,
+      "val_exact": 0.1908
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 2.0,
+      "val_exact": 0.2683
+    },
+    {
+      "symbol_bonus": 3.0,
+      "overlap_cost": 4.0,
+      "cut_cost": 4.0,
+      "val_exact": 0.2884
+    }
+  ],
+  "real_photos_hme100k_test": {
+    "data": "HME100K test photographs (real students' paper work, phone-app uploads, unseen writers) written only with the 17 classes",
+    "n": 590,
+    "previous_hog_svm": 0.0458,
+    "cnn_lattice_decoder": 0.1407
+  },
+  "diverse_writers_mathwriting_test": {
+    "data": "MathWriting test inks (writers disjoint from training), rendered, 17-class linear expressions",
+    "n": 34,
+    "previous_hog_svm": 0.4118,
+    "cnn_lattice_decoder": 0.6765
+  },
+  "self_trained_from_base": false,
+  "seconds": 5735.2
+}

@@ -164,7 +164,8 @@ def _adaptation(mapped: list[dict], seed: int, log) -> dict:
     Xr = np.vstack([extract_features(_work(s), None, 1.0).vector for s in mapped])
     yr = np.array([s["category"] for s in mapped])
     groups = np.array([template(s["eq1"]) for s in mapped])  # same problem template together
-    deployed = load_bundle(str(MISTAKE_MODEL_PATH))["model"]
+    # synthetic-only reference fitted here: the deployed model may already include real errors
+    deployed = candidate_models(seed)["random_forest"].fit(Xs, ys)
     fracs = (0.1, 0.25, 0.5, 1.0)
     pred = {"synthetic_only": np.empty(len(yr), dtype=object), "real_only": np.empty(len(yr), dtype=object),
             **{f"synthetic_plus_{int(f * 100)}pct_real": np.empty(len(yr), dtype=object) for f in fracs}}
@@ -236,3 +237,26 @@ def run(seed: int = 0, log=print) -> dict:
     report["examples"] = [{k: s[k] for k in ("eq1", "eq2", "label", "category", "ml")} for s in mapped[:: max(1, len(mapped) // 12)]][:12]
     report["mistake_model"] = {k: load_bundle(str(MISTAKE_MODEL_PATH)).get(k) for k in ("model_name", "feature_version")}
     return report
+
+
+def deploy_with_real_errors(seed: int = 0, out_path=MISTAKE_MODEL_PATH, log=print) -> dict:
+    """Refit the deployed mistake classifier on its synthetic data PLUS the real
+    mathematically wrong CogTutor steps from the development templates (30%).
+    The held-out 70% of templates stay unseen, so run() still scores the
+    deployed model on real errors it was never trained on."""
+    from app.ml.artifacts import save_bundle
+
+    bundle = load_bundle(str(out_path))
+    steps, _ = load_steps()
+    dev = [s for s in steps if s["dev"] and not s["equivalent"] and s["category"]]
+    synth = generate_samples(n_per_label=350, seed=seed)
+    Xs, ys = featurize(synth), np.array([s.label for s in synth])
+    Xr = np.vstack([extract_features(_work(s), None, 1.0).vector for s in dev])
+    yr = np.array([s["category"] for s in dev])
+    model = candidate_models(seed)[bundle["model_name"]].fit(np.vstack([Xs, Xr]), np.concatenate([ys, yr]))
+    bundle = {**bundle, "model": model, "classes": list(model.classes_),
+              "real_training": {"dataset": "CogTutorBugs development templates (30%)", "n_real_errors": int(len(yr)),
+                                "per_category": dict(Counter(yr.tolist()))}}
+    save_bundle(bundle, out_path)
+    log(f"  mistake classifier refit on {len(ys)} synthetic + {len(yr)} real student errors")
+    return bundle["real_training"]

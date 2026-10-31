@@ -127,7 +127,7 @@ def run_analysis_pipeline(
     # --- 5. Diagnose ---
     diag = diagnosis_service.diagnose(
         math_analysis, submission.expected_answer, ocr_confidence, transcription=text_for_math or "",
-        min_symbol_confidence=min_symbol_confidence,
+        min_symbol_confidence=min_symbol_confidence, confirmed=corrected_transcription is not None,
     )
     submission.skill = infer_skill(text_for_math or "", diag.category)
     lap("diagnose")

@@ -15,7 +15,7 @@ from app.ml import active_learning, registry
 from app.ml.glyph_data import SYMBOLS, augment, find_fonts, render_glyph, _load_font
 from app.ml.model_cards import CARDS, headline, load_report
 from app.ml.segmentation import segment_page
-from app.ml.symbol_classifier import SymbolRecognizer, format_symbols
+from app.ml.symbol_classifier import JUNK, SymbolRecognizer, format_symbols
 from app.ml.symbol_features import glyph_features, normalize_glyph
 
 router = APIRouter(prefix="/api/lab", tags=["ml-lab"])
@@ -98,7 +98,7 @@ async def predict_symbols(image: UploadFile = File(...)) -> dict:
         chars = []
         for crop in crops:
             probs = recognizer.model.predict_proba(glyph_features(crop.mask).reshape(1, -1))[0]
-            top = np.argsort(probs)[::-1][:5]
+            top = [i for i in np.argsort(probs)[::-1] if recognizer.classes[i] != JUNK][:5]
             chars.append(recognizer.classes[top[0]])
             symbols.append({
                 "line": li, "bbox": [crop.x, crop.y, crop.w, crop.h],

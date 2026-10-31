@@ -62,9 +62,9 @@
   "error_detection_on_wrong_steps": {
     "ml": {
       "n": 2120,
-      "flagged_as_error": 0.9571,
-      "said_correct": 0.0184,
-      "said_unreadable_or_insufficient": 0.0245
+      "flagged_as_error": 1.0,
+      "said_correct": 0.0,
+      "said_unreadable_or_insufficient": 0.0
     },
     "rule_based": {
       "n": 2120,
@@ -74,9 +74,9 @@
     },
     "ml_heldout_templates": {
       "n": 1663,
-      "flagged_as_error": 0.9675,
-      "said_correct": 0.015,
-      "said_unreadable_or_insufficient": 0.0174
+      "flagged_as_error": 1.0,
+      "said_correct": 0.0,
+      "said_unreadable_or_insufficient": 0.0
     }
   },
   "valid_steps_accepted": {
@@ -97,17 +97,17 @@
     "all": {
       "ml": {
         "n": 1959,
-        "accuracy": 0.5493,
+        "accuracy": 0.7887,
         "accuracy_95ci": [
-          0.5278,
-          0.5707
+          0.7713,
+          0.807
         ],
-        "macro_f1": 0.4846,
+        "macro_f1": 0.7339,
         "per_class_recall": {
-          "sign_error": 0.728,
-          "incorrect_operation": 0.5102,
-          "arithmetic_error": 0.0789,
-          "algebraic_manipulation_error": 0.6122
+          "sign_error": 0.9468,
+          "incorrect_operation": 0.7041,
+          "arithmetic_error": 0.4593,
+          "algebraic_manipulation_error": 0.7596
         },
         "confusion_rows_true_cols_pred": {
           "labels": [
@@ -119,32 +119,32 @@
           ],
           "matrix": [
             [
-              752,
+              978,
               0,
-              3,
-              263,
-              15
-            ],
-            [
-              26,
-              100,
-              1,
-              65,
-              4
-            ],
-            [
-              65,
-              2,
-              33,
-              276,
-              42
-            ],
-            [
+              10,
               44,
+              1
+            ],
+            [
+              7,
+              138,
+              22,
+              28,
+              1
+            ],
+            [
+              160,
+              23,
+              192,
+              43,
+              0
+            ],
+            [
+              13,
               0,
-              20,
-              191,
-              57
+              49,
+              237,
+              13
             ],
             [
               0,
@@ -226,17 +226,17 @@
       "definition": "integers only, x on one side of eq1, x never in a denominator",
       "ml": {
         "n": 1241,
-        "accuracy": 0.6027,
+        "accuracy": 0.8018,
         "accuracy_95ci": [
-          0.5745,
-          0.6301
+          0.7792,
+          0.8243
         ],
-        "macro_f1": 0.5092,
+        "macro_f1": 0.7543,
         "per_class_recall": {
-          "sign_error": 0.8401,
-          "incorrect_operation": 0.4868,
-          "arithmetic_error": 0.0943,
-          "algebraic_manipulation_error": 0.6075
+          "sign_error": 0.9436,
+          "incorrect_operation": 0.7171,
+          "arithmetic_error": 0.5321,
+          "algebraic_manipulation_error": 0.7688
         },
         "confusion_rows_true_cols_pred": {
           "labels": [
@@ -248,32 +248,32 @@
           ],
           "matrix": [
             [
-              536,
+              602,
               0,
-              3,
-              89,
-              10
-            ],
-            [
-              22,
-              74,
-              1,
-              52,
-              3
-            ],
-            [
-              55,
-              2,
-              25,
-              152,
-              31
-            ],
-            [
+              9,
               27,
+              0
+            ],
+            [
+              1,
+              109,
+              20,
+              22,
+              0
+            ],
+            [
+              87,
+              18,
+              141,
+              19,
+              0
+            ],
+            [
+              12,
               0,
-              5,
-              113,
-              41
+              22,
+              143,
+              9
             ],
             [
               0,
@@ -351,17 +351,17 @@
       "definition": "the 70% of problem templates not used for development",
       "ml": {
         "n": 1552,
-        "accuracy": 0.5213,
+        "accuracy": 0.7661,
         "accuracy_95ci": [
-          0.4968,
-          0.5457
+          0.7448,
+          0.7867
         ],
-        "macro_f1": 0.4598,
+        "macro_f1": 0.7012,
         "per_class_recall": {
-          "sign_error": 0.6961,
-          "incorrect_operation": 0.5099,
-          "arithmetic_error": 0.0514,
-          "algebraic_manipulation_error": 0.6178
+          "sign_error": 0.9504,
+          "incorrect_operation": 0.6821,
+          "arithmetic_error": 0.3829,
+          "algebraic_manipulation_error": 0.7422
         },
         "confusion_rows_true_cols_pred": {
           "labels": [
@@ -373,32 +373,32 @@
           ],
           "matrix": [
             [
-              575,
+              785,
               0,
-              3,
-              235,
-              13
+              8,
+              32,
+              1
             ],
             [
-              18,
-              77,
-              0,
-              52,
-              4
+              7,
+              103,
+              17,
+              23,
+              1
             ],
             [
-              37,
-              1,
-              18,
-              270,
-              24
-            ],
-            [
+              157,
+              23,
+              134,
               36,
+              0
+            ],
+            [
+              8,
               0,
-              12,
-              139,
-              38
+              39,
+              167,
+              11
             ],
             [
               0,
@@ -476,24 +476,24 @@
   },
   "adaptation_cv": {
     "synthetic_only": {
-      "accuracy": 0.5493,
-      "macro_f1": 0.4846
+      "accuracy": 0.5436,
+      "macro_f1": 0.4831
     },
     "real_only": {
-      "accuracy": 0.8367,
-      "macro_f1": 0.7955
+      "accuracy": 0.8361,
+      "macro_f1": 0.7951
     },
     "synthetic_plus_10pct_real": {
-      "accuracy": 0.7723,
-      "macro_f1": 0.7208
+      "accuracy": 0.7728,
+      "macro_f1": 0.7215
     },
     "synthetic_plus_25pct_real": {
       "accuracy": 0.83,
       "macro_f1": 0.7896
     },
     "synthetic_plus_50pct_real": {
-      "accuracy": 0.8326,
-      "macro_f1": 0.7959
+      "accuracy": 0.8331,
+      "macro_f1": 0.7966
     },
     "synthetic_plus_100pct_real": {
       "accuracy": 0.8331,
@@ -513,21 +513,21 @@
       "eq2": "x=1",
       "label": "WRONG_OPERATION",
       "category": "incorrect_operation",
-      "ml": "algebraic_manipulation_error"
+      "ml": "incorrect_operation"
     },
     {
       "eq1": "-9/9=9x/9",
       "eq2": "0=9x/9",
       "label": "EXPRESSION_NOT_EQUIVALENT",
       "category": "arithmetic_error",
-      "ml": "algebraic_manipulation_error"
+      "ml": "sign_error"
     },
     {
       "eq1": "1=4/(-x)",
       "eq2": "1=-4",
       "label": "EXPRESSION_NOT_EQUIVALENT",
       "category": "arithmetic_error",
-      "ml": "transcription_uncertainty"
+      "ml": "arithmetic_error"
     },
     {
       "eq1": "-13/-8=-8x/-8",
@@ -541,7 +541,7 @@
       "eq2": "13=x",
       "label": "EXPRESSION_NOT_EQUIVALENT",
       "category": "arithmetic_error",
-      "ml": "algebraic_manipulation_error"
+      "ml": "arithmetic_error"
     },
     {
       "eq1": "3/-3=-3x/-3",
@@ -555,7 +555,7 @@
       "eq2": "1=x",
       "label": "EXPRESSION_NOT_EQUIVALENT",
       "category": "arithmetic_error",
-      "ml": "algebraic_manipulation_error"
+      "ml": "sign_error"
     },
     {
       "eq1": "45.1-32.4=-38.8x+32.4-32.4",
@@ -583,7 +583,7 @@
       "eq2": "x=.333",
       "label": "EXPRESSION_NOT_EQUIVALENT",
       "category": "arithmetic_error",
-      "ml": "algebraic_manipulation_error"
+      "ml": "sign_error"
     }
   ],
   "mistake_model": {

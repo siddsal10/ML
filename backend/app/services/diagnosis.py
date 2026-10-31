@@ -68,11 +68,13 @@ def diagnose(
     ocr_confidence: float,
     transcription: str | None = None,
     min_symbol_confidence: float | None = None,
+    confirmed: bool = False,
 ) -> Diagnosis:
     """Primary entrypoint: guardrails, then the ML classifier, else rules.
 
     `min_symbol_confidence` is the lowest per-symbol confidence of an unconfirmed
-    recognizer transcription (None once the student has confirmed or typed it)."""
+    recognizer transcription (None once the student has confirmed or typed it).
+    `confirmed` means the student verified the text, so it cannot be a misreading."""
     if ocr_confidence < 0.35:
         return Diagnosis(
             category="transcription_uncertainty",
@@ -104,8 +106,12 @@ def diagnose(
     feats = extract_features(text, expected_answer, ocr_confidence, analysis=math_analysis)
     model = bundle["model"]
     probs = model.predict_proba(feats.vector.reshape(1, -1))[0]
-    order = np.argsort(probs)[::-1]
     classes = list(model.classes_)
+    if confirmed and "transcription_uncertainty" in classes:
+        probs = probs.copy()
+        probs[classes.index("transcription_uncertainty")] = 0.0
+        probs = probs / max(probs.sum(), 1e-12)
+    order = np.argsort(probs)[::-1]
     category = classes[order[0]]
 
     evidence = [EVIDENCE_TEXT[name] for name, v in feats.values.items() if name in EVIDENCE_TEXT and v == 1.0]

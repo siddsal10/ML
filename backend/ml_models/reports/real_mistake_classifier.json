@@ -41,10 +41,10 @@
       "test_balanced_accuracy": 0.3859
     },
     "random_forest": {
-      "cv_macro_f1": 0.3081,
-      "test_accuracy": 0.4913,
-      "test_macro_f1": 0.3587,
-      "test_balanced_accuracy": 0.3688
+      "cv_macro_f1": 0.3056,
+      "test_accuracy": 0.4884,
+      "test_macro_f1": 0.3518,
+      "test_balanced_accuracy": 0.3657
     },
     "gradient_boosting": {
       "cv_macro_f1": 0.2974,
@@ -63,18 +63,18 @@
   "seven_class_selected": "random_forest",
   "seven_class_confusion_matrix": [
     [
-      71,
+      69,
       20,
-      4,
+      5,
       5,
       1,
-      1,
+      2,
       11
     ],
     [
-      26,
-      67,
-      8,
+      25,
+      69,
+      7,
       1,
       1,
       0,
@@ -82,8 +82,8 @@
     ],
     [
       15,
-      18,
-      4,
+      19,
+      3,
       3,
       1,
       2,
@@ -91,25 +91,25 @@
     ],
     [
       6,
-      3,
+      2,
       0,
       17,
       0,
       0,
-      1
+      2
     ],
     [
       8,
-      6,
+      5,
       2,
       3,
       2,
       2,
-      2
+      3
     ],
     [
-      5,
-      6,
+      4,
+      7,
       1,
       1,
       0,
@@ -147,11 +147,11 @@
       "test_auc": 0.7647
     },
     "random_forest": {
-      "cv_macro_f1": 0.6857,
-      "test_accuracy": 0.689,
-      "test_macro_f1": 0.683,
-      "test_balanced_accuracy": 0.6821,
-      "test_auc": 0.7724
+      "cv_macro_f1": 0.6849,
+      "test_accuracy": 0.7006,
+      "test_macro_f1": 0.6949,
+      "test_balanced_accuracy": 0.6939,
+      "test_auc": 0.7719
     },
     "gradient_boosting": {
       "cv_macro_f1": 0.6546,
@@ -184,51 +184,51 @@
   "top_feature_importances": [
     [
       "q_len",
-      0.0468
-    ],
-    [
-      "digit_edit_norm",
-      0.0409
-    ],
-    [
-      "q_n_numbers",
-      0.0378
+      0.0465
     ],
     [
       "blanks_swapped",
-      0.037
+      0.0374
     ],
     [
       "log_abs_student",
-      0.0366
+      0.0322
     ],
     [
-      "log_rel_error",
-      0.0314
+      "digit_edit_norm",
+      0.0315
     ],
     [
-      "q_log_max_number",
-      0.0236
+      "q_n_numbers",
+      0.0307
     ],
     [
       "student_numeric",
-      0.022
+      0.0254
+    ],
+    [
+      "log_rel_error",
+      0.0235
+    ],
+    [
+      "q_log_max_number",
+      0.019
+    ],
+    [
+      "is_middle_school",
+      0.0186
     ],
     [
       "log_abs_correct",
-      0.0194
+      0.016
     ],
     [
       "q_has_equation",
-      0.0179
+      0.0148
     ],
     [
-      "img_ink",
-      0.0147
-    ],
-    [
-      "img_lines",
-      0.0145
+      "img_ink_bbox_fill",
+      0.011
     ]
   ],
   "limitations": "Only 1,720 examples with fuzzy, overlapping categories; questions are Chinese word problems, so StepWise uses the language-independent features only. Every sample is a wrong answer, so the model is only applied when a student's answer is wrong."

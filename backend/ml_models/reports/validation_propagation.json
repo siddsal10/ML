@@ -14,267 +14,267 @@
     "final_answer_only_error": 60
   },
   "reference_accuracy_true_transcription": 0.9929,
-  "tau": 0.98,
+  "tau": 0.75,
   "tau_target_met_on_validation": true,
   "validation_at_tau": {
     "accuracy": 0.9429,
-    "macro_f1": 0.9522,
+    "macro_f1": 0.9503,
     "pages_diagnosed_differently_from_true_text": 0.0476,
     "correct_work_marked_wrong": 0.0,
-    "symbols_to_check_per_page": 7.1,
-    "pages_with_a_highlight": 1.0,
-    "lines_to_retype_per_page": 0.25
+    "symbols_to_check_per_page": 7.79,
+    "pages_with_a_highlight": 0.9905,
+    "lines_to_retype_per_page": 0.87
   },
   "tau_rule": "smallest tau on validation pages (clean) with <= 5% of pages diagnosed differently from their true transcription after confirmation",
   "conditions": {
     "clean": {
-      "transcription_exact": 0.1667,
+      "transcription_exact": 0.0786,
       "no_confirmation": {
-        "accuracy": 0.35,
-        "macro_f1": 0.3833,
-        "pages_diagnosed_differently_from_true_text": 0.6452,
-        "correct_work_marked_wrong": 0.5667,
-        "symbols_to_check_per_page": 0.0,
-        "pages_with_a_highlight": 0.0,
-        "lines_to_retype_per_page": 0.0
-      },
-      "confirm_below_tau": {
-        "accuracy": 0.9381,
-        "macro_f1": 0.9457,
-        "pages_diagnosed_differently_from_true_text": 0.0548,
-        "correct_work_marked_wrong": 0.05,
-        "symbols_to_check_per_page": 7.03,
-        "pages_with_a_highlight": 0.9976,
-        "lines_to_retype_per_page": 0.25
-      }
-    },
-    "paper_and_pen": {
-      "transcription_exact": 0.2,
-      "no_confirmation": {
-        "accuracy": 0.3548,
-        "macro_f1": 0.3925,
-        "pages_diagnosed_differently_from_true_text": 0.6429,
-        "correct_work_marked_wrong": 0.45,
-        "symbols_to_check_per_page": 0.0,
-        "pages_with_a_highlight": 0.0,
-        "lines_to_retype_per_page": 0.0
-      },
-      "confirm_below_tau": {
-        "accuracy": 0.9429,
-        "macro_f1": 0.943,
-        "pages_diagnosed_differently_from_true_text": 0.05,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 7.23,
-        "pages_with_a_highlight": 0.9976,
-        "lines_to_retype_per_page": 0.22
-      }
-    },
-    "ruled_paper": {
-      "transcription_exact": 0.1381,
-      "no_confirmation": {
-        "accuracy": 0.3071,
-        "macro_f1": 0.3415,
-        "pages_diagnosed_differently_from_true_text": 0.6905,
-        "correct_work_marked_wrong": 0.4833,
-        "symbols_to_check_per_page": 0.0,
-        "pages_with_a_highlight": 0.0,
-        "lines_to_retype_per_page": 0.0
-      },
-      "confirm_below_tau": {
-        "accuracy": 0.9452,
-        "macro_f1": 0.9488,
-        "pages_diagnosed_differently_from_true_text": 0.0476,
-        "correct_work_marked_wrong": 0.0,
-        "symbols_to_check_per_page": 8.49,
-        "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.29
-      }
-    },
-    "uneven_lighting": {
-      "transcription_exact": 0.2,
-      "no_confirmation": {
-        "accuracy": 0.369,
-        "macro_f1": 0.405,
-        "pages_diagnosed_differently_from_true_text": 0.6333,
-        "correct_work_marked_wrong": 0.45,
-        "symbols_to_check_per_page": 0.0,
-        "pages_with_a_highlight": 0.0,
-        "lines_to_retype_per_page": 0.0
-      },
-      "confirm_below_tau": {
-        "accuracy": 0.9524,
-        "macro_f1": 0.9561,
-        "pages_diagnosed_differently_from_true_text": 0.0405,
-        "correct_work_marked_wrong": 0.05,
-        "symbols_to_check_per_page": 7.11,
-        "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.2
-      }
-    },
-    "cast_shadow": {
-      "transcription_exact": 0.2024,
-      "no_confirmation": {
-        "accuracy": 0.3786,
-        "macro_f1": 0.4171,
-        "pages_diagnosed_differently_from_true_text": 0.619,
-        "correct_work_marked_wrong": 0.55,
-        "symbols_to_check_per_page": 0.0,
-        "pages_with_a_highlight": 0.0,
-        "lines_to_retype_per_page": 0.0
-      },
-      "confirm_below_tau": {
-        "accuracy": 0.9643,
-        "macro_f1": 0.9645,
-        "pages_diagnosed_differently_from_true_text": 0.0286,
-        "correct_work_marked_wrong": 0.0333,
-        "symbols_to_check_per_page": 7.3,
-        "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.26
-      }
-    },
-    "tilt": {
-      "transcription_exact": 0.1643,
-      "no_confirmation": {
-        "accuracy": 0.3262,
-        "macro_f1": 0.3769,
-        "pages_diagnosed_differently_from_true_text": 0.6714,
-        "correct_work_marked_wrong": 0.4833,
-        "symbols_to_check_per_page": 0.0,
-        "pages_with_a_highlight": 0.0,
-        "lines_to_retype_per_page": 0.0
-      },
-      "confirm_below_tau": {
-        "accuracy": 0.9524,
-        "macro_f1": 0.9562,
-        "pages_diagnosed_differently_from_true_text": 0.0405,
-        "correct_work_marked_wrong": 0.05,
-        "symbols_to_check_per_page": 7.9,
-        "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.28
-      }
-    },
-    "blur": {
-      "transcription_exact": 0.0524,
-      "no_confirmation": {
-        "accuracy": 0.2048,
-        "macro_f1": 0.2265,
-        "pages_diagnosed_differently_from_true_text": 0.7976,
-        "correct_work_marked_wrong": 0.6,
-        "symbols_to_check_per_page": 0.0,
-        "pages_with_a_highlight": 0.0,
-        "lines_to_retype_per_page": 0.0
-      },
-      "confirm_below_tau": {
-        "accuracy": 0.9024,
-        "macro_f1": 0.9112,
-        "pages_diagnosed_differently_from_true_text": 0.0905,
-        "correct_work_marked_wrong": 0.05,
-        "symbols_to_check_per_page": 8.88,
-        "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.21
-      }
-    },
-    "noise_jpeg": {
-      "transcription_exact": 0.1929,
-      "no_confirmation": {
-        "accuracy": 0.3786,
-        "macro_f1": 0.4052,
-        "pages_diagnosed_differently_from_true_text": 0.619,
-        "correct_work_marked_wrong": 0.4167,
-        "symbols_to_check_per_page": 0.0,
-        "pages_with_a_highlight": 0.0,
-        "lines_to_retype_per_page": 0.0
-      },
-      "confirm_below_tau": {
-        "accuracy": 0.9333,
-        "macro_f1": 0.9382,
-        "pages_diagnosed_differently_from_true_text": 0.0595,
-        "correct_work_marked_wrong": 0.0167,
-        "symbols_to_check_per_page": 7.02,
-        "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.29
-      }
-    },
-    "low_resolution": {
-      "transcription_exact": 0.0524,
-      "no_confirmation": {
-        "accuracy": 0.2119,
-        "macro_f1": 0.234,
-        "pages_diagnosed_differently_from_true_text": 0.7905,
+        "accuracy": 0.2857,
+        "macro_f1": 0.2952,
+        "pages_diagnosed_differently_from_true_text": 0.7119,
         "correct_work_marked_wrong": 0.5833,
         "symbols_to_check_per_page": 0.0,
         "pages_with_a_highlight": 0.0,
         "lines_to_retype_per_page": 0.0
       },
       "confirm_below_tau": {
-        "accuracy": 0.8929,
-        "macro_f1": 0.9019,
-        "pages_diagnosed_differently_from_true_text": 0.1,
-        "correct_work_marked_wrong": 0.1,
-        "symbols_to_check_per_page": 9.0,
-        "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.25
+        "accuracy": 0.9238,
+        "macro_f1": 0.9373,
+        "pages_diagnosed_differently_from_true_text": 0.069,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 8.0,
+        "pages_with_a_highlight": 0.9952,
+        "lines_to_retype_per_page": 0.95
       }
     },
-    "phone_mild": {
-      "transcription_exact": 0.0857,
+    "paper_and_pen": {
+      "transcription_exact": 0.0952,
       "no_confirmation": {
-        "accuracy": 0.2786,
-        "macro_f1": 0.2924,
-        "pages_diagnosed_differently_from_true_text": 0.719,
-        "correct_work_marked_wrong": 0.4833,
+        "accuracy": 0.2214,
+        "macro_f1": 0.2376,
+        "pages_diagnosed_differently_from_true_text": 0.7786,
+        "correct_work_marked_wrong": 0.6,
         "symbols_to_check_per_page": 0.0,
         "pages_with_a_highlight": 0.0,
         "lines_to_retype_per_page": 0.0
       },
       "confirm_below_tau": {
-        "accuracy": 0.9452,
-        "macro_f1": 0.9503,
-        "pages_diagnosed_differently_from_true_text": 0.0476,
+        "accuracy": 0.9262,
+        "macro_f1": 0.9354,
+        "pages_diagnosed_differently_from_true_text": 0.0667,
+        "correct_work_marked_wrong": 0.1,
+        "symbols_to_check_per_page": 8.05,
+        "pages_with_a_highlight": 0.9976,
+        "lines_to_retype_per_page": 1.02
+      }
+    },
+    "ruled_paper": {
+      "transcription_exact": 0.0452,
+      "no_confirmation": {
+        "accuracy": 0.2071,
+        "macro_f1": 0.2163,
+        "pages_diagnosed_differently_from_true_text": 0.7952,
+        "correct_work_marked_wrong": 0.6333,
+        "symbols_to_check_per_page": 0.0,
+        "pages_with_a_highlight": 0.0,
+        "lines_to_retype_per_page": 0.0
+      },
+      "confirm_below_tau": {
+        "accuracy": 0.8929,
+        "macro_f1": 0.9056,
+        "pages_diagnosed_differently_from_true_text": 0.1,
+        "correct_work_marked_wrong": 0.0833,
+        "symbols_to_check_per_page": 8.27,
+        "pages_with_a_highlight": 0.9929,
+        "lines_to_retype_per_page": 0.93
+      }
+    },
+    "uneven_lighting": {
+      "transcription_exact": 0.0738,
+      "no_confirmation": {
+        "accuracy": 0.2357,
+        "macro_f1": 0.2395,
+        "pages_diagnosed_differently_from_true_text": 0.7643,
+        "correct_work_marked_wrong": 0.5667,
+        "symbols_to_check_per_page": 0.0,
+        "pages_with_a_highlight": 0.0,
+        "lines_to_retype_per_page": 0.0
+      },
+      "confirm_below_tau": {
+        "accuracy": 0.9405,
+        "macro_f1": 0.9484,
+        "pages_diagnosed_differently_from_true_text": 0.0524,
         "correct_work_marked_wrong": 0.0333,
-        "symbols_to_check_per_page": 8.09,
+        "symbols_to_check_per_page": 7.94,
+        "pages_with_a_highlight": 0.9952,
+        "lines_to_retype_per_page": 0.87
+      }
+    },
+    "cast_shadow": {
+      "transcription_exact": 0.0643,
+      "no_confirmation": {
+        "accuracy": 0.2357,
+        "macro_f1": 0.2417,
+        "pages_diagnosed_differently_from_true_text": 0.7667,
+        "correct_work_marked_wrong": 0.6167,
+        "symbols_to_check_per_page": 0.0,
+        "pages_with_a_highlight": 0.0,
+        "lines_to_retype_per_page": 0.0
+      },
+      "confirm_below_tau": {
+        "accuracy": 0.919,
+        "macro_f1": 0.9333,
+        "pages_diagnosed_differently_from_true_text": 0.0738,
+        "correct_work_marked_wrong": 0.0167,
+        "symbols_to_check_per_page": 7.99,
+        "pages_with_a_highlight": 0.9881,
+        "lines_to_retype_per_page": 0.92
+      }
+    },
+    "tilt": {
+      "transcription_exact": 0.069,
+      "no_confirmation": {
+        "accuracy": 0.25,
+        "macro_f1": 0.257,
+        "pages_diagnosed_differently_from_true_text": 0.7476,
+        "correct_work_marked_wrong": 0.55,
+        "symbols_to_check_per_page": 0.0,
+        "pages_with_a_highlight": 0.0,
+        "lines_to_retype_per_page": 0.0
+      },
+      "confirm_below_tau": {
+        "accuracy": 0.9095,
+        "macro_f1": 0.9203,
+        "pages_diagnosed_differently_from_true_text": 0.0881,
+        "correct_work_marked_wrong": 0.0833,
+        "symbols_to_check_per_page": 7.89,
+        "pages_with_a_highlight": 0.9881,
+        "lines_to_retype_per_page": 0.95
+      }
+    },
+    "blur": {
+      "transcription_exact": 0.0357,
+      "no_confirmation": {
+        "accuracy": 0.2167,
+        "macro_f1": 0.2039,
+        "pages_diagnosed_differently_from_true_text": 0.781,
+        "correct_work_marked_wrong": 0.6333,
+        "symbols_to_check_per_page": 0.0,
+        "pages_with_a_highlight": 0.0,
+        "lines_to_retype_per_page": 0.0
+      },
+      "confirm_below_tau": {
+        "accuracy": 0.8929,
+        "macro_f1": 0.9015,
+        "pages_diagnosed_differently_from_true_text": 0.1,
+        "correct_work_marked_wrong": 0.1,
+        "symbols_to_check_per_page": 8.8,
+        "pages_with_a_highlight": 0.9952,
+        "lines_to_retype_per_page": 1.14
+      }
+    },
+    "noise_jpeg": {
+      "transcription_exact": 0.069,
+      "no_confirmation": {
+        "accuracy": 0.2571,
+        "macro_f1": 0.2559,
+        "pages_diagnosed_differently_from_true_text": 0.7429,
+        "correct_work_marked_wrong": 0.6333,
+        "symbols_to_check_per_page": 0.0,
+        "pages_with_a_highlight": 0.0,
+        "lines_to_retype_per_page": 0.0
+      },
+      "confirm_below_tau": {
+        "accuracy": 0.931,
+        "macro_f1": 0.9369,
+        "pages_diagnosed_differently_from_true_text": 0.0619,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 8.02,
+        "pages_with_a_highlight": 0.9976,
+        "lines_to_retype_per_page": 0.93
+      }
+    },
+    "low_resolution": {
+      "transcription_exact": 0.0119,
+      "no_confirmation": {
+        "accuracy": 0.1595,
+        "macro_f1": 0.1387,
+        "pages_diagnosed_differently_from_true_text": 0.8381,
+        "correct_work_marked_wrong": 0.65,
+        "symbols_to_check_per_page": 0.0,
+        "pages_with_a_highlight": 0.0,
+        "lines_to_retype_per_page": 0.0
+      },
+      "confirm_below_tau": {
+        "accuracy": 0.9262,
+        "macro_f1": 0.9341,
+        "pages_diagnosed_differently_from_true_text": 0.0667,
+        "correct_work_marked_wrong": 0.0833,
+        "symbols_to_check_per_page": 9.77,
         "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.18
+        "lines_to_retype_per_page": 1.29
+      }
+    },
+    "phone_mild": {
+      "transcription_exact": 0.0452,
+      "no_confirmation": {
+        "accuracy": 0.2167,
+        "macro_f1": 0.2109,
+        "pages_diagnosed_differently_from_true_text": 0.781,
+        "correct_work_marked_wrong": 0.5,
+        "symbols_to_check_per_page": 0.0,
+        "pages_with_a_highlight": 0.0,
+        "lines_to_retype_per_page": 0.0
+      },
+      "confirm_below_tau": {
+        "accuracy": 0.9333,
+        "macro_f1": 0.9376,
+        "pages_diagnosed_differently_from_true_text": 0.0595,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 8.36,
+        "pages_with_a_highlight": 0.9976,
+        "lines_to_retype_per_page": 0.96
       }
     },
     "phone_moderate": {
       "transcription_exact": 0.0,
       "no_confirmation": {
-        "accuracy": 0.0405,
-        "macro_f1": 0.0594,
-        "pages_diagnosed_differently_from_true_text": 0.9595,
-        "correct_work_marked_wrong": 0.2167,
+        "accuracy": 0.0667,
+        "macro_f1": 0.0738,
+        "pages_diagnosed_differently_from_true_text": 0.9333,
+        "correct_work_marked_wrong": 0.3333,
         "symbols_to_check_per_page": 0.0,
         "pages_with_a_highlight": 0.0,
         "lines_to_retype_per_page": 0.0
       },
       "confirm_below_tau": {
-        "accuracy": 0.9357,
-        "macro_f1": 0.9516,
-        "pages_diagnosed_differently_from_true_text": 0.0571,
-        "correct_work_marked_wrong": 0.0,
-        "symbols_to_check_per_page": 8.25,
-        "pages_with_a_highlight": 0.9929,
-        "lines_to_retype_per_page": 1.94
+        "accuracy": 0.9524,
+        "macro_f1": 0.967,
+        "pages_diagnosed_differently_from_true_text": 0.0452,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 7.58,
+        "pages_with_a_highlight": 0.9833,
+        "lines_to_retype_per_page": 1.96
       }
     },
     "phone_severe": {
       "transcription_exact": 0.0,
       "no_confirmation": {
-        "accuracy": 0.0119,
-        "macro_f1": 0.02,
-        "pages_diagnosed_differently_from_true_text": 0.9905,
+        "accuracy": 0.0071,
+        "macro_f1": 0.0136,
+        "pages_diagnosed_differently_from_true_text": 0.9929,
         "correct_work_marked_wrong": 0.0333,
         "symbols_to_check_per_page": 0.0,
         "pages_with_a_highlight": 0.0,
         "lines_to_retype_per_page": 0.0
       },
       "confirm_below_tau": {
-        "accuracy": 0.9881,
-        "macro_f1": 0.9881,
-        "pages_diagnosed_differently_from_true_text": 0.0048,
-        "correct_work_marked_wrong": 0.0167,
-        "symbols_to_check_per_page": 4.45,
+        "accuracy": 0.981,
+        "macro_f1": 0.9821,
+        "pages_diagnosed_differently_from_true_text": 0.0119,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 4.49,
         "pages_with_a_highlight": 1.0,
         "lines_to_retype_per_page": 2.12
       }
@@ -284,517 +284,517 @@
     "clean": [
       {
         "tau": 0.3,
-        "accuracy": 0.4405,
-        "macro_f1": 0.4889,
-        "pages_diagnosed_differently_from_true_text": 0.5548,
-        "correct_work_marked_wrong": 0.3833,
-        "symbols_to_check_per_page": 0.68,
-        "pages_with_a_highlight": 0.481,
-        "lines_to_retype_per_page": 0.11
+        "accuracy": 0.7333,
+        "macro_f1": 0.7635,
+        "pages_diagnosed_differently_from_true_text": 0.2595,
+        "correct_work_marked_wrong": 0.2333,
+        "symbols_to_check_per_page": 4.08,
+        "pages_with_a_highlight": 0.8857,
+        "lines_to_retype_per_page": 0.9
       },
       {
         "tau": 0.35,
-        "accuracy": 0.469,
-        "macro_f1": 0.5209,
-        "pages_diagnosed_differently_from_true_text": 0.5238,
-        "correct_work_marked_wrong": 0.35,
-        "symbols_to_check_per_page": 0.81,
-        "pages_with_a_highlight": 0.5452,
-        "lines_to_retype_per_page": 0.14
+        "accuracy": 0.7714,
+        "macro_f1": 0.7977,
+        "pages_diagnosed_differently_from_true_text": 0.2214,
+        "correct_work_marked_wrong": 0.2,
+        "symbols_to_check_per_page": 4.47,
+        "pages_with_a_highlight": 0.9238,
+        "lines_to_retype_per_page": 0.91
       },
       {
         "tau": 0.4,
-        "accuracy": 0.481,
-        "macro_f1": 0.5312,
-        "pages_diagnosed_differently_from_true_text": 0.5119,
-        "correct_work_marked_wrong": 0.35,
-        "symbols_to_check_per_page": 0.94,
-        "pages_with_a_highlight": 0.5952,
-        "lines_to_retype_per_page": 0.15
+        "accuracy": 0.7976,
+        "macro_f1": 0.8211,
+        "pages_diagnosed_differently_from_true_text": 0.1952,
+        "correct_work_marked_wrong": 0.1833,
+        "symbols_to_check_per_page": 4.84,
+        "pages_with_a_highlight": 0.9381,
+        "lines_to_retype_per_page": 0.93
       },
       {
         "tau": 0.45,
-        "accuracy": 0.4952,
-        "macro_f1": 0.5462,
-        "pages_diagnosed_differently_from_true_text": 0.4976,
-        "correct_work_marked_wrong": 0.3333,
-        "symbols_to_check_per_page": 1.11,
-        "pages_with_a_highlight": 0.6619,
-        "lines_to_retype_per_page": 0.18
+        "accuracy": 0.819,
+        "macro_f1": 0.8407,
+        "pages_diagnosed_differently_from_true_text": 0.1738,
+        "correct_work_marked_wrong": 0.1667,
+        "symbols_to_check_per_page": 5.28,
+        "pages_with_a_highlight": 0.9476,
+        "lines_to_retype_per_page": 0.93
       },
       {
         "tau": 0.5,
-        "accuracy": 0.531,
-        "macro_f1": 0.5813,
-        "pages_diagnosed_differently_from_true_text": 0.4619,
-        "correct_work_marked_wrong": 0.3167,
-        "symbols_to_check_per_page": 1.34,
-        "pages_with_a_highlight": 0.719,
-        "lines_to_retype_per_page": 0.19
+        "accuracy": 0.8619,
+        "macro_f1": 0.8808,
+        "pages_diagnosed_differently_from_true_text": 0.131,
+        "correct_work_marked_wrong": 0.1333,
+        "symbols_to_check_per_page": 5.73,
+        "pages_with_a_highlight": 0.9595,
+        "lines_to_retype_per_page": 0.94
       },
       {
         "tau": 0.55,
-        "accuracy": 0.5833,
-        "macro_f1": 0.6311,
-        "pages_diagnosed_differently_from_true_text": 0.4095,
-        "correct_work_marked_wrong": 0.3,
-        "symbols_to_check_per_page": 1.57,
-        "pages_with_a_highlight": 0.7762,
-        "lines_to_retype_per_page": 0.2
+        "accuracy": 0.8786,
+        "macro_f1": 0.8961,
+        "pages_diagnosed_differently_from_true_text": 0.1143,
+        "correct_work_marked_wrong": 0.1,
+        "symbols_to_check_per_page": 6.1,
+        "pages_with_a_highlight": 0.9619,
+        "lines_to_retype_per_page": 0.94
       },
       {
         "tau": 0.6,
-        "accuracy": 0.6167,
-        "macro_f1": 0.6646,
-        "pages_diagnosed_differently_from_true_text": 0.3762,
-        "correct_work_marked_wrong": 0.25,
-        "symbols_to_check_per_page": 1.84,
-        "pages_with_a_highlight": 0.8143,
-        "lines_to_retype_per_page": 0.21
+        "accuracy": 0.8952,
+        "macro_f1": 0.9112,
+        "pages_diagnosed_differently_from_true_text": 0.0976,
+        "correct_work_marked_wrong": 0.0667,
+        "symbols_to_check_per_page": 6.51,
+        "pages_with_a_highlight": 0.9762,
+        "lines_to_retype_per_page": 0.95
       },
       {
         "tau": 0.65,
-        "accuracy": 0.631,
-        "macro_f1": 0.6773,
-        "pages_diagnosed_differently_from_true_text": 0.3619,
-        "correct_work_marked_wrong": 0.2333,
-        "symbols_to_check_per_page": 2.1,
-        "pages_with_a_highlight": 0.8619,
-        "lines_to_retype_per_page": 0.22
+        "accuracy": 0.9048,
+        "macro_f1": 0.9204,
+        "pages_diagnosed_differently_from_true_text": 0.0881,
+        "correct_work_marked_wrong": 0.0667,
+        "symbols_to_check_per_page": 6.97,
+        "pages_with_a_highlight": 0.9881,
+        "lines_to_retype_per_page": 0.95
       },
       {
         "tau": 0.7,
-        "accuracy": 0.6595,
-        "macro_f1": 0.7035,
-        "pages_diagnosed_differently_from_true_text": 0.3333,
-        "correct_work_marked_wrong": 0.2333,
-        "symbols_to_check_per_page": 2.36,
-        "pages_with_a_highlight": 0.9048,
-        "lines_to_retype_per_page": 0.22
+        "accuracy": 0.9143,
+        "macro_f1": 0.9291,
+        "pages_diagnosed_differently_from_true_text": 0.0786,
+        "correct_work_marked_wrong": 0.0667,
+        "symbols_to_check_per_page": 7.47,
+        "pages_with_a_highlight": 0.9952,
+        "lines_to_retype_per_page": 0.95
       },
       {
         "tau": 0.75,
-        "accuracy": 0.6952,
-        "macro_f1": 0.7357,
-        "pages_diagnosed_differently_from_true_text": 0.2976,
-        "correct_work_marked_wrong": 0.2333,
-        "symbols_to_check_per_page": 2.68,
-        "pages_with_a_highlight": 0.931,
-        "lines_to_retype_per_page": 0.23
+        "accuracy": 0.9238,
+        "macro_f1": 0.9373,
+        "pages_diagnosed_differently_from_true_text": 0.069,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 8.0,
+        "pages_with_a_highlight": 0.9952,
+        "lines_to_retype_per_page": 0.95
       },
       {
         "tau": 0.8,
-        "accuracy": 0.7333,
-        "macro_f1": 0.7668,
-        "pages_diagnosed_differently_from_true_text": 0.2595,
-        "correct_work_marked_wrong": 0.2167,
-        "symbols_to_check_per_page": 3.05,
-        "pages_with_a_highlight": 0.9452,
-        "lines_to_retype_per_page": 0.23
+        "accuracy": 0.9381,
+        "macro_f1": 0.9473,
+        "pages_diagnosed_differently_from_true_text": 0.0548,
+        "correct_work_marked_wrong": 0.0167,
+        "symbols_to_check_per_page": 8.7,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.85,
-        "accuracy": 0.7929,
-        "macro_f1": 0.8207,
-        "pages_diagnosed_differently_from_true_text": 0.2,
-        "correct_work_marked_wrong": 0.1667,
-        "symbols_to_check_per_page": 3.49,
-        "pages_with_a_highlight": 0.9571,
-        "lines_to_retype_per_page": 0.24
+        "accuracy": 0.9595,
+        "macro_f1": 0.9654,
+        "pages_diagnosed_differently_from_true_text": 0.0333,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 9.62,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.9,
-        "accuracy": 0.8571,
-        "macro_f1": 0.8706,
-        "pages_diagnosed_differently_from_true_text": 0.1357,
-        "correct_work_marked_wrong": 0.15,
-        "symbols_to_check_per_page": 4.24,
-        "pages_with_a_highlight": 0.9857,
-        "lines_to_retype_per_page": 0.24
+        "accuracy": 0.981,
+        "macro_f1": 0.9822,
+        "pages_diagnosed_differently_from_true_text": 0.0119,
+        "correct_work_marked_wrong": 0.0167,
+        "symbols_to_check_per_page": 10.5,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.92,
-        "accuracy": 0.8762,
-        "macro_f1": 0.8876,
-        "pages_diagnosed_differently_from_true_text": 0.1167,
-        "correct_work_marked_wrong": 0.15,
-        "symbols_to_check_per_page": 4.64,
-        "pages_with_a_highlight": 0.9857,
-        "lines_to_retype_per_page": 0.25
+        "accuracy": 0.9881,
+        "macro_f1": 0.9893,
+        "pages_diagnosed_differently_from_true_text": 0.0048,
+        "correct_work_marked_wrong": 0.0167,
+        "symbols_to_check_per_page": 11.01,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.94,
-        "accuracy": 0.8929,
-        "macro_f1": 0.9036,
-        "pages_diagnosed_differently_from_true_text": 0.1,
-        "correct_work_marked_wrong": 0.1167,
-        "symbols_to_check_per_page": 5.07,
-        "pages_with_a_highlight": 0.9881,
-        "lines_to_retype_per_page": 0.25
+        "accuracy": 0.9881,
+        "macro_f1": 0.9893,
+        "pages_diagnosed_differently_from_true_text": 0.0048,
+        "correct_work_marked_wrong": 0.0167,
+        "symbols_to_check_per_page": 11.48,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.96,
-        "accuracy": 0.9167,
-        "macro_f1": 0.9259,
-        "pages_diagnosed_differently_from_true_text": 0.0762,
-        "correct_work_marked_wrong": 0.1,
-        "symbols_to_check_per_page": 5.76,
-        "pages_with_a_highlight": 0.9976,
-        "lines_to_retype_per_page": 0.25
+        "accuracy": 0.9905,
+        "macro_f1": 0.9905,
+        "pages_diagnosed_differently_from_true_text": 0.0024,
+        "correct_work_marked_wrong": 0.0167,
+        "symbols_to_check_per_page": 12.11,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.98,
-        "accuracy": 0.9381,
-        "macro_f1": 0.9457,
-        "pages_diagnosed_differently_from_true_text": 0.0548,
-        "correct_work_marked_wrong": 0.05,
-        "symbols_to_check_per_page": 7.03,
-        "pages_with_a_highlight": 0.9976,
-        "lines_to_retype_per_page": 0.25
+        "accuracy": 0.9929,
+        "macro_f1": 0.9928,
+        "pages_diagnosed_differently_from_true_text": 0.0,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 12.67,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       }
     ],
     "phone_mild": [
       {
         "tau": 0.3,
-        "accuracy": 0.3905,
-        "macro_f1": 0.4178,
-        "pages_diagnosed_differently_from_true_text": 0.6071,
-        "correct_work_marked_wrong": 0.35,
-        "symbols_to_check_per_page": 0.97,
-        "pages_with_a_highlight": 0.6381,
-        "lines_to_retype_per_page": 0.12
+        "accuracy": 0.7262,
+        "macro_f1": 0.7534,
+        "pages_diagnosed_differently_from_true_text": 0.2714,
+        "correct_work_marked_wrong": 0.1333,
+        "symbols_to_check_per_page": 4.52,
+        "pages_with_a_highlight": 0.9262,
+        "lines_to_retype_per_page": 0.92
       },
       {
         "tau": 0.35,
-        "accuracy": 0.4119,
-        "macro_f1": 0.4415,
-        "pages_diagnosed_differently_from_true_text": 0.5857,
-        "correct_work_marked_wrong": 0.3167,
-        "symbols_to_check_per_page": 1.17,
-        "pages_with_a_highlight": 0.7071,
-        "lines_to_retype_per_page": 0.13
+        "accuracy": 0.7619,
+        "macro_f1": 0.7863,
+        "pages_diagnosed_differently_from_true_text": 0.2357,
+        "correct_work_marked_wrong": 0.0833,
+        "symbols_to_check_per_page": 4.98,
+        "pages_with_a_highlight": 0.9524,
+        "lines_to_retype_per_page": 0.94
       },
       {
         "tau": 0.4,
-        "accuracy": 0.4238,
-        "macro_f1": 0.4563,
-        "pages_diagnosed_differently_from_true_text": 0.5738,
-        "correct_work_marked_wrong": 0.3,
-        "symbols_to_check_per_page": 1.38,
-        "pages_with_a_highlight": 0.7619,
-        "lines_to_retype_per_page": 0.14
+        "accuracy": 0.781,
+        "macro_f1": 0.8026,
+        "pages_diagnosed_differently_from_true_text": 0.2143,
+        "correct_work_marked_wrong": 0.0833,
+        "symbols_to_check_per_page": 5.44,
+        "pages_with_a_highlight": 0.9667,
+        "lines_to_retype_per_page": 0.94
       },
       {
         "tau": 0.45,
-        "accuracy": 0.4524,
-        "macro_f1": 0.4886,
-        "pages_diagnosed_differently_from_true_text": 0.5452,
-        "correct_work_marked_wrong": 0.2667,
-        "symbols_to_check_per_page": 1.59,
-        "pages_with_a_highlight": 0.7929,
-        "lines_to_retype_per_page": 0.15
+        "accuracy": 0.819,
+        "macro_f1": 0.837,
+        "pages_diagnosed_differently_from_true_text": 0.1762,
+        "correct_work_marked_wrong": 0.0667,
+        "symbols_to_check_per_page": 5.84,
+        "pages_with_a_highlight": 0.9786,
+        "lines_to_retype_per_page": 0.95
       },
       {
         "tau": 0.5,
-        "accuracy": 0.4762,
-        "macro_f1": 0.515,
-        "pages_diagnosed_differently_from_true_text": 0.5214,
-        "correct_work_marked_wrong": 0.25,
-        "symbols_to_check_per_page": 1.83,
-        "pages_with_a_highlight": 0.831,
-        "lines_to_retype_per_page": 0.15
+        "accuracy": 0.8333,
+        "macro_f1": 0.8502,
+        "pages_diagnosed_differently_from_true_text": 0.1619,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 6.27,
+        "pages_with_a_highlight": 0.9881,
+        "lines_to_retype_per_page": 0.95
       },
       {
         "tau": 0.55,
-        "accuracy": 0.5071,
-        "macro_f1": 0.5464,
-        "pages_diagnosed_differently_from_true_text": 0.4952,
-        "correct_work_marked_wrong": 0.2833,
-        "symbols_to_check_per_page": 2.14,
-        "pages_with_a_highlight": 0.8786,
-        "lines_to_retype_per_page": 0.15
+        "accuracy": 0.8548,
+        "macro_f1": 0.8703,
+        "pages_diagnosed_differently_from_true_text": 0.1405,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 6.68,
+        "pages_with_a_highlight": 0.9929,
+        "lines_to_retype_per_page": 0.95
       },
       {
         "tau": 0.6,
-        "accuracy": 0.5405,
-        "macro_f1": 0.5841,
-        "pages_diagnosed_differently_from_true_text": 0.4619,
-        "correct_work_marked_wrong": 0.2667,
-        "symbols_to_check_per_page": 2.49,
-        "pages_with_a_highlight": 0.9143,
-        "lines_to_retype_per_page": 0.16
+        "accuracy": 0.8762,
+        "macro_f1": 0.8892,
+        "pages_diagnosed_differently_from_true_text": 0.1167,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 7.05,
+        "pages_with_a_highlight": 0.9929,
+        "lines_to_retype_per_page": 0.95
       },
       {
         "tau": 0.65,
-        "accuracy": 0.581,
-        "macro_f1": 0.6261,
-        "pages_diagnosed_differently_from_true_text": 0.4214,
-        "correct_work_marked_wrong": 0.25,
-        "symbols_to_check_per_page": 2.81,
-        "pages_with_a_highlight": 0.9405,
-        "lines_to_retype_per_page": 0.16
+        "accuracy": 0.8929,
+        "macro_f1": 0.9033,
+        "pages_diagnosed_differently_from_true_text": 0.1,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 7.5,
+        "pages_with_a_highlight": 0.9976,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.7,
-        "accuracy": 0.6167,
-        "macro_f1": 0.6587,
-        "pages_diagnosed_differently_from_true_text": 0.3857,
-        "correct_work_marked_wrong": 0.2333,
-        "symbols_to_check_per_page": 3.13,
-        "pages_with_a_highlight": 0.9548,
-        "lines_to_retype_per_page": 0.17
+        "accuracy": 0.919,
+        "macro_f1": 0.9267,
+        "pages_diagnosed_differently_from_true_text": 0.0738,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 7.91,
+        "pages_with_a_highlight": 0.9976,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.75,
-        "accuracy": 0.6667,
-        "macro_f1": 0.7065,
-        "pages_diagnosed_differently_from_true_text": 0.3357,
-        "correct_work_marked_wrong": 0.1667,
-        "symbols_to_check_per_page": 3.49,
-        "pages_with_a_highlight": 0.9714,
-        "lines_to_retype_per_page": 0.17
+        "accuracy": 0.9333,
+        "macro_f1": 0.9376,
+        "pages_diagnosed_differently_from_true_text": 0.0595,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 8.36,
+        "pages_with_a_highlight": 0.9976,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.8,
-        "accuracy": 0.7143,
-        "macro_f1": 0.7509,
-        "pages_diagnosed_differently_from_true_text": 0.2857,
-        "correct_work_marked_wrong": 0.1333,
-        "symbols_to_check_per_page": 3.94,
-        "pages_with_a_highlight": 0.9857,
-        "lines_to_retype_per_page": 0.17
+        "accuracy": 0.9357,
+        "macro_f1": 0.939,
+        "pages_diagnosed_differently_from_true_text": 0.0571,
+        "correct_work_marked_wrong": 0.0167,
+        "symbols_to_check_per_page": 8.91,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.85,
-        "accuracy": 0.7429,
-        "macro_f1": 0.7764,
-        "pages_diagnosed_differently_from_true_text": 0.2524,
-        "correct_work_marked_wrong": 0.1667,
-        "symbols_to_check_per_page": 4.52,
-        "pages_with_a_highlight": 0.9857,
-        "lines_to_retype_per_page": 0.18
+        "accuracy": 0.9548,
+        "macro_f1": 0.9574,
+        "pages_diagnosed_differently_from_true_text": 0.0381,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 9.63,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.9,
-        "accuracy": 0.8095,
-        "macro_f1": 0.8323,
-        "pages_diagnosed_differently_from_true_text": 0.1833,
-        "correct_work_marked_wrong": 0.15,
-        "symbols_to_check_per_page": 5.3,
-        "pages_with_a_highlight": 0.9905,
-        "lines_to_retype_per_page": 0.18
+        "accuracy": 0.9714,
+        "macro_f1": 0.9716,
+        "pages_diagnosed_differently_from_true_text": 0.0214,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 10.53,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.92,
-        "accuracy": 0.8405,
-        "macro_f1": 0.859,
-        "pages_diagnosed_differently_from_true_text": 0.1524,
-        "correct_work_marked_wrong": 0.1167,
-        "symbols_to_check_per_page": 5.66,
-        "pages_with_a_highlight": 0.9929,
-        "lines_to_retype_per_page": 0.18
+        "accuracy": 0.981,
+        "macro_f1": 0.981,
+        "pages_diagnosed_differently_from_true_text": 0.0119,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 11.08,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.94,
-        "accuracy": 0.8667,
-        "macro_f1": 0.8805,
-        "pages_diagnosed_differently_from_true_text": 0.1262,
-        "correct_work_marked_wrong": 0.1167,
-        "symbols_to_check_per_page": 6.15,
-        "pages_with_a_highlight": 0.9952,
-        "lines_to_retype_per_page": 0.18
+        "accuracy": 0.9833,
+        "macro_f1": 0.9834,
+        "pages_diagnosed_differently_from_true_text": 0.0095,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 11.61,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.96,
-        "accuracy": 0.8952,
-        "macro_f1": 0.9062,
-        "pages_diagnosed_differently_from_true_text": 0.0976,
-        "correct_work_marked_wrong": 0.1,
-        "symbols_to_check_per_page": 6.83,
-        "pages_with_a_highlight": 0.9952,
-        "lines_to_retype_per_page": 0.18
+        "accuracy": 0.9881,
+        "macro_f1": 0.9881,
+        "pages_diagnosed_differently_from_true_text": 0.0048,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 12.13,
+        "pages_with_a_highlight": 1.0,
+        "lines_to_retype_per_page": 0.96
       },
       {
         "tau": 0.98,
-        "accuracy": 0.9452,
-        "macro_f1": 0.9503,
-        "pages_diagnosed_differently_from_true_text": 0.0476,
-        "correct_work_marked_wrong": 0.0333,
-        "symbols_to_check_per_page": 8.09,
+        "accuracy": 0.9929,
+        "macro_f1": 0.9928,
+        "pages_diagnosed_differently_from_true_text": 0.0,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 12.56,
         "pages_with_a_highlight": 1.0,
-        "lines_to_retype_per_page": 0.18
+        "lines_to_retype_per_page": 0.96
       }
     ],
     "phone_moderate": [
       {
         "tau": 0.3,
-        "accuracy": 0.619,
-        "macro_f1": 0.7144,
-        "pages_diagnosed_differently_from_true_text": 0.3786,
-        "correct_work_marked_wrong": 0.1,
-        "symbols_to_check_per_page": 1.47,
-        "pages_with_a_highlight": 0.7476,
-        "lines_to_retype_per_page": 1.37
+        "accuracy": 0.7905,
+        "macro_f1": 0.8487,
+        "pages_diagnosed_differently_from_true_text": 0.2048,
+        "correct_work_marked_wrong": 0.0667,
+        "symbols_to_check_per_page": 4.75,
+        "pages_with_a_highlight": 0.8643,
+        "lines_to_retype_per_page": 1.68
       },
       {
         "tau": 0.35,
-        "accuracy": 0.6738,
-        "macro_f1": 0.7538,
-        "pages_diagnosed_differently_from_true_text": 0.3238,
-        "correct_work_marked_wrong": 0.0833,
-        "symbols_to_check_per_page": 1.74,
-        "pages_with_a_highlight": 0.819,
-        "lines_to_retype_per_page": 1.5
+        "accuracy": 0.819,
+        "macro_f1": 0.8701,
+        "pages_diagnosed_differently_from_true_text": 0.1762,
+        "correct_work_marked_wrong": 0.0667,
+        "symbols_to_check_per_page": 5.16,
+        "pages_with_a_highlight": 0.8976,
+        "lines_to_retype_per_page": 1.76
       },
       {
         "tau": 0.4,
-        "accuracy": 0.7143,
-        "macro_f1": 0.7865,
-        "pages_diagnosed_differently_from_true_text": 0.2833,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 2.05,
-        "pages_with_a_highlight": 0.8643,
-        "lines_to_retype_per_page": 1.6
+        "accuracy": 0.8571,
+        "macro_f1": 0.8997,
+        "pages_diagnosed_differently_from_true_text": 0.1381,
+        "correct_work_marked_wrong": 0.05,
+        "symbols_to_check_per_page": 5.53,
+        "pages_with_a_highlight": 0.9214,
+        "lines_to_retype_per_page": 1.82
       },
       {
         "tau": 0.45,
-        "accuracy": 0.75,
-        "macro_f1": 0.8126,
-        "pages_diagnosed_differently_from_true_text": 0.2476,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 2.4,
-        "pages_with_a_highlight": 0.8929,
-        "lines_to_retype_per_page": 1.66
-      },
-      {
-        "tau": 0.5,
-        "accuracy": 0.7786,
-        "macro_f1": 0.8313,
-        "pages_diagnosed_differently_from_true_text": 0.219,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 2.74,
-        "pages_with_a_highlight": 0.9238,
-        "lines_to_retype_per_page": 1.72
-      },
-      {
-        "tau": 0.55,
-        "accuracy": 0.8048,
-        "macro_f1": 0.8547,
-        "pages_diagnosed_differently_from_true_text": 0.1929,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 3.14,
-        "pages_with_a_highlight": 0.9429,
-        "lines_to_retype_per_page": 1.78
-      },
-      {
-        "tau": 0.6,
-        "accuracy": 0.8238,
-        "macro_f1": 0.8677,
-        "pages_diagnosed_differently_from_true_text": 0.1738,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 3.45,
-        "pages_with_a_highlight": 0.9619,
-        "lines_to_retype_per_page": 1.81
-      },
-      {
-        "tau": 0.65,
-        "accuracy": 0.8357,
-        "macro_f1": 0.8746,
-        "pages_diagnosed_differently_from_true_text": 0.1619,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 3.8,
-        "pages_with_a_highlight": 0.969,
-        "lines_to_retype_per_page": 1.83
-      },
-      {
-        "tau": 0.7,
-        "accuracy": 0.8429,
-        "macro_f1": 0.8798,
-        "pages_diagnosed_differently_from_true_text": 0.1548,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 4.18,
-        "pages_with_a_highlight": 0.9714,
-        "lines_to_retype_per_page": 1.85
-      },
-      {
-        "tau": 0.75,
-        "accuracy": 0.8548,
-        "macro_f1": 0.8875,
-        "pages_diagnosed_differently_from_true_text": 0.1429,
-        "correct_work_marked_wrong": 0.0667,
-        "symbols_to_check_per_page": 4.58,
-        "pages_with_a_highlight": 0.9833,
+        "accuracy": 0.881,
+        "macro_f1": 0.9171,
+        "pages_diagnosed_differently_from_true_text": 0.1143,
+        "correct_work_marked_wrong": 0.05,
+        "symbols_to_check_per_page": 5.8,
+        "pages_with_a_highlight": 0.9381,
         "lines_to_retype_per_page": 1.87
       },
       {
-        "tau": 0.8,
-        "accuracy": 0.8738,
-        "macro_f1": 0.9006,
-        "pages_diagnosed_differently_from_true_text": 0.1238,
-        "correct_work_marked_wrong": 0.05,
-        "symbols_to_check_per_page": 4.99,
-        "pages_with_a_highlight": 0.9857,
+        "tau": 0.5,
+        "accuracy": 0.8881,
+        "macro_f1": 0.9208,
+        "pages_diagnosed_differently_from_true_text": 0.1071,
+        "correct_work_marked_wrong": 0.0667,
+        "symbols_to_check_per_page": 6.06,
+        "pages_with_a_highlight": 0.9405,
         "lines_to_retype_per_page": 1.88
       },
       {
-        "tau": 0.85,
-        "accuracy": 0.8786,
-        "macro_f1": 0.9044,
-        "pages_diagnosed_differently_from_true_text": 0.119,
+        "tau": 0.55,
+        "accuracy": 0.9143,
+        "macro_f1": 0.9398,
+        "pages_diagnosed_differently_from_true_text": 0.0833,
         "correct_work_marked_wrong": 0.05,
-        "symbols_to_check_per_page": 5.45,
-        "pages_with_a_highlight": 0.9881,
-        "lines_to_retype_per_page": 1.89
-      },
-      {
-        "tau": 0.9,
-        "accuracy": 0.8929,
-        "macro_f1": 0.9168,
-        "pages_diagnosed_differently_from_true_text": 0.1048,
-        "correct_work_marked_wrong": 0.0333,
-        "symbols_to_check_per_page": 6.07,
-        "pages_with_a_highlight": 0.9905,
-        "lines_to_retype_per_page": 1.9
-      },
-      {
-        "tau": 0.92,
-        "accuracy": 0.8952,
-        "macro_f1": 0.9168,
-        "pages_diagnosed_differently_from_true_text": 0.1,
-        "correct_work_marked_wrong": 0.0333,
-        "symbols_to_check_per_page": 6.35,
-        "pages_with_a_highlight": 0.9905,
-        "lines_to_retype_per_page": 1.9
-      },
-      {
-        "tau": 0.94,
-        "accuracy": 0.9095,
-        "macro_f1": 0.9281,
-        "pages_diagnosed_differently_from_true_text": 0.0857,
-        "correct_work_marked_wrong": 0.0167,
-        "symbols_to_check_per_page": 6.78,
-        "pages_with_a_highlight": 0.9929,
-        "lines_to_retype_per_page": 1.91
-      },
-      {
-        "tau": 0.96,
-        "accuracy": 0.9238,
-        "macro_f1": 0.9405,
-        "pages_diagnosed_differently_from_true_text": 0.069,
-        "correct_work_marked_wrong": 0.0333,
-        "symbols_to_check_per_page": 7.35,
-        "pages_with_a_highlight": 0.9929,
+        "symbols_to_check_per_page": 6.37,
+        "pages_with_a_highlight": 0.9619,
         "lines_to_retype_per_page": 1.93
       },
       {
-        "tau": 0.98,
-        "accuracy": 0.9357,
-        "macro_f1": 0.9516,
-        "pages_diagnosed_differently_from_true_text": 0.0571,
-        "correct_work_marked_wrong": 0.0,
-        "symbols_to_check_per_page": 8.25,
+        "tau": 0.6,
+        "accuracy": 0.919,
+        "macro_f1": 0.9437,
+        "pages_diagnosed_differently_from_true_text": 0.0786,
+        "correct_work_marked_wrong": 0.05,
+        "symbols_to_check_per_page": 6.64,
+        "pages_with_a_highlight": 0.9619,
+        "lines_to_retype_per_page": 1.93
+      },
+      {
+        "tau": 0.65,
+        "accuracy": 0.931,
+        "macro_f1": 0.9524,
+        "pages_diagnosed_differently_from_true_text": 0.0667,
+        "correct_work_marked_wrong": 0.05,
+        "symbols_to_check_per_page": 6.95,
+        "pages_with_a_highlight": 0.9714,
+        "lines_to_retype_per_page": 1.95
+      },
+      {
+        "tau": 0.7,
+        "accuracy": 0.9476,
+        "macro_f1": 0.9633,
+        "pages_diagnosed_differently_from_true_text": 0.05,
+        "correct_work_marked_wrong": 0.05,
+        "symbols_to_check_per_page": 7.25,
+        "pages_with_a_highlight": 0.9833,
+        "lines_to_retype_per_page": 1.96
+      },
+      {
+        "tau": 0.75,
+        "accuracy": 0.9524,
+        "macro_f1": 0.967,
+        "pages_diagnosed_differently_from_true_text": 0.0452,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 7.58,
+        "pages_with_a_highlight": 0.9833,
+        "lines_to_retype_per_page": 1.96
+      },
+      {
+        "tau": 0.8,
+        "accuracy": 0.9571,
+        "macro_f1": 0.9673,
+        "pages_diagnosed_differently_from_true_text": 0.0357,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 7.94,
+        "pages_with_a_highlight": 0.9905,
+        "lines_to_retype_per_page": 1.98
+      },
+      {
+        "tau": 0.85,
+        "accuracy": 0.9619,
+        "macro_f1": 0.971,
+        "pages_diagnosed_differently_from_true_text": 0.031,
+        "correct_work_marked_wrong": 0.0333,
+        "symbols_to_check_per_page": 8.27,
+        "pages_with_a_highlight": 0.9905,
+        "lines_to_retype_per_page": 1.98
+      },
+      {
+        "tau": 0.9,
+        "accuracy": 0.9738,
+        "macro_f1": 0.9795,
+        "pages_diagnosed_differently_from_true_text": 0.019,
+        "correct_work_marked_wrong": 0.0167,
+        "symbols_to_check_per_page": 8.73,
         "pages_with_a_highlight": 0.9929,
-        "lines_to_retype_per_page": 1.94
+        "lines_to_retype_per_page": 1.98
+      },
+      {
+        "tau": 0.92,
+        "accuracy": 0.981,
+        "macro_f1": 0.9856,
+        "pages_diagnosed_differently_from_true_text": 0.0119,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 8.91,
+        "pages_with_a_highlight": 0.9952,
+        "lines_to_retype_per_page": 1.99
+      },
+      {
+        "tau": 0.94,
+        "accuracy": 0.981,
+        "macro_f1": 0.9856,
+        "pages_diagnosed_differently_from_true_text": 0.0119,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 9.12,
+        "pages_with_a_highlight": 0.9952,
+        "lines_to_retype_per_page": 1.99
+      },
+      {
+        "tau": 0.96,
+        "accuracy": 0.9857,
+        "macro_f1": 0.988,
+        "pages_diagnosed_differently_from_true_text": 0.0071,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 9.34,
+        "pages_with_a_highlight": 0.9976,
+        "lines_to_retype_per_page": 2.0
+      },
+      {
+        "tau": 0.98,
+        "accuracy": 0.9905,
+        "macro_f1": 0.9916,
+        "pages_diagnosed_differently_from_true_text": 0.0024,
+        "correct_work_marked_wrong": 0.0,
+        "symbols_to_check_per_page": 9.58,
+        "pages_with_a_highlight": 0.9976,
+        "lines_to_retype_per_page": 2.0
       }
     ]
   },

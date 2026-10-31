@@ -18,7 +18,7 @@ from pathlib import Path
 
 import numpy as np
 
-from app.ml import real_benchmark, real_mistakes, real_symbols, registry
+from app.ml import real_benchmark, real_cnn, real_mistakes, real_symbols, registry
 from app.ml.real_mistakes import train_real_mistake_classifier
 from app.ml.artifacts import BACKEND_ROOT, MISTAKE_MODEL_PATH, SYMBOL_MODEL_PATH, load_bundle, save_bundle
 from app.ml.irt.recommender import KT_MODEL_PATH
@@ -111,12 +111,12 @@ def main() -> None:
     parser.add_argument("--quick", action="store_true", help="small datasets for a fast smoke run")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--extra-symbols", type=str, default=None, help="folder of real labelled symbol crops")
-    parser.add_argument("--only", choices=["symbols", "real_symbols", "mistakes", "real_mistakes", "tracing", "real_tracing", "clustering"], default=None)
+    parser.add_argument("--only", choices=["symbols", "real_symbols", "cnn_symbols", "mistakes", "real_mistakes", "tracing", "real_tracing", "clustering"], default=None)
     args = parser.parse_args()
 
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     t0 = time.perf_counter()
-    todo = [args.only] if args.only else ["symbols", "real_symbols", "mistakes", "real_mistakes", "tracing", "real_tracing", "clustering"]
+    todo = [args.only] if args.only else ["symbols", "real_symbols", "cnn_symbols", "mistakes", "real_mistakes", "tracing", "real_tracing", "clustering"]
     have = real_symbols.available()
     have["assistments"] = ASSISTMENTS_PATH.exists()
 
@@ -153,6 +153,22 @@ def main() -> None:
             }, notes=f"real handwriting: {report['selected_training_data']}", activate=True)
             print(f"          registered symbol_classifier {version} (active)")
 
+    if "cnn_symbols" in todo:
+        if not have["crohme"] or not have["hasy"]:
+            print("[cnn_symbols] skipped - run scripts/download_datasets.py hasy crohme mnist first")
+        else:
+            print("[cnn_symbols] CNN + recognition-driven segmentation on real handwriting ...")
+            report, bundle = real_cnn.run(seed=args.seed, epochs=4 if args.quick else 20,
+                                          log=lambda m: print("          " + m))
+            _save_report("symbol_classifier_cnn", report)
+            print(f"          validation symbols {report['symbols']['val_accuracy']}, "
+                  f"expressions exact {report['expressions_test']['cnn_lattice_decoder']}")
+            save_bundle(bundle, SYMBOL_MODEL_PATH)
+            version = registry.register("symbol_classifier", bundle, {
+                "held_out_macro_f1": report["symbols"]["val_accuracy"], "benchmark": "CROHME + HME100K validation symbols",
+                "algorithm": "cnn", "n_corrections": 0}, notes="CNN + lattice decoding, real handwriting", activate=True)
+            print(f"          registered symbol_classifier {version} (active)")
+
     if "mistakes" in todo:
         print("[mistakes] generating labelled student work ...")
         samples = generate_samples(n_per_label=80 if args.quick else 350, seed=args.seed)
@@ -165,6 +181,15 @@ def main() -> None:
                         REPORT_DIR / "mistake_confusion.png")
         _plot_confusion(report["rule_based_confusion_matrix"], report["labels"], "Mistakes (rule-based baseline)",
                         REPORT_DIR / "mistake_confusion_rule_based.png")
+
+    if "mistakes" in todo:
+        from app.ml.validation.cogtutor import COGTUTOR_PATH, deploy_with_real_errors
+
+        if COGTUTOR_PATH.exists():
+            print("[mistakes] adding real CogTutor student errors (development templates) to training ...")
+            real = deploy_with_real_errors(seed=args.seed, log=lambda m: print("          " + m))
+            report["real_training"] = real
+            _save_report("mistake_classifier", report)
 
     if "real_mistakes" in todo:
         if not real_mistakes.available():

@@ -5,122 +5,122 @@
   "conditions": {
     "clean": {
       "otsu_only": {
-        "page_exact": 0.1667,
-        "mean_cer": 0.1253
+        "page_exact": 0.0905,
+        "mean_cer": 0.1807
       },
       "photo_robust": {
-        "page_exact": 0.1667,
-        "mean_cer": 0.1253
+        "page_exact": 0.0905,
+        "mean_cer": 0.1807
       }
     },
     "paper_and_pen": {
       "otsu_only": {
-        "page_exact": 0.2,
-        "mean_cer": 0.1175
+        "page_exact": 0.1048,
+        "mean_cer": 0.1774
       },
       "photo_robust": {
-        "page_exact": 0.2,
-        "mean_cer": 0.1175
+        "page_exact": 0.1048,
+        "mean_cer": 0.1774
       }
     },
     "ruled_paper": {
       "otsu_only": {
         "page_exact": 0.0048,
-        "mean_cer": 0.9011
+        "mean_cer": 0.8378
       },
       "photo_robust": {
-        "page_exact": 0.1381,
-        "mean_cer": 0.159
+        "page_exact": 0.0738,
+        "mean_cer": 0.1909
       }
     },
     "uneven_lighting": {
       "otsu_only": {
-        "page_exact": 0.0238,
-        "mean_cer": 0.7363
+        "page_exact": 0.0167,
+        "mean_cer": 0.6967
       },
       "photo_robust": {
-        "page_exact": 0.2,
-        "mean_cer": 0.104
+        "page_exact": 0.0905,
+        "mean_cer": 0.1637
       }
     },
     "cast_shadow": {
       "otsu_only": {
         "page_exact": 0.0,
-        "mean_cer": 0.7956
+        "mean_cer": 0.7702
       },
       "photo_robust": {
-        "page_exact": 0.2024,
-        "mean_cer": 0.1192
+        "page_exact": 0.0952,
+        "mean_cer": 0.1768
       }
     },
     "tilt": {
       "otsu_only": {
-        "page_exact": 0.1643,
-        "mean_cer": 0.1514
+        "page_exact": 0.0762,
+        "mean_cer": 0.1964
       },
       "photo_robust": {
-        "page_exact": 0.1643,
-        "mean_cer": 0.1514
+        "page_exact": 0.0762,
+        "mean_cer": 0.1964
       }
     },
     "blur": {
       "otsu_only": {
-        "page_exact": 0.0524,
-        "mean_cer": 0.1925
+        "page_exact": 0.0429,
+        "mean_cer": 0.2429
       },
       "photo_robust": {
-        "page_exact": 0.0524,
-        "mean_cer": 0.1925
+        "page_exact": 0.0429,
+        "mean_cer": 0.2429
       }
     },
     "noise_jpeg": {
       "otsu_only": {
-        "page_exact": 0.1929,
-        "mean_cer": 0.1295
+        "page_exact": 0.0929,
+        "mean_cer": 0.1781
       },
       "photo_robust": {
-        "page_exact": 0.1929,
-        "mean_cer": 0.1295
+        "page_exact": 0.0929,
+        "mean_cer": 0.1781
       }
     },
     "low_resolution": {
       "otsu_only": {
-        "page_exact": 0.0524,
-        "mean_cer": 0.1956
+        "page_exact": 0.0143,
+        "mean_cer": 0.2676
       },
       "photo_robust": {
-        "page_exact": 0.0524,
-        "mean_cer": 0.1956
+        "page_exact": 0.0143,
+        "mean_cer": 0.2676
       }
     },
     "phone_mild": {
       "otsu_only": {
-        "page_exact": 0.0452,
-        "mean_cer": 0.5068
+        "page_exact": 0.0214,
+        "mean_cer": 0.5165
       },
       "photo_robust": {
-        "page_exact": 0.0857,
-        "mean_cer": 0.1586
+        "page_exact": 0.0524,
+        "mean_cer": 0.201
       }
     },
     "phone_moderate": {
       "otsu_only": {
         "page_exact": 0.0,
-        "mean_cer": 0.9328
+        "mean_cer": 0.9106
       },
       "photo_robust": {
         "page_exact": 0.0,
-        "mean_cer": 0.6875
+        "mean_cer": 0.6727
       }
     },
     "phone_severe": {
       "otsu_only": {
         "page_exact": 0.0,
-        "mean_cer": 0.9274
+        "mean_cer": 0.9212
       },
       "photo_robust": {
         "page_exact": 0.0,
-        "mean_cer": 0.8551
+        "mean_cer": 0.8696
       }
     }
   }

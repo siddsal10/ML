@@ -29,6 +29,15 @@ cogtutor    CogTutorBugs (McNichols, Zhang & Lan, 2023): 5,339 real erroneous st
             95 Algebra I students in the Cognitive Tutor (DataShop 'Cog Tutor 2010
             Equation Solving'), each an equation, the student's next equation and one
             of 19 error labels. Licence: CC BY 4.0. https://github.com/umass-ml4ed/CogTutorBugs
+hme100k     HME100K (Yuan et al., CVPR 2022, TAL Education): 99,109 PHOTOGRAPHS of real
+            handwritten math on paper by tens of thousands of students, uploaded from a
+            phone app (blur, shadows, ruled paper, varied writers), with LaTeX labels.
+            train 74,502 / test 24,607. Unofficial Hugging Face mirror (ConstantHao/HME100K)
+            of https://ai.100tal.com/dataset; research use only - cite the paper.
+mathwriting MathWriting (Gervais et al., Google, KDD 2025): 230k human-written expressions
+            (online inks + LaTeX) from thousands of writers, writer-disjoint train /
+            valid / test splits. Licence: CC BY-NC-SA 4.0. Kept as the .tgz and
+            streamed (app/ml/real_cnn.py renders the strokes), not extracted.
 """
 from __future__ import annotations
 
@@ -52,6 +61,11 @@ SOURCES = {
         (f"https://huggingface.co/datasets/songdj/ScratchMath/resolve/main/{cfg}/data-00000-of-00001.parquet", f"scratchmath/{cfg}.parquet")
         for cfg in ("primary", "middle")
     ],
+    "hme100k": [
+        (f"https://huggingface.co/datasets/ConstantHao/HME100K/resolve/main/data/{name}.parquet", f"hme100k/{name}.parquet")
+        for name in ("test-00000-of-00001", "train-00000-of-00002", "train-00001-of-00002")
+    ],
+    "mathwriting": ("https://storage.googleapis.com/mathwriting_data/mathwriting-2024.tgz", "mathwriting-2024.tgz"),
     "assistments": ("https://raw.githubusercontent.com/CAHLR/pyBKT-examples/master/data/as.csv", "assistments_2009.csv"),
     "cogtutor": ("https://raw.githubusercontent.com/umass-ml4ed/CogTutorBugs/main/data/bug_full_5339.json",
                  "cogtutor/bug_full_5339.json"),
@@ -70,7 +84,7 @@ def _download(url: str, dest: Path) -> None:
         ctx = ssl.create_default_context(cafile=certifi.where())
     except ImportError:
         ctx = ssl.create_default_context()
-    with urllib.request.urlopen(url, timeout=120, context=ctx) as r, open(tmp, "wb") as f:
+    with urllib.request.urlopen(url, timeout=600, context=ctx) as r, open(tmp, "wb") as f:
         shutil.copyfileobj(r, f, length=1 << 20)
     tmp.rename(dest)
     print(f"  saved {dest} ({dest.stat().st_size / 1e6:.1f} MB)")

@@ -6,7 +6,7 @@ help:
 	@echo "  make backend-install   Install backend Python dependencies"
 	@echo "  make backend-run       Run the FastAPI dev server (http://localhost:8000)"
 	@echo "  make backend-test      Run backend pytest suite"
-	@echo "  make datasets          Download real datasets (CROHME, HASYv2, ASSISTments; ~1 GB)"
+	@echo "  make datasets          Download real datasets (CROHME, HME100K, MathWriting, HASYv2, ...; ~7 GB)"
 	@echo "  make ml-train          Retrain + evaluate all ML models (~8 min with real data, CPU)"
 	@echo "  make seed-demo         Generate demo images + seed a demo student"
 	@echo "  make frontend-install  Install frontend npm dependencies"
@@ -26,7 +26,7 @@ backend-test:
 	cd backend && python -m pytest tests/ -v
 
 datasets:
-	cd backend && python scripts/download_datasets.py hasy crohme assistments cogtutor mnist
+	cd backend && python scripts/download_datasets.py hasy crohme assistments cogtutor mnist scratchmath hme100k mathwriting
 
 ml-train:
 	cd backend && python -m app.ml.train

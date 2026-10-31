@@ -53,3 +53,6 @@ backend/data/external/
 
 # --- real student photos and their manifest (docs/REAL_WORLD_VALIDATION.md; never committed) ---
 evaluation/manifests/real_world/
+
+# --- Model candidates (experiments; the deployed model is ml_models/*.joblib) ---
+backend/ml_models/candidates/
